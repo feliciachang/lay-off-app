@@ -1,0 +1,39 @@
+.messageStream {
+  padding-top: 50px;
+  display: flex;
+}
+
+.invitationText {
+  margin-top: 50px;
+  margin-bottom: 10px;
+}
+
+.message {
+  width: 300px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.responseText {
+  display: flex;
+  align-items: center;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.responseText.addUrlStyle {
+  cursor: pointer;
+  text-decoration: underline;
+} 
+
+.rightMessage {
+  padding-left: 50px;
+}
+
+.urlArrow {
+  padding-left: 5px;
+}
+
+.addMargin {
+  margin-left: 15px;
+}

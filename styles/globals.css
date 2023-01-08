@@ -3,19 +3,24 @@
   margin: 0;
   padding: 0;
   border: 0;
-  line-height: 1.5;
 }
 
 body {
-  font-family: system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', helvetica,
-    sans-serif;
+  margin-top: 30px;
+  font-family: serif;
+  background: black;
+  color: white;
+  font-size: 30px;
+}
+
+form {
+  display: flex;
 }
 
 main {
-  padding-top: 1em;
-  padding-bottom: 1em;
-  width: min(800px, 95vw);
-  margin: 0 auto;
+  margin-left: 50px;
+  margin-right: 50px;
+  position: relative;
 }
 
 h1 {
@@ -45,57 +50,20 @@ ul {
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
 }
 
-ul:empty {
-  display: none;
-}
-
-li {
-  display: flex;
-  justify-content: flex-start;
-  padding: 8px 16px 8px 16px;
-  border-bottom: solid 1px lightgray;
-  font-size: 16px;
-}
-
-li:last-child {
-  border: 0;
-}
-
-li span:nth-child(1) {
-  font-weight: bold;
-  margin-right: 4px;
-  white-space: nowrap;
-}
-li span:nth-child(2) {
-  margin-right: 4px;
-  word-break: break-word;
-}
-li span:nth-child(3) {
-  color: #6c757d;
-  margin-left: auto;
-  white-space: nowrap;
-}
-
-form {
-  display: flex;
-  justify-content: center;
-}
-
 input:not([type]) {
-  padding: 6px 12px 6px 12px;
-  color: rgb(33, 37, 41);
-  border: solid 1px rgb(206, 212, 218);
-  border-radius: 8px;
+  padding: 12px 0;
+  color: white;
+  border-bottom: solid 1px rgb(206, 212, 218);
   font-size: 16px;
+  background: none;
+  min-width: 250px;
 }
 
 input[type='submit'],
 button {
-  margin-left: 4px;
   background: lightblue;
   color: white;
   padding: 6px 12px 6px 12px;
-  border-radius: 8px;
   font-size: 16px;
   background-color: rgb(49, 108, 244);
 }
