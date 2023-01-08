@@ -5,7 +5,8 @@ export default function App() {
     <main>
       <MessageContainer />
       <span>
-        or find felicia on <a href="https://twitter.com/felchang">twitter</a>.
+        or find felicia on <a href="https://twitter.com/felchang">twitter</a>{' '}
+        and send her feature requests!
       </span>
     </main>
   )

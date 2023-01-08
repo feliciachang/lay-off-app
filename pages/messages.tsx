@@ -9,10 +9,15 @@ export default function MessageContainer() {
 
   const [newMessageText, setNewMessageText] = useState('')
   const [newMessageUrl, setNewMessageUrl] = useState('')
+  const [isValidUrl, setIsValidUrl] = useState(true)
   const sendMessage = useMutation('sendMessage')
 
   async function handleSendMessage(event: FormEvent) {
     event.preventDefault()
+    if (newMessageUrl.length > 0 && !validURL(newMessageUrl)) {
+      setIsValidUrl(false)
+      return
+    }
     setNewMessageText('')
     setNewMessageUrl('')
     await sendMessage(newMessageText, '', newMessageUrl)
@@ -30,7 +35,7 @@ export default function MessageContainer() {
       ))}
       <div>
         <div className={styles.invitationText}>
-          Laid off too? Add a request, or just ur feelings. It's a party.
+          Laid off too? Add a message, or just ur feelings. It's a party.
         </div>
         <form onSubmit={handleSendMessage}>
           <input
@@ -44,7 +49,12 @@ export default function MessageContainer() {
             onChange={(event) => setNewMessageUrl(event.target.value)}
             placeholder="add a url"
           />
-          <input type="submit" value="Send" disabled={!newMessageText} />
+          <button type="submit" disabled={!newMessageText}>
+            <Image src="/arrow.svg" alt="arrow" width={15} height={15} />
+          </button>
+          {!isValidUrl && (
+            <div className={styles.invalidUrl}>invalid url, try again</div>
+          )}
         </form>
       </div>
     </div>
