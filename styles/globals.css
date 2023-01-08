@@ -77,3 +77,7 @@ input[type='submit']:disabled,
 button:disabled {
   background-color: rgb(122, 160, 248);
 }
+
+span {
+  font-size: 15px;
+}

@@ -75,9 +75,7 @@ function MessageStream(props: MessageStreamProps) {
 
   return (
     <div className={styles.messageStream}>
-      <div className={styles.message}>
-        <span>{body}</span>
-      </div>
+      <div className={styles.message}>{body}</div>
       <div className={styles.rightMessage}>
         <form onSubmit={handleSendMessage}>
           <input
@@ -109,7 +107,7 @@ function MessageStream(props: MessageStreamProps) {
                 }
               }}
             >
-              <span>{response.body}</span>
+              {response.body}
               {response.url?.length > 0 && (
                 <Image
                   className={styles.urlArrow}
