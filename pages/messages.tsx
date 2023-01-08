@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react'
+import { FormEvent, useState, useEffect } from 'react'
 import Image from 'next/image'
 import { useMutation, useQuery } from '../convex/_generated/react'
 import styles from '../styles/Home.module.css'
@@ -68,33 +68,52 @@ function MessageStream(props: MessageStreamProps) {
 
   async function handleSendMessage(event: FormEvent) {
     event.preventDefault()
+    if (!validURL(newResponseUrl)) {
+      return
+    }
     setNewResponseText('')
     setNewResponseUrl('')
     await sendResponse(id, newResponseText, '', newResponseUrl)
   }
 
+  const [openForm, setOpenForm] = useState(false)
+  useEffect(() => {
+    if (screen.width > 600) {
+      setOpenForm(true)
+    }
+  })
+
   return (
     <div className={styles.messageStream}>
       <div className={styles.message}>{body}</div>
       <div className={styles.rightMessage}>
-        <form onSubmit={handleSendMessage}>
-          <input
-            value={newResponseText}
-            onChange={(event) => setNewResponseText(event.target.value)}
-            placeholder="b a friend, add a message"
-          />
-          <input
-            className={styles.addMargin}
-            value={newResponseUrl}
-            onChange={(event) => setNewResponseUrl(event.target.value)}
-            placeholder="and a url, if necessary"
-          />
-          <input
-            type="submit"
-            value="join the club"
-            disabled={!newResponseText}
-          />
-        </form>
+        {openForm ? (
+          <form onSubmit={handleSendMessage}>
+            <input
+              value={newResponseText}
+              onChange={(event) => setNewResponseText(event.target.value)}
+              placeholder="be a friend, add a reply"
+            />
+            <input
+              className={styles.addMargin}
+              value={newResponseUrl}
+              onChange={(event) => setNewResponseUrl(event.target.value)}
+              placeholder="and a url, if necessary"
+            />
+            <button type="submit" disabled={!newResponseText}>
+              <Image src="/arrow.svg" alt="arrow" width={15} height={15} />
+            </button>
+          </form>
+        ) : (
+          <div
+            className={styles.formNotice}
+            onClick={(): void => {
+              setOpenForm(true)
+            }}
+          >
+            reply
+          </div>
+        )}
         <div>
           {responses.map((response) => (
             <div
@@ -123,4 +142,17 @@ function MessageStream(props: MessageStreamProps) {
       </div>
     </div>
   )
+}
+
+function validURL(str: string) {
+  var pattern = new RegExp(
+    '^(https?:\\/\\/)?' + // protocol
+      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+      '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+      '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+      '(\\#[-a-z\\d_]*)?$',
+    'i'
+  ) // fragment locator
+  return !!pattern.test(str)
 }
