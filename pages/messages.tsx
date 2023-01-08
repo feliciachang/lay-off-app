@@ -64,11 +64,13 @@ function MessageStream(props: MessageStreamProps) {
 
   const [newResponseText, setNewResponseText] = useState('')
   const [newResponseUrl, setNewResponseUrl] = useState('')
+  const [isValidUrl, setIsValidUrl] = useState(true)
   const sendResponse = useMutation('sendResponse')
 
   async function handleSendMessage(event: FormEvent) {
     event.preventDefault()
-    if (!validURL(newResponseUrl)) {
+    if (newResponseUrl.length > 0 && !validURL(newResponseUrl)) {
+      setIsValidUrl(false)
       return
     }
     setNewResponseText('')
@@ -78,7 +80,7 @@ function MessageStream(props: MessageStreamProps) {
 
   const [openForm, setOpenForm] = useState(false)
   useEffect(() => {
-    if (screen.width > 600) {
+    if (window.innerWidth > 600) {
       setOpenForm(true)
     }
   })
@@ -103,6 +105,9 @@ function MessageStream(props: MessageStreamProps) {
             <button type="submit" disabled={!newResponseText}>
               <Image src="/arrow.svg" alt="arrow" width={15} height={15} />
             </button>
+            {!isValidUrl && (
+              <div className={styles.invalidUrl}>invalid url, try again</div>
+            )}
           </form>
         ) : (
           <div
@@ -111,12 +116,13 @@ function MessageStream(props: MessageStreamProps) {
               setOpenForm(true)
             }}
           >
-            reply
+            add a reply
           </div>
         )}
         <div>
           {responses.map((response) => (
             <div
+              key={response._id.toString()}
               className={cx(styles.responseText, {
                 [styles.addUrlStyle]: response.url?.length > 0,
               })}

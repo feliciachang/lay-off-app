@@ -20,6 +20,7 @@
   align-items: center;
   padding-top: 5px;
   padding-bottom: 5px;
+  color: #D0D0D0;
 }
 
 .responseText.addUrlStyle {
@@ -54,4 +55,8 @@
   .addMargin {
     margin-left: 0;
   }
+}
+
+.invalidUrl {
+  font-size: 15px;
 }

@@ -4,7 +4,9 @@ export default function App() {
   return (
     <main>
       <MessageContainer />
-      <span>made with love and bad code. find felicia on twitter</span>
+      <span>
+        or find felicia on <a href="https://twitter.com/felchang">twitter</a>.
+      </span>
     </main>
   )
 }
