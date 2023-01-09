@@ -97,6 +97,9 @@ function MessageStream(props: MessageStreamProps) {
     }
   })
 
+  const delay = 1 // ms
+  const animStr = (i: number) => `${delay * i}s`
+
   return (
     <div className={styles.messageStream}>
       <div className={styles.message}>{body}</div>
@@ -132,12 +135,13 @@ function MessageStream(props: MessageStreamProps) {
           </div>
         )}
         <div>
-          {responses.map((response) => (
+          {responses.map((response, i) => (
             <div
               key={response._id.toString()}
               className={cx(styles.responseText, {
                 [styles.addUrlStyle]: response.url?.length > 0,
               })}
+              style={{ animationDelay: animStr(i) }}
               onClick={(): void => {
                 if (response.url?.length > 0) {
                   window.location.href = response.url

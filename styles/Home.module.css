@@ -21,6 +21,18 @@
   padding-top: 5px;
   padding-bottom: 5px;
   color: #D0D0D0;
+  opacity: 0;
+  animation: fadeIn ease 1s forwards;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }
 
 .responseText.addUrlStyle {
