@@ -60,3 +60,11 @@
 .invalidUrl {
   font-size: 15px;
 }
+
+/* .intro {
+  padding-top: 50px;
+} */
+
+.hideIntro {
+  display: none;
+}

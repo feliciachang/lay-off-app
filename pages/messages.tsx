@@ -33,30 +33,32 @@ export default function MessageContainer() {
           creationTime={new Date(message._creationTime).toLocaleTimeString()}
         />
       ))}
-      <div>
-        <div className={styles.invitationText}>
-          Laid off too? Add a message, or just ur feelings. It's a party.
+      {messages.length > 0 && (
+        <div>
+          <div className={styles.invitationText}>
+            Laid off too? Add a message, or just ur feelings. It's a party.
+          </div>
+          <form onSubmit={handleSendMessage}>
+            <input
+              value={newMessageText}
+              onChange={(event) => setNewMessageText(event.target.value)}
+              placeholder="let's commisserate"
+            />
+            <input
+              className={styles.addMargin}
+              value={newMessageUrl}
+              onChange={(event) => setNewMessageUrl(event.target.value)}
+              placeholder="add a url"
+            />
+            <button type="submit" disabled={!newMessageText}>
+              <Image src="/arrow.svg" alt="arrow" width={15} height={15} />
+            </button>
+            {!isValidUrl && (
+              <div className={styles.invalidUrl}>invalid url, try again</div>
+            )}
+          </form>
         </div>
-        <form onSubmit={handleSendMessage}>
-          <input
-            value={newMessageText}
-            onChange={(event) => setNewMessageText(event.target.value)}
-            placeholder="let's commisserate"
-          />
-          <input
-            className={styles.addMargin}
-            value={newMessageUrl}
-            onChange={(event) => setNewMessageUrl(event.target.value)}
-            placeholder="add a url"
-          />
-          <button type="submit" disabled={!newMessageText}>
-            <Image src="/arrow.svg" alt="arrow" width={15} height={15} />
-          </button>
-          {!isValidUrl && (
-            <div className={styles.invalidUrl}>invalid url, try again</div>
-          )}
-        </form>
-      </div>
+      )}
     </div>
   )
 }
