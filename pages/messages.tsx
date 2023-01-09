@@ -34,7 +34,7 @@ export default function MessageContainer() {
         />
       ))}
       {messages.length > 0 && (
-        <div>
+        <div className={styles.invitationFormContainer}>
           <div className={styles.invitationText}>
             Laid off too? Add a message, or just ur feelings. It's a party.
           </div>

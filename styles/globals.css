@@ -33,6 +33,7 @@ form {
 main {
   margin-left: 50px;
   margin-right: 50px;
+  margin-bottom: 50px;
   position: relative;
 }
 
@@ -91,9 +92,8 @@ button:disabled {
   background-color: rgb(122, 160, 248);
 }
 
-span {
-  font-size: 15px;
-  padding-bottom: 50px;
+p {
+  font-size: 18px;
 }
 
 a {
