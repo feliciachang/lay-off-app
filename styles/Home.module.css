@@ -15,6 +15,11 @@
   padding-bottom: 5px;
 }
 
+.message.addUrlStyle {
+  cursor: pointer;
+  text-decoration: underline;
+} 
+
 .responseText {
   display: flex;
   align-items: center;

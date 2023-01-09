@@ -102,7 +102,27 @@ function MessageStream(props: MessageStreamProps) {
 
   return (
     <div className={styles.messageStream}>
-      <div className={styles.message}>{body}</div>
+      <div
+        className={cx(styles.message, {
+          [styles.addUrlStyle]: url?.length > 0,
+        })}
+        onClick={(): void => {
+          if (url?.length > 0) {
+            window.location.href = url
+          }
+        }}
+      >
+        {body}
+        {url?.length > 0 && (
+          <Image
+            className={styles.urlArrow}
+            src="/arrow.svg"
+            alt="arrow"
+            width={15}
+            height={15}
+          />
+        )}
+      </div>
       <div className={styles.rightMessage}>
         {openForm ? (
           <form onSubmit={handleSendMessage}>
