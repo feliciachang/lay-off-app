@@ -91,7 +91,10 @@ function MessageStream(props: MessageStreamProps) {
         })}
         onClick={(): void => {
           if (url?.length > 0) {
-            window.location.href = url
+            if (url.slice(0, 8) !== 'https://') {
+              window.open('https://' + url, '_blank')
+            }
+            window.open(url, '_blank')
           }
         }}
       >
