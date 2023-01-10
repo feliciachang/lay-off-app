@@ -128,7 +128,10 @@ function MessageStream(props: MessageStreamProps) {
               style={{ animationDelay: animStr(i) }}
               onClick={(): void => {
                 if (response.url?.length > 0) {
-                  window.location.href = response.url
+                  if (url.slice(0, 8) !== 'https://') {
+                    window.open('https://' + url, '_blank')
+                  }
+                  window.open(url, '_blank')
                 }
               }}
             >
