@@ -80,13 +80,6 @@ function MessageStream(props: MessageStreamProps) {
     await sendResponse(id, newResponseText, '', newResponseUrl)
   }
 
-  const [openForm, setOpenForm] = useState(false)
-  useEffect(() => {
-    if (window.innerWidth > 600) {
-      setOpenForm(true)
-    }
-  })
-
   const delay = 1 // ms
   const animStr = (i: number) => `${delay * i}s`
 

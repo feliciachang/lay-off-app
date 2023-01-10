@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react'
+import { FormEvent, useState, useEffect } from 'react'
 import Image from 'next/image'
 import styles from './Form.module.css'
 import cx from 'classnames'
@@ -23,6 +23,11 @@ export default function Form(props: FormProps) {
   } = props
 
   const [openForm, setOpenForm] = useState(false)
+  useEffect(() => {
+    if (window.innerWidth > 600) {
+      setOpenForm(true)
+    }
+  })
 
   return (
     <>

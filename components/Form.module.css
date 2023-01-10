@@ -27,6 +27,10 @@
     display: flex;
 }
 
+.addMargin {
+    margin-left: 15px;
+}
+
 @media only screen and (max-width: 600px) {
     .messageForm {
         flex-direction: column;
@@ -41,7 +45,3 @@
     cursor: pointer;
 }
 
-.addMargin {
-    margin-left: 15px;
-}
-  
