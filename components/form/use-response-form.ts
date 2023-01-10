@@ -1,6 +1,6 @@
 import { FormEvent, useState } from 'react'
 import { useMutation } from '../../convex/_generated/react'
-import validURL from '../../utils/valid-url'
+import { validURL } from '../../utils'
 
 interface UseResponseValues {
     newResponseText: string;
