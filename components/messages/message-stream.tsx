@@ -1,9 +1,11 @@
 import Image from 'next/image'
 import Form from '../form/form'
+import { useState } from 'react'
 import { useQuery } from '../../convex/_generated/react'
 import { redirectURL } from '../../utils'
 import styles from './message-stream.module.css'
 import useResponseForm from '../form/use-response-form'
+import expand from '../../public/expand.svg'
 import cx from 'classnames'
 
 interface MessageStreamProps {
@@ -27,8 +29,15 @@ export default function MessageStream(props: MessageStreamProps) {
     isValidUrl,
   } = useResponseForm(id)
 
-  const delay = 1 // ms
-  const animStr = (i: number) => `${delay * i}s`
+  const [numInitialResponses, setNumInitialResponses] = useState(20)
+
+  const animStr = (i: number) => {
+    const delay = 1 // ms
+    if (numInitialResponses === responses.length) {
+      return `0s`
+    }
+    return `${delay * i}s`
+  }
 
   return (
     <div className={styles.messageStream}>
@@ -59,11 +68,12 @@ export default function MessageStream(props: MessageStreamProps) {
           isValidUrl={isValidUrl}
         />
         <div>
-          {responses.map((response, i) => (
+          {responses.slice(0, numInitialResponses).map((response, i) => (
             <div
               key={response._id.toString()}
               className={cx(styles.responseText, {
                 [styles.addUrlStyle]: response.url?.length > 0,
+                [styles.addAnimation]: numInitialResponses < responses.length,
               })}
               style={{ animationDelay: animStr(i) }}
               onClick={(): void => redirectURL(response.url)}
@@ -80,6 +90,23 @@ export default function MessageStream(props: MessageStreamProps) {
               )}
             </div>
           ))}
+          {numInitialResponses < responses.length && (
+            <div className={styles.readMoreResponses}>
+              <div
+                className={styles.readMore}
+                onClick={(): void => setNumInitialResponses(responses.length)}
+              >
+                read more responses
+              </div>
+              <Image
+                className={styles.expand}
+                src="/expand.svg"
+                alt="expand"
+                width={15}
+                height={15}
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>
