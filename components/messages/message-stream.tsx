@@ -5,7 +5,6 @@ import { useQuery } from '../../convex/_generated/react'
 import { redirectURL } from '../../utils'
 import styles from './message-stream.module.css'
 import useResponseForm from '../form/use-response-form'
-import expand from '../../public/expand.svg'
 import cx from 'classnames'
 
 interface MessageStreamProps {
