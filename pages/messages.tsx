@@ -89,14 +89,7 @@ function MessageStream(props: MessageStreamProps) {
         className={cx(styles.message, {
           [styles.addUrlStyle]: url?.length > 0,
         })}
-        onClick={(): void => {
-          if (url?.length > 0) {
-            if (url.slice(0, 8) !== 'https://') {
-              window.open('https://' + url, '_blank')
-            }
-            window.open(url, '_blank')
-          }
-        }}
+        onClick={(): void => redirectURL(url)}
       >
         {body}
         {url?.length > 0 && (
@@ -126,14 +119,7 @@ function MessageStream(props: MessageStreamProps) {
                 [styles.addUrlStyle]: response.url?.length > 0,
               })}
               style={{ animationDelay: animStr(i) }}
-              onClick={(): void => {
-                if (response.url?.length > 0) {
-                  if (url.slice(0, 8) !== 'https://') {
-                    window.open('https://' + url, '_blank')
-                  }
-                  window.open(url, '_blank')
-                }
-              }}
+              onClick={(): void => redirectURL(response.url)}
             >
               {response.body}
               {response.url?.length > 0 && (
@@ -151,6 +137,15 @@ function MessageStream(props: MessageStreamProps) {
       </div>
     </div>
   )
+}
+
+function redirectURL(url: string) {
+  if (url?.length > 0) {
+    if (url.slice(0, 8) !== 'https://') {
+      window.open('https://' + url, '_blank')
+    }
+    window.open(url, '_blank')
+  }
 }
 
 function validURL(str: string) {
