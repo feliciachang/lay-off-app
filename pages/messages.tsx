@@ -1,5 +1,6 @@
 import { FormEvent, useState, useEffect } from 'react'
 import Image from 'next/image'
+import Form from '../components/form'
 import { useMutation, useQuery } from '../convex/_generated/react'
 import styles from '../styles/Home.module.css'
 import cx from 'classnames'
@@ -38,25 +39,14 @@ export default function MessageContainer() {
           <div className={styles.invitationText}>
             Laid off too? Add a message, or just ur feelings. It's a party.
           </div>
-          <form onSubmit={handleSendMessage}>
-            <input
-              value={newMessageText}
-              onChange={(event) => setNewMessageText(event.target.value)}
-              placeholder="let's commisserate"
-            />
-            <input
-              className={styles.addMargin}
-              value={newMessageUrl}
-              onChange={(event) => setNewMessageUrl(event.target.value)}
-              placeholder="add a url"
-            />
-            <button type="submit" disabled={!newMessageText}>
-              <Image src="/arrow.svg" alt="arrow" width={15} height={15} />
-            </button>
-            {!isValidUrl && (
-              <div className={styles.invalidUrl}>invalid url, try again</div>
-            )}
-          </form>
+          <Form
+            handleSendMessage={handleSendMessage}
+            newResponseText={newMessageText}
+            setNewResponseText={setNewMessageText}
+            newResponseUrl={newMessageUrl}
+            setNewResponseUrl={setNewMessageUrl}
+            isValidUrl={isValidUrl}
+          />
         </div>
       )}
     </div>
@@ -124,36 +114,14 @@ function MessageStream(props: MessageStreamProps) {
         )}
       </div>
       <div className={styles.rightMessage}>
-        {openForm ? (
-          <form onSubmit={handleSendMessage}>
-            <input
-              value={newResponseText}
-              onChange={(event) => setNewResponseText(event.target.value)}
-              placeholder="be a friend, add a reply"
-            />
-            <input
-              className={styles.addMargin}
-              value={newResponseUrl}
-              onChange={(event) => setNewResponseUrl(event.target.value)}
-              placeholder="and a url, if necessary"
-            />
-            <button type="submit" disabled={!newResponseText}>
-              <Image src="/arrow.svg" alt="arrow" width={15} height={15} />
-            </button>
-            {!isValidUrl && (
-              <div className={styles.invalidUrl}>invalid url, try again</div>
-            )}
-          </form>
-        ) : (
-          <div
-            className={styles.formNotice}
-            onClick={(): void => {
-              setOpenForm(true)
-            }}
-          >
-            add a reply
-          </div>
-        )}
+        <Form
+          handleSendMessage={handleSendMessage}
+          newResponseText={newResponseText}
+          setNewResponseText={setNewResponseText}
+          newResponseUrl={newResponseUrl}
+          setNewResponseUrl={setNewResponseUrl}
+          isValidUrl={isValidUrl}
+        />
         <div>
           {responses.map((response, i) => (
             <div
