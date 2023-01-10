@@ -1,28 +1,22 @@
-import { FormEvent, useState, useEffect } from 'react'
 import Image from 'next/image'
-import Form from '../components/form'
-import { useMutation, useQuery } from '../convex/_generated/react'
+import Form from '../components/form/form'
+import { useQuery } from '../convex/_generated/react'
 import styles from '../styles/Home.module.css'
+import useMessageForm from '../components/form/use-message-form'
+import useResponseForm from '../components/form/use-response-form'
 import cx from 'classnames'
 
 export default function MessageContainer() {
   const messages = useQuery('listMessages') || []
 
-  const [newMessageText, setNewMessageText] = useState('')
-  const [newMessageUrl, setNewMessageUrl] = useState('')
-  const [isValidUrl, setIsValidUrl] = useState(true)
-  const sendMessage = useMutation('sendMessage')
-
-  async function handleSendMessage(event: FormEvent) {
-    event.preventDefault()
-    if (newMessageUrl.length > 0 && !validURL(newMessageUrl)) {
-      setIsValidUrl(false)
-      return
-    }
-    setNewMessageText('')
-    setNewMessageUrl('')
-    await sendMessage(newMessageText, '', newMessageUrl)
-  }
+  const {
+    newMessageText,
+    setNewMessageText,
+    newMessageUrl,
+    setNewMessageUrl,
+    handleSendMessage,
+    isValidUrl,
+  } = useMessageForm()
 
   return (
     <div>
@@ -60,25 +54,18 @@ interface MessageStreamProps {
   creationTime: string
 }
 function MessageStream(props: MessageStreamProps) {
-  const { id, body, url, creationTime } = props
+  const { id, body, url } = props
 
   const responses = useQuery('listResponses', id) || []
 
-  const [newResponseText, setNewResponseText] = useState('')
-  const [newResponseUrl, setNewResponseUrl] = useState('')
-  const [isValidUrl, setIsValidUrl] = useState(true)
-  const sendResponse = useMutation('sendResponse')
-
-  async function handleSendMessage(event: FormEvent) {
-    event.preventDefault()
-    if (newResponseUrl.length > 0 && !validURL(newResponseUrl)) {
-      setIsValidUrl(false)
-      return
-    }
-    setNewResponseText('')
-    setNewResponseUrl('')
-    await sendResponse(id, newResponseText, '', newResponseUrl)
-  }
+  const {
+    newResponseText,
+    setNewResponseText,
+    newResponseUrl,
+    setNewResponseUrl,
+    handleSendResponse,
+    isValidUrl,
+  } = useResponseForm(id)
 
   const delay = 1 // ms
   const animStr = (i: number) => `${delay * i}s`
@@ -104,7 +91,7 @@ function MessageStream(props: MessageStreamProps) {
       </div>
       <div className={styles.rightMessage}>
         <Form
-          handleSendMessage={handleSendMessage}
+          handleSendMessage={handleSendResponse}
           newResponseText={newResponseText}
           setNewResponseText={setNewResponseText}
           newResponseUrl={newResponseUrl}
