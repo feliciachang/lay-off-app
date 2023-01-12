@@ -11,7 +11,7 @@ export default function App() {
       <p>
         or join the
         <a href="https://discord.gg/mUyBDV325e">laid off club discord </a> i
-        just made lol
+        just made lol. might make a chatroom here too. lmk if you'd want that!
       </p>
     </main>
   )
