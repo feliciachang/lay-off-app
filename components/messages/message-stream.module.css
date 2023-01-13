@@ -12,6 +12,7 @@
   
 .message.addUrlStyle {
     cursor: pointer;
+    color: white;
     text-decoration: underline;
 }
 

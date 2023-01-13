@@ -19,3 +19,10 @@ export function redirectURL(url: string) {
     window.open(url, '_blank')
   }
 }
+
+export function formatURL(url: string) {
+    if (url.slice(0, 8) !== 'https://') {
+      return 'https://' + url
+    }
+    return url
+}

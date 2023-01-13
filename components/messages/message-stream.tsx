@@ -2,7 +2,7 @@ import Image from 'next/image'
 import Form from '../form/form'
 import { useState } from 'react'
 import { useQuery } from '../../convex/_generated/react'
-import { redirectURL } from '../../utils'
+import { formatURL } from '../../utils'
 import styles from './message-stream.module.css'
 import useResponseForm from '../form/use-response-form'
 import cx from 'classnames'
@@ -40,23 +40,7 @@ export default function MessageStream(props: MessageStreamProps) {
 
   return (
     <div className={styles.messageStream}>
-      <div
-        className={cx(styles.message, {
-          [styles.addUrlStyle]: url?.length > 0,
-        })}
-        onClick={(): void => redirectURL(url)}
-      >
-        {body}
-        {url?.length > 0 && (
-          <Image
-            className={styles.urlArrow}
-            src="/arrow.svg"
-            alt="arrow"
-            width={15}
-            height={15}
-          />
-        )}
-      </div>
+      <MessageBody body={body} url={url} />
       <div className={styles.rightMessage}>
         <Form
           handleSendMessage={handleSendResponse}
@@ -68,26 +52,14 @@ export default function MessageStream(props: MessageStreamProps) {
         />
         <div>
           {responses.slice(0, numInitialResponses).map((response, i) => (
-            <div
+            <ResponseBody
               key={response._id.toString()}
-              className={cx(styles.responseText, {
-                [styles.addUrlStyle]: response.url?.length > 0,
-                [styles.addAnimation]: numInitialResponses < responses.length,
-              })}
-              style={{ animationDelay: animStr(i) }}
-              onClick={(): void => redirectURL(response.url)}
-            >
-              {response.body}
-              {response.url?.length > 0 && (
-                <Image
-                  className={styles.urlArrow}
-                  src="/arrow.svg"
-                  alt="arrow"
-                  width={15}
-                  height={15}
-                />
-              )}
-            </div>
+              body={response.body}
+              url={response.url}
+              numInitialResponses={numInitialResponses}
+              responsesLength={responses.length}
+              idx={i}
+            />
           ))}
           {numInitialResponses < responses.length && (
             <div className={styles.readMoreResponses}>
@@ -110,4 +82,88 @@ export default function MessageStream(props: MessageStreamProps) {
       </div>
     </div>
   )
+}
+
+interface ResponseBodyProps {
+  body: string
+  url: string
+  numInitialResponses: number
+  responsesLength: number
+  idx: number
+}
+
+function ResponseBody(props: ResponseBodyProps) {
+  const { body, url, numInitialResponses, responsesLength, idx } = props
+
+  const animStr = (i: number) => {
+    const delay = 1 // ms
+    if (numInitialResponses === responsesLength) {
+      return `0s`
+    }
+    return `${delay * i}s`
+  }
+
+  if (url.length > 0) {
+    return (
+      <a
+        target="_blank"
+        className={cx(styles.responseText, {
+          [styles.addUrlStyle]: url?.length > 0,
+          [styles.addAnimation]: numInitialResponses < responsesLength,
+        })}
+        style={{ animationDelay: animStr(idx) }}
+        href={formatURL(url)}
+      >
+        {body}
+        {url?.length > 0 && (
+          <Image
+            className={styles.urlArrow}
+            src="/arrow.svg"
+            alt="arrow"
+            width={15}
+            height={15}
+          />
+        )}
+      </a>
+    )
+  }
+  return (
+    <div
+      className={cx(styles.responseText, {
+        [styles.addAnimation]: numInitialResponses < responsesLength,
+      })}
+      style={{ animationDelay: animStr(idx) }}
+    >
+      {body}
+    </div>
+  )
+}
+
+interface MessageBodyProps {
+  body: string
+  url: string
+}
+function MessageBody(props: MessageBodyProps) {
+  const { body, url } = props
+
+  if (url?.length > 0) {
+    return (
+      <a
+        target="_blank"
+        href={formatURL(url)}
+        className={cx(styles.message, styles.addUrlStyle)}
+      >
+        {body}
+        <Image
+          className={styles.urlArrow}
+          src="/arrow.svg"
+          alt="arrow"
+          width={15}
+          height={15}
+        />
+      </a>
+    )
+  }
+
+  return <div className={styles.message}>{body}</div>
 }
