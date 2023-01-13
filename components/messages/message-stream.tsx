@@ -30,14 +30,6 @@ export default function MessageStream(props: MessageStreamProps) {
 
   const [numInitialResponses, setNumInitialResponses] = useState(20)
 
-  const animStr = (i: number) => {
-    const delay = 1 // ms
-    if (numInitialResponses === responses.length) {
-      return `0s`
-    }
-    return `${delay * i}s`
-  }
-
   return (
     <div className={styles.messageStream}>
       <MessageBody body={body} url={url} />
