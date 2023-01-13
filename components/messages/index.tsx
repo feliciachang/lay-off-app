@@ -5,7 +5,7 @@ import useMessageForm from '../form/use-message-form'
 import MessageStream from './message-stream'
 
 export default function Messages() {
-  const messages = useQuery('listMessages') || []
+  const messages = useQuery('listMessages', null) || []
 
   const {
     newMessageText,
