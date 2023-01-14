@@ -6,9 +6,10 @@ import MessageStream from './message-stream'
 
 interface MessagesProps {
   roomId?: string
+  messageLabel?: string
 }
 export default function Messages(props: MessagesProps) {
-  const { roomId } = props
+  const { roomId, messageLabel } = props
 
   const messages = useQuery('listMessages', roomId || null) || []
 
@@ -33,7 +34,9 @@ export default function Messages(props: MessagesProps) {
       ))}
       <div className={styles.invitationFormContainer}>
         <div className={styles.invitationText}>
-          Laid off too? Add a message, or just ur feelings. It's a party.
+          {messageLabel
+            ? messageLabel
+            : `Laid off too? Add a message, or just ur feelings. It's a party.`}
         </div>
         <Form
           handleSendMessage={handleSendMessage}

@@ -13,7 +13,10 @@ export default function Room() {
   }
   return (
     <main>
-      <Messages roomId={getPageId(roomid)} />
+      <Messages
+        roomId={getPageId(roomid)}
+        messageLabel="Add to this about page. It's a party."
+      />
       <p>
         laid off over zoom. designed the weekend after. find felicia on{' '}
         <a href="https://twitter.com/felchang">twitter</a>.
