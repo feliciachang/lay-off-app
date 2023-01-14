@@ -10,6 +10,7 @@
  */
 
 import type { ApiFromModules } from "convex/api";
+import type * as createRoom from "../createRoom";
 import type * as listMessages from "../listMessages";
 import type * as listResponses from "../listResponses";
 import type * as sendMessage from "../sendMessage";
@@ -25,6 +26,7 @@ import type * as sendResponse from "../sendResponse";
  * `ConvexReactClient` to create app-specific types.
  */
 export type API = ApiFromModules<{
+  createRoom: typeof createRoom;
   listMessages: typeof listMessages;
   listResponses: typeof listResponses;
   sendMessage: typeof sendMessage;

@@ -4,8 +4,13 @@ import styles from './index.module.css'
 import useMessageForm from '../form/use-message-form'
 import MessageStream from './message-stream'
 
-export default function Messages() {
-  const messages = useQuery('listMessages') || []
+interface MessagesProps {
+  roomId?: string
+}
+export default function Messages(props: MessagesProps) {
+  const { roomId } = props
+
+  const messages = useQuery('listMessages', roomId || null) || []
 
   const {
     newMessageText,
@@ -14,7 +19,7 @@ export default function Messages() {
     setNewMessageUrl,
     handleSendMessage,
     isValidUrl,
-  } = useMessageForm()
+  } = useMessageForm(roomId ?? null)
 
   return (
     <div>
@@ -26,21 +31,19 @@ export default function Messages() {
           creationTime={new Date(message._creationTime).toLocaleTimeString()}
         />
       ))}
-      {messages.length > 0 && (
-        <div className={styles.invitationFormContainer}>
-          <div className={styles.invitationText}>
-            Laid off too? Add a message, or just ur feelings. It's a party.
-          </div>
-          <Form
-            handleSendMessage={handleSendMessage}
-            newResponseText={newMessageText}
-            setNewResponseText={setNewMessageText}
-            newResponseUrl={newMessageUrl}
-            setNewResponseUrl={setNewMessageUrl}
-            isValidUrl={isValidUrl}
-          />
+      <div className={styles.invitationFormContainer}>
+        <div className={styles.invitationText}>
+          Laid off too? Add a message, or just ur feelings. It's a party.
         </div>
-      )}
+        <Form
+          handleSendMessage={handleSendMessage}
+          newResponseText={newMessageText}
+          setNewResponseText={setNewMessageText}
+          newResponseUrl={newMessageUrl}
+          setNewResponseUrl={setNewMessageUrl}
+          isValidUrl={isValidUrl}
+        />
+      </div>
     </div>
   )
 }
