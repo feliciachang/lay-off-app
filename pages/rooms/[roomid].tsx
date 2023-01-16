@@ -1,5 +1,6 @@
 import Messages from '../../components/messages/index'
 import { useRouter } from 'next/router'
+import { useQuery } from '../../convex/_generated/react'
 
 export default function Room() {
   const router = useRouter()
@@ -11,8 +12,11 @@ export default function Room() {
     }
     return undefined
   }
+
+  const roomInfo = useQuery('listRoom', getPageId(roomid))
   return (
     <main>
+      {roomInfo && roomInfo?.name === 'desire' && <div>prompt style</div>}
       <Messages
         roomId={getPageId(roomid)}
         messageLabel="Add to this about page. It's a party."

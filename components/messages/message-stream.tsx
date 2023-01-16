@@ -135,7 +135,7 @@ interface MessageBodyProps {
   body: string
   url: string
 }
-function MessageBody(props: MessageBodyProps) {
+export function MessageBody(props: MessageBodyProps) {
   const { body, url } = props
 
   if (url?.length > 0) {
