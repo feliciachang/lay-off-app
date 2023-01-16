@@ -4,37 +4,37 @@ interface IError {
   message: string
 }
 
-interface IUseFormProps<P> {
-  initialValue: P
-  validate: (p: P) => Array<IError>
-  onValid: (p: P) => void
+interface IUseFormProps<T> {
+  initialValue: T
+  validate: (formValue: T) => Array<IError>
+  onValid: (formValue: T) => void
 }
 
-interface IUseFormRet<P> {
-  formValues: P
-  setFormValues: React.Dispatch<React.SetStateAction<P>>
+interface IUseFormRet<T> {
+  formValue: T
+  setFormValue: React.Dispatch<React.SetStateAction<T>>
   errors: Array<IError>
-  submitForm: (p: P) => void
+  submitForm: (formValue: T) => void
 }
 
-export const useForm = <P>(props: IUseFormProps<P>): IUseFormRet<P> => {
+export const useForm = <T>(props: IUseFormProps<T>): IUseFormRet<T> => {
   const { initialValue, validate, onValid } = props
 
-  const [formValues, setFormValues] = useState<P>(initialValue)
+  const [formValue, setFormValue] = useState<T>(initialValue)
   const [errors, setErrors] = useState<Array<IError>>([])
 
-  const submitForm = (p: P) => {
+  const submitForm = (formValue: T) => {
     // validate
-    const errors = validate(p)
+    const errors = validate(formValue)
     setErrors(errors)
 
     // do whatever else
-    onValid(p)
+    onValid(formValue)
   }
 
   return {
-    formValues,
-    setFormValues,
+    formValue,
+    setFormValue,
     submitForm,
     errors,
   }
