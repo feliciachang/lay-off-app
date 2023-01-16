@@ -1,8 +1,6 @@
 import { useQuery } from '../../convex/_generated/react'
-import { useState } from 'react'
-import Form from '../form/form'
-import { MessageBody } from './message-stream'
-import styles from 'message-stream.module.css'
+import { UserMessageStream } from './message-stream'
+import { useEffect, useState } from 'react'
 
 interface PromptedMessagesProps {
   roomId?: string
@@ -12,53 +10,27 @@ export default function PromptedMessages(props: PromptedMessagesProps) {
   const { roomId } = props
 
   const messages = useQuery('listMessages', roomId || null) || []
+  const [displayNumMessages, setDisplayNumMessages] = useState(1)
+  const [displayAllResponses, setDisplayAllResponses] = useState(false)
 
-  const [numMessages, setNumMessages] = useState(1)
+  useEffect(() => {
+    if (displayNumMessages === messages.length - 1) {
+      setDisplayAllResponses(true)
+    }
+  }, [])
 
   return (
     <div>
-      {messages.slice(numMessages).map((message) => (
-        <MessageBody body={message.body} url={message.url} />
-      ))}
-      <div className={styles.rightMessage}>
-        <Form
-          handleSendMessage={handleSendResponse}
-          newResponseText={newResponseText}
-          setNewResponseText={setNewResponseText}
-          newResponseUrl={newResponseUrl}
-          setNewResponseUrl={setNewResponseUrl}
-          isValidUrl={isValidUrl}
+      {messages.slice(displayNumMessages).map((message) => (
+        <UserMessageStream
+          id={message._id.toString()}
+          url={message.url}
+          body={message.body}
+          creationTime={new Date(message._creationTime).toLocaleTimeString()}
+          displayNumMessages={displayNumMessages}
+          setDisplayNumMessages={setDisplayNumMessages}
         />
-        <div>
-          {responses.slice(0, numInitialResponses).map((response, i) => (
-            <ResponseBody
-              key={response._id.toString()}
-              body={response.body}
-              url={response.url}
-              numInitialResponses={numInitialResponses}
-              responsesLength={responses.length}
-              idx={i}
-            />
-          ))}
-          {numInitialResponses < responses.length && (
-            <div className={styles.readMoreResponses}>
-              <div
-                className={styles.readMore}
-                onClick={(): void => setNumInitialResponses(responses.length)}
-              >
-                read more responses
-              </div>
-              <Image
-                className={styles.expand}
-                src="/expand.svg"
-                alt="expand"
-                width={15}
-                height={15}
-              />
-            </div>
-          )}
-        </div>
-      </div>
+      ))}
     </div>
   )
 }
