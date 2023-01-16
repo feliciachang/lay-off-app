@@ -29,7 +29,9 @@ export const useForm = <T>(props: IUseFormProps<T>): IUseFormRet<T> => {
     setErrors(errors)
 
     // do whatever else
-    onValid(formValue)
+    if (errors.length === 0) {
+      onValid(formValue)
+    }
   }
 
   return {
