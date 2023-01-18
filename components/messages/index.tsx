@@ -5,13 +5,13 @@ import useMessageForm from '../form/use-message-form'
 import MessageStream from './message-stream'
 
 interface MessagesProps {
-  roomId?: string
+  roomId: string | null
   messageLabel?: string
 }
 export default function Messages(props: MessagesProps) {
   const { roomId, messageLabel } = props
 
-  const messages = useQuery('listMessages', roomId || null) || []
+  const messages = useQuery('listMessages', roomId ?? null) || []
 
   const {
     newMessageText,

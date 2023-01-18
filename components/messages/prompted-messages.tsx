@@ -29,6 +29,7 @@ export default function PromptedMessages(props: PromptedMessagesProps) {
           creationTime={new Date(message._creationTime).toLocaleTimeString()}
           displayNumMessages={displayNumMessages}
           setDisplayNumMessages={setDisplayNumMessages}
+          displayAllResponses={displayAllResponses}
         />
       ))}
     </div>
