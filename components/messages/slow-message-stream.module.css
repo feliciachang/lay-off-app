@@ -1,0 +1,88 @@
+.messageStream {
+    padding-top: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 455px;
+}
+
+.message {
+    min-width: 300px;
+    max-width: 300px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+  
+.message.addUrlStyle {
+    cursor: pointer;
+    color: white;
+    text-decoration: underline;
+}
+
+.urlArrow {
+    padding-left: 5px;
+}
+
+.responseText {
+    display: flex;
+    align-items: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    color: #D0D0D0;
+    opacity: 0;
+    animation: fadeIn ease 1s forwards;
+}
+
+/* .responseText.addAnimtion {
+    opacity: 0;
+    animation: fadeIn ease 1s forwards;
+} */
+
+.responseText.addUrlStyle {
+    cursor: pointer;
+    text-decoration: underline;
+} 
+  
+@media only screen and (max-width: 600px) {
+    .messageStream {
+      flex-direction: column;
+    }
+    .rightMessage {
+      padding-left: 0;
+    }
+    .addMargin {
+      margin-left: 0;
+    }
+}
+
+.readMore {
+    padding-top: 10px;
+    font-size: 18px;
+    color: rgb(122, 160, 248);
+    cursor: pointer;
+    font-family: sans-serif;
+}
+
+.readMoreResponses {
+    display: flex;
+    align-items: center;
+    opacity: 0;
+    animation: fadeIn ease 1s forwards;
+    animation-delay: 20s;
+}
+
+.expand {
+    padding-top: 10px;
+    padding-left: 10px;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    
+    100% {
+        opacity: 1;
+    }
+    }

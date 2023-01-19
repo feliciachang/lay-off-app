@@ -10,6 +10,7 @@ interface FormProps {
   newResponseUrl: string
   setNewResponseUrl: (value: string) => void
   isValidUrl: boolean
+  textPlaceholder?: string
 }
 
 export default function Form(props: FormProps) {
@@ -20,6 +21,7 @@ export default function Form(props: FormProps) {
     newResponseText,
     newResponseUrl,
     isValidUrl,
+    textPlaceholder,
   } = props
 
   const [openForm, setOpenForm] = useState(false)
@@ -37,7 +39,7 @@ export default function Form(props: FormProps) {
             className={styles.formInput}
             value={newResponseText}
             onChange={(event) => setNewResponseText(event.target.value)}
-            placeholder="be a friend, add a reply"
+            placeholder={textPlaceholder ?? 'be a friend, add a reply'}
           />
           <input
             className={cx(styles.formInput, styles.addMargin)}
