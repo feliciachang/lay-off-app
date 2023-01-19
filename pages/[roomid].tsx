@@ -1,7 +1,7 @@
-import Messages from '../../components/messages/index'
-import PromptedMessages from '../../components/messages/prompted-messages'
+import Messages from '../components/messages/index'
+import QuickQuestion from '../components/quick-questions'
 import { useRouter } from 'next/router'
-import { useQuery } from '../../convex/_generated/react'
+import { useQuery } from '../convex/_generated/react'
 
 export default function Room() {
   const router = useRouter()
@@ -25,7 +25,7 @@ export default function Room() {
   return (
     <main>
       {roomName === 'desire' ? (
-        <PromptedMessages roomId={roomId} />
+        <QuickQuestion roomId={roomId} />
       ) : (
         <Messages
           roomId={roomId}

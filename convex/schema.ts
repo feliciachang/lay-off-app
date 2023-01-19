@@ -6,6 +6,7 @@ export default defineSchema({
     body: s.string(),
     url: s.string(),
     roomId: s.union(s.string(), s.null()),
+    sent: s.union(s.boolean(), s.null()),
   }),
   responses: defineTable({
     messageId: s.string(),

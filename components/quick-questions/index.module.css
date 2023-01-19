@@ -1,0 +1,15 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.invitationFormContainer {
+    padding-bottom: 100px;
+}
+
+.invitationText {
+    margin-top: 50px;
+    margin-bottom: 10px;
+}

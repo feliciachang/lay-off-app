@@ -4,7 +4,7 @@ import { useState, FormEvent } from 'react'
 import { useQuery } from '../../convex/_generated/react'
 import styles from './slow-message-stream.module.css'
 import { useMutation } from '../../convex/_generated/react'
-import { MessageBody, ResponseBody } from './message-stream'
+import { MessageBody, ResponseBody } from '../messages/message-stream'
 import { validURL } from '../../utils'
 
 interface UserMessageStreamProps {
@@ -12,9 +12,9 @@ interface UserMessageStreamProps {
   body: string
   url: string
   creationTime: string
-  displayNumMessages?: number
-  setDisplayNumMessages?: (value: number) => void
-  displayAllResponses?: boolean
+  userHasResponded: boolean
+  setUserHasResponded: (value: boolean) => void
+  displayAllResponses: boolean
 }
 
 export default function UserMessageStream(props: UserMessageStreamProps) {
@@ -22,8 +22,8 @@ export default function UserMessageStream(props: UserMessageStreamProps) {
     id,
     body,
     url,
-    displayNumMessages,
-    setDisplayNumMessages,
+    userHasResponded,
+    setUserHasResponded,
     displayAllResponses,
   } = props
 
@@ -31,11 +31,9 @@ export default function UserMessageStream(props: UserMessageStreamProps) {
 
   const [numInitialResponses, setNumInitialResponses] = useState(20)
 
-  // maybe we need to make a user for a session?
   const [newResponseText, setNewResponseText] = useState('')
   const [newResponseUrl, setNewResponseUrl] = useState('')
   const [isValidUrl, setIsValidUrl] = useState(true)
-  const [hideForm, setHideForm] = useState(false)
   const sendResponse = useMutation('sendResponse')
 
   async function handleSendResponse(event: FormEvent) {
@@ -44,10 +42,7 @@ export default function UserMessageStream(props: UserMessageStreamProps) {
       setIsValidUrl(false)
       return
     }
-    if (setDisplayNumMessages && displayNumMessages) {
-      setDisplayNumMessages(displayNumMessages + 1)
-    }
-    setHideForm(true)
+    setUserHasResponded(true)
     await sendResponse(id, newResponseText, '', newResponseUrl)
   }
 
@@ -55,7 +50,7 @@ export default function UserMessageStream(props: UserMessageStreamProps) {
     <div className={styles.messageStream}>
       <MessageBody body={body} url={url} />
       <div>
-        {!hideForm && (
+        {!userHasResponded && (
           <Form
             handleSendMessage={handleSendResponse}
             newResponseText={newResponseText}
