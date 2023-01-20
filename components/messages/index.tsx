@@ -11,7 +11,7 @@ interface MessagesProps {
 export default function Messages(props: MessagesProps) {
   const { roomId, messageLabel } = props
 
-  const messages = useQuery('listMessages', roomId ?? null, null) || []
+  const messages = useQuery('listMessages', roomId ?? null, 'asc') || []
 
   const {
     newMessageText,
@@ -20,7 +20,7 @@ export default function Messages(props: MessagesProps) {
     setNewMessageUrl,
     handleSendMessage,
     isValidUrl,
-  } = useMessageForm(roomId ?? null, null)
+  } = useMessageForm(roomId ?? null)
 
   return (
     <div>

@@ -1,6 +1,5 @@
 import Messages from '../components/messages/index'
 import QuickQuestion from '../components/quick-questions'
-import PastQuickQuestion from '../components/quick-questions/past-messages'
 import { useRouter } from 'next/router'
 import { useQuery } from '../convex/_generated/react'
 
@@ -26,8 +25,6 @@ export default function Room() {
   let messages: JSX.Element
   if (roomName === 'qq') {
     messages = <QuickQuestion roomId={roomId} />
-  } else if (roomName === 'old-qq') {
-    messages = <PastQuickQuestion roomId={roomId} />
   } else {
     messages = (
       <Messages

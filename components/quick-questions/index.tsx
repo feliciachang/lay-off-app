@@ -1,5 +1,4 @@
 import TodaysQuickQuestion from './todays-message'
-import PastQuickQuestion from './past-messages'
 import { useState } from 'react'
 import styles from './index.module.css'
 interface QuickQuestionProps {
@@ -38,11 +37,7 @@ export default function QuickQuestion(props: QuickQuestionProps) {
         )}
         {links}
       </div>
-      {showPastQuestions ? (
-        <PastQuickQuestion roomId={roomId} />
-      ) : (
-        <TodaysQuickQuestion roomId={roomId} />
-      )}
+      <TodaysQuickQuestion roomId={roomId} />
     </div>
   )
 }

@@ -1,5 +1,8 @@
-.messageStream {
+.messageStreamContainer {
     padding-top: 50px;
+}
+
+.messageStream {
     display: flex;
 }
 

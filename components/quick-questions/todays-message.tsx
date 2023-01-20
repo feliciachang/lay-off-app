@@ -18,10 +18,10 @@ export default function TodaysQuickQuestion(props: TodaysQuickQuestionProps) {
     setNewMessageUrl,
     handleSendMessage,
     isValidUrl,
-  } = useMessageForm(roomId ?? null, false)
+  } = useMessageForm(roomId ?? null)
 
   const [displayAllResponses, setDisplayAllResponses] = useState(false)
-  const messages = useQuery('listMessages', roomId || null, false) || []
+  const messages = useQuery('listMessages', roomId || null, 'desc') || []
   const [userHasResponded, setUserHasResponded] = useState(false)
   const visibleMessages = displayAllResponses ? messages : messages.slice(0, 1)
 

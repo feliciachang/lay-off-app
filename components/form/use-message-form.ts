@@ -11,7 +11,7 @@ interface UseMessageValues {
     isValidUrl: boolean;
 }
 
-export default function useMessageForm(roomId: string | null, sent: boolean | null): UseMessageValues {
+export default function useMessageForm(roomId: string | null): UseMessageValues {
     const sendMessage = useMutation('sendMessage')
 
     const [newMessageText, setNewMessageText] = useState('')
@@ -27,7 +27,7 @@ export default function useMessageForm(roomId: string | null, sent: boolean | nu
         setNewMessageText('')
         setNewMessageUrl('')
 
-        await sendMessage(newMessageText, '', newMessageUrl, roomId, sent)
+        await sendMessage(newMessageText, '', newMessageUrl, roomId)
     }
 
     return {

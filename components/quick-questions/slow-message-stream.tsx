@@ -25,6 +25,7 @@ export default function UserMessageStream(props: UserMessageStreamProps) {
     userHasResponded,
     setUserHasResponded,
     displayAllResponses,
+    creationTime,
   } = props
 
   const responses = useQuery('listResponses', id) || []
@@ -48,7 +49,8 @@ export default function UserMessageStream(props: UserMessageStreamProps) {
   }
 
   return (
-    <div>
+    <div className={styles.messageStreamContainer}>
+      {displayAllResponses && <p>{creationTime}</p>}
       <div className={styles.messageStream}>
         <div className={styles.centerMessageBody}>
           <MessageBody body={body} url={url} />
