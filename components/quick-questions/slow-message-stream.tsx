@@ -44,13 +44,14 @@ export default function UserMessageStream(props: UserMessageStreamProps) {
       return
     }
     setUserHasResponded(true)
-    let success = await sendResponse(id, newResponseText, '', newResponseUrl)
-    console.log(success)
+    await sendResponse(id, newResponseText, '', newResponseUrl)
   }
 
   return (
     <div className={styles.messageStreamContainer}>
-      {displayAllResponses && <p>{creationTime}</p>}
+      {displayAllResponses && (
+        <p className={styles.creationTime}>{creationTime}</p>
+      )}
       <div className={styles.messageStream}>
         <div className={styles.centerMessageBody}>
           <MessageBody body={body} url={url} />
@@ -60,7 +61,11 @@ export default function UserMessageStream(props: UserMessageStreamProps) {
             <Form
               handleSendMessage={handleSendResponse}
               newResponseText={newResponseText}
-              textPlaceholder="join the club, add a reply"
+              textPlaceholder={
+                displayAllResponses
+                  ? 'join the club, add to the past'
+                  : 'join the club, add a reply'
+              }
               setNewResponseText={setNewResponseText}
               newResponseUrl={newResponseUrl}
               setNewResponseUrl={setNewResponseUrl}

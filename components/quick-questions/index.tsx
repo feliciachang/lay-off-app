@@ -8,19 +8,33 @@ interface QuickQuestionProps {
 export default function QuickQuestion(props: QuickQuestionProps) {
   const { roomId } = props
 
-  const [showPastQuestions, setShowPastQuestions] = useState(false)
+  const [displayAllResponses, setDisplayAllResponses] = useState(false)
 
   let links = (
     <div>
-      <p>
-        <a
-          onClick={() => {
-            setShowPastQuestions(true)
-          }}
-        >
-          what are these?
-        </a>
-      </p>
+      {!displayAllResponses ? (
+        <p>
+          <a
+            onClick={() => {
+              setDisplayAllResponses(true)
+            }}
+            className={styles.about}
+          >
+            what is this?
+          </a>
+        </p>
+      ) : (
+        <p>
+          <a
+            onClick={() => {
+              setDisplayAllResponses(false)
+            }}
+            className={styles.about}
+          >
+            respond to today's question
+          </a>
+        </p>
+      )}
       <p>
         <a href="/">take me home</a>
       </p>
@@ -30,14 +44,21 @@ export default function QuickQuestion(props: QuickQuestionProps) {
   return (
     <div>
       <div className={styles.quickquestion}>
-        {showPastQuestions ? (
-          <p>quick questions from the past...</p>
+        {displayAllResponses ? (
+          <div>
+            <p>quick questions from the past...</p>
+            <p>new questions daily</p>
+          </div>
         ) : (
           <p>here's a quick question...</p>
         )}
         {links}
       </div>
-      <TodaysQuickQuestion roomId={roomId} />
+      <TodaysQuickQuestion
+        roomId={roomId}
+        displayAllResponses={displayAllResponses}
+        setDisplayAllResponses={setDisplayAllResponses}
+      />
     </div>
   )
 }

@@ -14,6 +14,10 @@
     justify-content: space-between;
 }
 
+.about {
+    cursor: pointer;
+}
+
 @keyframes fadeIn {
     0% {
         opacity: 0;

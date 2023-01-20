@@ -6,10 +6,12 @@ import useMessageForm from '../form/use-message-form'
 import Form from '../form/form'
 interface TodaysQuickQuestionProps {
   roomId?: string
+  displayAllResponses: boolean
+  setDisplayAllResponses: (value: boolean) => void
 }
 
 export default function TodaysQuickQuestion(props: TodaysQuickQuestionProps) {
-  const { roomId } = props
+  const { roomId, displayAllResponses, setDisplayAllResponses } = props
 
   const {
     newMessageText,
@@ -20,7 +22,6 @@ export default function TodaysQuickQuestion(props: TodaysQuickQuestionProps) {
     isValidUrl,
   } = useMessageForm(roomId ?? null)
 
-  const [displayAllResponses, setDisplayAllResponses] = useState(false)
   const messages = useQuery('listMessages', roomId || null, 'desc') || []
   const [userHasResponded, setUserHasResponded] = useState(false)
   const visibleMessages = displayAllResponses ? messages : messages.slice(0, 1)
@@ -33,18 +34,20 @@ export default function TodaysQuickQuestion(props: TodaysQuickQuestionProps) {
 
   return (
     <div>
-      {visibleMessages.map((message) => (
-        <UserMessageStream
-          key={message._id.toString()}
-          id={message._id.toString()}
-          url={message.url}
-          body={message.body}
-          creationTime={new Date(message._creationTime).toLocaleTimeString()}
-          userHasResponded={userHasResponded}
-          setUserHasResponded={setUserHasResponded}
-          displayAllResponses={displayAllResponses}
-        />
-      ))}
+      {visibleMessages.map((message) => {
+        return (
+          <UserMessageStream
+            key={message._id.toString()}
+            id={message._id.toString()}
+            url={message.url}
+            body={message.body}
+            creationTime={new Date(message._creationTime).toLocaleDateString()}
+            userHasResponded={userHasResponded}
+            setUserHasResponded={setUserHasResponded}
+            displayAllResponses={displayAllResponses}
+          />
+        )
+      })}
       {displayAllResponses && (
         <div className={styles.invitationFormContainer}>
           <div className={styles.invitationText}>
