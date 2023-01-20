@@ -1,0 +1,29 @@
+.invitationFormContainer {
+    padding-bottom: 100px;
+    opacity: 0;
+    animation: fadeIn ease 1s forwards;
+}
+
+.invitationText {
+    margin-top: 50px;
+    margin-bottom: 10px;
+}
+
+.quickquestion {
+    display: flex;
+    justify-content: space-between;
+}
+
+.about {
+    cursor: pointer;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    
+    100% {
+        opacity: 1;
+    }
+}

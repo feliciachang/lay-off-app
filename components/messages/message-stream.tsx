@@ -12,10 +12,11 @@ interface MessageStreamProps {
   body: string
   url: string
   creationTime: string
+  addDate?: boolean
 }
 
 export default function MessageStream(props: MessageStreamProps) {
-  const { id, body, url } = props
+  const { id, body, url, addDate, creationTime } = props
 
   const responses = useQuery('listResponses', id) || []
 
@@ -31,45 +32,48 @@ export default function MessageStream(props: MessageStreamProps) {
   const [numInitialResponses, setNumInitialResponses] = useState(20)
 
   return (
-    <div className={styles.messageStream}>
-      <MessageBody body={body} url={url} />
-      <div className={styles.rightMessage}>
-        <Form
-          handleSendMessage={handleSendResponse}
-          newResponseText={newResponseText}
-          setNewResponseText={setNewResponseText}
-          newResponseUrl={newResponseUrl}
-          setNewResponseUrl={setNewResponseUrl}
-          isValidUrl={isValidUrl}
-        />
-        <div>
-          {responses.slice(0, numInitialResponses).map((response, i) => (
-            <ResponseBody
-              key={response._id.toString()}
-              body={response.body}
-              url={response.url}
-              numInitialResponses={numInitialResponses}
-              responsesLength={responses.length}
-              idx={i}
-            />
-          ))}
-          {numInitialResponses < responses.length && (
-            <div className={styles.readMoreResponses}>
-              <div
-                className={styles.readMore}
-                onClick={(): void => setNumInitialResponses(responses.length)}
-              >
-                read more responses
-              </div>
-              <Image
-                className={styles.expand}
-                src="/expand.svg"
-                alt="expand"
-                width={15}
-                height={15}
+    <div className={styles.messageStreamContainer}>
+      {addDate && <p>{creationTime}</p>}
+      <div className={styles.messageStream}>
+        <MessageBody body={body} url={url} />
+        <div className={styles.rightMessage}>
+          <Form
+            handleSendMessage={handleSendResponse}
+            newResponseText={newResponseText}
+            setNewResponseText={setNewResponseText}
+            newResponseUrl={newResponseUrl}
+            setNewResponseUrl={setNewResponseUrl}
+            isValidUrl={isValidUrl}
+          />
+          <div>
+            {responses.slice(0, numInitialResponses).map((response, i) => (
+              <ResponseBody
+                key={response._id.toString()}
+                body={response.body}
+                url={response.url}
+                numInitialResponses={numInitialResponses}
+                responsesLength={responses.length}
+                idx={i}
               />
-            </div>
-          )}
+            ))}
+            {numInitialResponses < responses.length && (
+              <div className={styles.readMoreResponses}>
+                <div
+                  className={styles.readMore}
+                  onClick={(): void => setNumInitialResponses(responses.length)}
+                >
+                  read more responses
+                </div>
+                <Image
+                  className={styles.expand}
+                  src="/expand.svg"
+                  alt="expand"
+                  width={15}
+                  height={15}
+                />
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>
@@ -81,13 +85,16 @@ interface ResponseBodyProps {
   url: string
   numInitialResponses: number
   responsesLength: number
-  idx: number
+  idx?: number
 }
 
-function ResponseBody(props: ResponseBodyProps) {
+export function ResponseBody(props: ResponseBodyProps) {
   const { body, url, numInitialResponses, responsesLength, idx } = props
 
-  const animStr = (i: number) => {
+  const animStr = (i: number | undefined) => {
+    if (!i) {
+      return `0s`
+    }
     const delay = 1 // ms
     if (numInitialResponses === responsesLength) {
       return `0s`
@@ -135,7 +142,7 @@ interface MessageBodyProps {
   body: string
   url: string
 }
-function MessageBody(props: MessageBodyProps) {
+export function MessageBody(props: MessageBodyProps) {
   const { body, url } = props
 
   if (url?.length > 0) {
