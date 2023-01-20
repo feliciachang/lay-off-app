@@ -16,5 +16,10 @@ export default defineSchema({
   rooms: defineTable({
     name: s.string(),
     messageIds: s.array(s.string()),
+  }),
+  quickQuestions: defineTable({
+    body: s.string(),
+    url: s.string(),
+    roomId: s.union(s.string(), s.null()),
   })
 })

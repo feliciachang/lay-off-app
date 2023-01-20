@@ -36,11 +36,6 @@
     animation: fadeIn ease 1s forwards;
 }
 
-/* .responseText.addAnimtion {
-    opacity: 0;
-    animation: fadeIn ease 1s forwards;
-} */
-
 .responseText.addUrlStyle {
     cursor: pointer;
     text-decoration: underline;
@@ -70,8 +65,8 @@
     display: flex;
     align-items: center;
     opacity: 0;
-    animation: fadeIn ease 1s forwards;
-    animation-delay: 20s;
+    animation: fadeIn ease 0.1s forwards;
+    animation-delay: 10s;
 }
 
 .expand {

@@ -9,32 +9,40 @@ export default function QuickQuestion(props: QuickQuestionProps) {
   const { roomId } = props
 
   const [displayAllResponses, setDisplayAllResponses] = useState(false)
+  const [userHasResponded, setUserHasResponded] = useState(false)
+
+  let linkToggle: JSX.Element | undefined
+  if (!displayAllResponses) {
+    linkToggle = (
+      <p>
+        <a
+          onClick={() => {
+            setDisplayAllResponses(true)
+          }}
+          className={styles.about}
+        >
+          what is this?
+        </a>
+      </p>
+    )
+  } else if (displayAllResponses && !userHasResponded) {
+    linkToggle = (
+      <p>
+        <a
+          onClick={() => {
+            setDisplayAllResponses(false)
+          }}
+          className={styles.about}
+        >
+          respond to today's question
+        </a>
+      </p>
+    )
+  }
 
   let links = (
     <div>
-      {!displayAllResponses ? (
-        <p>
-          <a
-            onClick={() => {
-              setDisplayAllResponses(true)
-            }}
-            className={styles.about}
-          >
-            what is this?
-          </a>
-        </p>
-      ) : (
-        <p>
-          <a
-            onClick={() => {
-              setDisplayAllResponses(false)
-            }}
-            className={styles.about}
-          >
-            respond to today's question
-          </a>
-        </p>
-      )}
+      {linkToggle}
       <p>
         <a href="/">take me home</a>
       </p>
@@ -58,6 +66,8 @@ export default function QuickQuestion(props: QuickQuestionProps) {
         roomId={roomId}
         displayAllResponses={displayAllResponses}
         setDisplayAllResponses={setDisplayAllResponses}
+        userHasResponded={userHasResponded}
+        setUserHasResponded={setUserHasResponded}
       />
     </div>
   )

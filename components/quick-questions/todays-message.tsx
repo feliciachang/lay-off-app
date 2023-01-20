@@ -1,17 +1,25 @@
 import { useQuery } from '../../convex/_generated/react'
 import UserMessageStream from './slow-message-stream'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import styles from './index.module.css'
-import useMessageForm from '../form/use-message-form'
+import useQuickQuestionForm from '../form/use-quick-question-form'
 import Form from '../form/form'
 interface TodaysQuickQuestionProps {
   roomId?: string
   displayAllResponses: boolean
   setDisplayAllResponses: (value: boolean) => void
+  userHasResponded: boolean
+  setUserHasResponded: (value: boolean) => void
 }
 
 export default function TodaysQuickQuestion(props: TodaysQuickQuestionProps) {
-  const { roomId, displayAllResponses, setDisplayAllResponses } = props
+  const {
+    roomId,
+    displayAllResponses,
+    setDisplayAllResponses,
+    userHasResponded,
+    setUserHasResponded,
+  } = props
 
   const {
     newMessageText,
@@ -20,10 +28,9 @@ export default function TodaysQuickQuestion(props: TodaysQuickQuestionProps) {
     setNewMessageUrl,
     handleSendMessage,
     isValidUrl,
-  } = useMessageForm(roomId ?? null)
+  } = useQuickQuestionForm(roomId ?? null)
 
   const messages = useQuery('listMessages', roomId || null, 'desc') || []
-  const [userHasResponded, setUserHasResponded] = useState(false)
   const visibleMessages = displayAllResponses ? messages : messages.slice(0, 1)
 
   useEffect(() => {
