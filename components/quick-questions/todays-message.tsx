@@ -28,6 +28,7 @@ export default function TodaysQuickQuestion(props: TodaysQuickQuestionProps) {
     setNewMessageUrl,
     handleSendMessage,
     isValidUrl,
+    success,
   } = useQuickQuestionForm(roomId ?? null)
 
   const messages = useQuery('listMessages', roomId || null, 'desc') || []
@@ -70,6 +71,7 @@ export default function TodaysQuickQuestion(props: TodaysQuickQuestionProps) {
             isValidUrl={isValidUrl}
             autoOpen={true}
           />
+          {success && <p>ty! come again soon</p>}
         </div>
       )}
     </div>

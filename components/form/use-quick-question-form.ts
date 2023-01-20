@@ -9,6 +9,7 @@ interface UseMessageValues {
     setNewMessageUrl: (text: string) => void;
     handleSendMessage: (event: FormEvent) => Promise<void>;
     isValidUrl: boolean;
+    success: boolean;
 }
 
 export default function useQuickQuestionForm(roomId: string | null): UseMessageValues {
@@ -17,6 +18,7 @@ export default function useQuickQuestionForm(roomId: string | null): UseMessageV
     const [newMessageText, setNewMessageText] = useState('')
     const [newMessageUrl, setNewMessageUrl] = useState('')
     const [isValidUrl, setIsValidUrl] = useState(true)
+    const [success, setSuccess] = useState(false)
 
     async function handleSendMessage(event: FormEvent) {
         event.preventDefault()
@@ -26,7 +28,7 @@ export default function useQuickQuestionForm(roomId: string | null): UseMessageV
         }
         setNewMessageText('')
         setNewMessageUrl('')
-
+        setSuccess(true)
         await sendQuickQuestion(newMessageText, newMessageUrl, roomId)
     }
 
@@ -37,5 +39,6 @@ export default function useQuickQuestionForm(roomId: string | null): UseMessageV
         setNewMessageUrl,
         handleSendMessage,
         isValidUrl,
+        success
     }
 }
