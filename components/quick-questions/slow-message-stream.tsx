@@ -43,62 +43,69 @@ export default function UserMessageStream(props: UserMessageStreamProps) {
       return
     }
     setUserHasResponded(true)
-    await sendResponse(id, newResponseText, '', newResponseUrl)
+    let success = await sendResponse(id, newResponseText, '', newResponseUrl)
+    console.log(success)
   }
 
   return (
-    <div className={styles.messageStream}>
-      <MessageBody body={body} url={url} />
-      <div>
-        {!userHasResponded && (
-          <Form
-            handleSendMessage={handleSendResponse}
-            newResponseText={newResponseText}
-            textPlaceholder="join the club, add a reply"
-            setNewResponseText={setNewResponseText}
-            newResponseUrl={newResponseUrl}
-            setNewResponseUrl={setNewResponseUrl}
-            isValidUrl={isValidUrl}
-          />
-        )}
-        {!displayAllResponses ? (
-          <ResponseBody
-            body={newResponseText}
-            url=""
-            numInitialResponses={0}
-            responsesLength={0}
-          />
-        ) : (
-          <div>
-            {responses.slice(0, numInitialResponses).map((response, i) => (
-              <ResponseBody
-                key={response._id.toString()}
-                body={response.body}
-                url={response.url}
-                numInitialResponses={numInitialResponses}
-                responsesLength={responses.length}
-                idx={i}
-              />
-            ))}
-            {numInitialResponses < responses.length && (
-              <div className={styles.readMoreResponses}>
-                <div
-                  className={styles.readMore}
-                  onClick={(): void => setNumInitialResponses(responses.length)}
-                >
-                  read more responses
-                </div>
-                <Image
-                  className={styles.expand}
-                  src="/expand.svg"
-                  alt="expand"
-                  width={15}
-                  height={15}
+    <div>
+      <div className={styles.messageStream}>
+        <div className={styles.centerMessageBody}>
+          <MessageBody body={body} url={url} />
+        </div>
+        <div>
+          {!userHasResponded && (
+            <Form
+              handleSendMessage={handleSendResponse}
+              newResponseText={newResponseText}
+              textPlaceholder="join the club, add a reply"
+              setNewResponseText={setNewResponseText}
+              newResponseUrl={newResponseUrl}
+              setNewResponseUrl={setNewResponseUrl}
+              isValidUrl={isValidUrl}
+            />
+          )}
+          {!displayAllResponses ? (
+            <ResponseBody
+              body={newResponseText}
+              url=""
+              numInitialResponses={0}
+              responsesLength={0}
+            />
+          ) : (
+            <div className={styles.allResponses}>
+              {responses.slice(0, numInitialResponses).map((response, i) => (
+                <ResponseBody
+                  key={response._id.toString()}
+                  body={response.body}
+                  url={response.url}
+                  numInitialResponses={numInitialResponses}
+                  responsesLength={responses.length}
+                  idx={i}
                 />
-              </div>
-            )}
-          </div>
-        )}
+              ))}
+              {numInitialResponses < responses.length && (
+                <div className={styles.readMoreResponses}>
+                  <div
+                    className={styles.readMore}
+                    onClick={(): void =>
+                      setNumInitialResponses(responses.length)
+                    }
+                  >
+                    read more responses
+                  </div>
+                  <Image
+                    className={styles.expand}
+                    src="/expand.svg"
+                    alt="expand"
+                    width={15}
+                    height={15}
+                  />
+                </div>
+              )}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   )

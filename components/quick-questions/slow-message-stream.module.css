@@ -1,10 +1,6 @@
 .messageStream {
     padding-top: 50px;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    max-width: 455px;
 }
 
 .message {
@@ -24,6 +20,10 @@
     padding-left: 5px;
 }
 
+.rightMessage {
+    padding-left: 50px;
+}
+
 .responseText {
     display: flex;
     align-items: center;
@@ -34,27 +34,10 @@
     animation: fadeIn ease 1s forwards;
 }
 
-/* .responseText.addAnimtion {
-    opacity: 0;
-    animation: fadeIn ease 1s forwards;
-} */
-
 .responseText.addUrlStyle {
     cursor: pointer;
     text-decoration: underline;
 } 
-  
-@media only screen and (max-width: 600px) {
-    .messageStream {
-      flex-direction: column;
-    }
-    .rightMessage {
-      padding-left: 0;
-    }
-    .addMargin {
-      margin-left: 0;
-    }
-}
 
 .readMore {
     padding-top: 10px;
@@ -75,6 +58,18 @@
 .expand {
     padding-top: 10px;
     padding-left: 10px;
+}
+
+@media only screen and (max-width: 600px) {
+    .messageStream {
+      flex-direction: column;
+    }
+    .rightMessage {
+      padding-left: 0;
+    }
+    .addMargin {
+      margin-left: 0;
+    }
 }
 
 @keyframes fadeIn {

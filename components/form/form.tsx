@@ -11,6 +11,7 @@ interface FormProps {
   setNewResponseUrl: (value: string) => void
   isValidUrl: boolean
   textPlaceholder?: string
+  autoOpen?: boolean
 }
 
 export default function Form(props: FormProps) {
@@ -22,11 +23,12 @@ export default function Form(props: FormProps) {
     newResponseUrl,
     isValidUrl,
     textPlaceholder,
+    autoOpen,
   } = props
 
   const [openForm, setOpenForm] = useState(false)
   useEffect(() => {
-    if (window.innerWidth > 600) {
+    if (window.innerWidth > 600 || autoOpen) {
       setOpenForm(true)
     }
   })
