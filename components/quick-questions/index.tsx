@@ -1,5 +1,5 @@
 import TodaysQuickQuestion from './todays-message'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import styles from './index.module.css'
 interface QuickQuestionProps {
   roomId?: string
@@ -14,61 +14,60 @@ export default function QuickQuestion(props: QuickQuestionProps) {
   let linkToggle: JSX.Element | undefined
   if (!displayAllResponses) {
     linkToggle = (
-      <p>
-        <a
-          onClick={() => {
-            setDisplayAllResponses(true)
-          }}
-          className={styles.about}
-        >
-          what is this?
-        </a>
-      </p>
+      <a
+        onClick={() => {
+          setDisplayAllResponses(true)
+        }}
+        className={styles.about}
+      >
+        what is this?
+      </a>
     )
   } else if (displayAllResponses && !userHasResponded) {
     linkToggle = (
-      <p>
-        <a
-          onClick={() => {
-            setDisplayAllResponses(false)
-          }}
-          className={styles.about}
-        >
-          respond to today's question
-        </a>
-      </p>
+      <a
+        onClick={() => {
+          setDisplayAllResponses(false)
+        }}
+        className={styles.about}
+      >
+        respond to today's question
+      </a>
     )
   }
 
   let links = (
-    <div>
+    <div className={styles.extraLinks}>
       {linkToggle}
-      <p>
+      {` · `}
+      <span>
         <a href="/">take me home</a>
-      </p>
+      </span>
     </div>
   )
 
   return (
-    <div>
-      <div className={styles.quickquestion}>
-        {displayAllResponses ? (
-          <div>
-            <p>quick questions from the past...</p>
-            <p>new questions daily</p>
-          </div>
-        ) : (
-          <p>here's a quick question...</p>
-        )}
-        {links}
+    <div className={styles.spaceBetween}>
+      <div>
+        <div className={styles.quickquestion}>
+          {displayAllResponses ? (
+            <div>
+              <p>quick questions from the past...</p>
+              <p>new questions daily</p>
+            </div>
+          ) : (
+            <p>here's a quick question...</p>
+          )}
+        </div>
+        <TodaysQuickQuestion
+          roomId={roomId}
+          displayAllResponses={displayAllResponses}
+          setDisplayAllResponses={setDisplayAllResponses}
+          userHasResponded={userHasResponded}
+          setUserHasResponded={setUserHasResponded}
+        />
       </div>
-      <TodaysQuickQuestion
-        roomId={roomId}
-        displayAllResponses={displayAllResponses}
-        setDisplayAllResponses={setDisplayAllResponses}
-        userHasResponded={userHasResponded}
-        setUserHasResponded={setUserHasResponded}
-      />
+      <div>{links}</div>
     </div>
   )
 }

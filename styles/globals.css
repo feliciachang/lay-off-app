@@ -35,7 +35,6 @@ main {
   margin-right: 50px;
   margin-bottom: 50px;
   position: relative;
-  min-height: 100vw;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

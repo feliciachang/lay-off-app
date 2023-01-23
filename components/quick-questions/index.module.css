@@ -24,6 +24,18 @@
     cursor: pointer;
 }
 
+.spaceBetween {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 87vh;
+}
+
+.extraLinks {
+    diplay: flex;
+    font-size: 18px;
+}
+
 @keyframes fadeIn {
     0% {
         opacity: 0;
