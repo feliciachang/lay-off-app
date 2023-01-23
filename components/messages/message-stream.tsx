@@ -146,11 +146,13 @@ export function MessageBody(props: MessageBodyProps) {
   const { body, url } = props
 
   const maxTextLenRef = useRef(200)
-  const [collapseTextLen, setCollapseTextLen] = useState(false)
+  const [toggleTextLen, setToggleTextLen] = useState(true)
+  const [showReadMore, setShowReadMore] = useState(false)
 
   useEffect(() => {
     if (body.length <= maxTextLenRef.current) return
-    setCollapseTextLen(true)
+    setShowReadMore(true)
+    setToggleTextLen(true)
     let tempBody = body.slice(0, maxTextLenRef.current)
     while (tempBody[tempBody.length - 1] !== ' ') {
       tempBody = tempBody.slice(0, tempBody.length - 1)
@@ -158,11 +160,11 @@ export function MessageBody(props: MessageBodyProps) {
     maxTextLenRef.current = tempBody.length - 1
   }, [body, maxTextLenRef])
 
-  let bodyText = collapseTextLen ? body.slice(0, maxTextLenRef.current) : body
+  let bodyText = toggleTextLen ? body.slice(0, maxTextLenRef.current) : body
   let message = (
     <div>
       {bodyText}
-      {collapseTextLen ? '...' : ''}
+      {toggleTextLen ? '...' : ''}
     </div>
   )
   if (url?.length > 0) {
@@ -173,7 +175,7 @@ export function MessageBody(props: MessageBodyProps) {
         className={cx(styles.message, styles.addUrlStyle)}
       >
         {bodyText}
-        {collapseTextLen ? '...' : ''}
+        {toggleTextLen ? '...' : ''}
         <Image
           className={styles.urlArrow}
           src="/arrow.svg"
@@ -188,13 +190,13 @@ export function MessageBody(props: MessageBodyProps) {
   return (
     <div className={styles.message}>
       {message}
-      {collapseTextLen && (
-        <div
+      {showReadMore && (
+        <a
           className={styles.readMore}
-          onClick={(): void => setCollapseTextLen(false)}
+          onClick={(): void => setToggleTextLen(!toggleTextLen)}
         >
-          continue reading
-        </div>
+          {toggleTextLen ? 'read more' : 'read less'}
+        </a>
       )}
     </div>
   )
