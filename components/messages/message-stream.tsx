@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import Form from '../form/form'
-import { useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useQuery } from '../../convex/_generated/react'
 import { formatURL } from '../../utils'
 import styles from './message-stream.module.css'
@@ -145,14 +145,35 @@ interface MessageBodyProps {
 export function MessageBody(props: MessageBodyProps) {
   const { body, url } = props
 
+  const maxTextLenRef = useRef(200)
+  const [collapseTextLen, setCollapseTextLen] = useState(false)
+
+  useEffect(() => {
+    if (body.length <= maxTextLenRef.current) return
+    setCollapseTextLen(true)
+    let tempBody = body.slice(0, maxTextLenRef.current)
+    while (tempBody[tempBody.length - 1] !== ' ') {
+      tempBody = tempBody.slice(0, tempBody.length - 1)
+    }
+    maxTextLenRef.current = tempBody.length - 1
+  }, [body, maxTextLenRef])
+
+  let bodyText = collapseTextLen ? body.slice(0, maxTextLenRef.current) : body
+  let message = (
+    <div>
+      {bodyText}
+      {collapseTextLen ? '...' : ''}
+    </div>
+  )
   if (url?.length > 0) {
-    return (
+    message = (
       <a
         target="_blank"
         href={formatURL(url)}
         className={cx(styles.message, styles.addUrlStyle)}
       >
-        {body}
+        {bodyText}
+        {collapseTextLen ? '...' : ''}
         <Image
           className={styles.urlArrow}
           src="/arrow.svg"
@@ -164,5 +185,17 @@ export function MessageBody(props: MessageBodyProps) {
     )
   }
 
-  return <div className={styles.message}>{body}</div>
+  return (
+    <div className={styles.message}>
+      {message}
+      {collapseTextLen && (
+        <div
+          className={styles.readMore}
+          onClick={(): void => setCollapseTextLen(false)}
+        >
+          continue reading
+        </div>
+      )}
+    </div>
+  )
 }
