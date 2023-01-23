@@ -4,12 +4,18 @@ import { useEffect } from 'react'
 import styles from './index.module.css'
 import useQuickQuestionForm from '../form/use-quick-question-form'
 import Form from '../form/form'
+
 interface TodaysQuickQuestionProps {
   roomId?: string
   displayAllResponses: boolean
   setDisplayAllResponses: (value: boolean) => void
   userHasResponded: boolean
   setUserHasResponded: (value: boolean) => void
+}
+
+interface IFormInput {
+  quickQuestionText: string
+  quickQuestionUrl: string
 }
 
 export default function TodaysQuickQuestion(props: TodaysQuickQuestionProps) {
@@ -40,6 +46,8 @@ export default function TodaysQuickQuestion(props: TodaysQuickQuestionProps) {
     }
   }, [userHasResponded])
 
+  const sendQuickQuestion = useMutation('sendQuickQuestion')
+
   return (
     <div>
       {visibleMessages.map((message) => {
@@ -60,6 +68,24 @@ export default function TodaysQuickQuestion(props: TodaysQuickQuestionProps) {
         <div className={styles.invitationFormContainer}>
           <div className={styles.invitationText}>
             Contribute a question for next time.
+          </div>
+          <Form
+            handleSendMessage={handleSendMessage}
+            newResponseText={newMessageText}
+            setNewResponseText={setNewMessageText}
+            newResponseUrl={newMessageUrl}
+            setNewResponseUrl={setNewMessageUrl}
+            textPlaceholder="join the club, add a question"
+            isValidUrl={isValidUrl}
+            autoOpen={true}
+          />
+          {success && <p>ty! come again soon</p>}
+        </div>
+      )}
+      {displayAllResponses && (
+        <div className={styles.invitationFormContainer}>
+          <div className={styles.invitationText}>
+            Get tomorrow's question via email cause you an email hoe
           </div>
           <Form
             handleSendMessage={handleSendMessage}
