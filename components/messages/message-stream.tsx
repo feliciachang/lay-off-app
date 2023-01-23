@@ -29,7 +29,7 @@ export default function MessageStream(props: MessageStreamProps) {
     isValidUrl,
   } = useResponseForm(id)
 
-  const [numInitialResponses, setNumInitialResponses] = useState(20)
+  const [numInitialResponses, setNumInitialResponses] = useState(5)
 
   return (
     <div className={styles.messageStreamContainer}>
