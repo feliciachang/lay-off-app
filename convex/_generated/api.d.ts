@@ -14,6 +14,7 @@ import type * as createRoom from "../createRoom";
 import type * as listMessages from "../listMessages";
 import type * as listResponses from "../listResponses";
 import type * as listRoom from "../listRoom";
+import type * as sendEmail from "../sendEmail";
 import type * as sendMessage from "../sendMessage";
 import type * as sendQuickQuestion from "../sendQuickQuestion";
 import type * as sendResponse from "../sendResponse";
@@ -32,6 +33,7 @@ export type API = ApiFromModules<{
   listMessages: typeof listMessages;
   listResponses: typeof listResponses;
   listRoom: typeof listRoom;
+  sendEmail: typeof sendEmail;
   sendMessage: typeof sendMessage;
   sendQuickQuestion: typeof sendQuickQuestion;
   sendResponse: typeof sendResponse;

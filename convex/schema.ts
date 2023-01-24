@@ -21,5 +21,8 @@ export default defineSchema({
     body: s.string(),
     url: s.string(),
     roomId: s.union(s.string(), s.null()),
+  }),
+  emails: defineTable({
+    email: s.string(),
   })
 })

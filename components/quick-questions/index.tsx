@@ -41,6 +41,10 @@ export default function QuickQuestion(props: QuickQuestionProps) {
       {linkToggle}
       {` · `}
       <span>
+        <a href="/emailme">get emails!</a>
+      </span>
+      {` · `}
+      <span>
         <a href="/">take me home</a>
       </span>
     </div>

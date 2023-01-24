@@ -26,6 +26,9 @@
 .messageForm {
     display: flex;
 }
+.messageForm.emailForm {
+    padding-top: 20px;
+}
 
 .addMargin {
     margin-left: 15px;
