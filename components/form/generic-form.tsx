@@ -22,7 +22,7 @@ export default function GenericForm(props: GenericFormProps): JSX.Element {
         className={styles.formInput}
         value={emailText}
         onChange={(event) => setEmailText(event.target.value)}
-        placeholder="and a url, if necessary"
+        placeholder="email@email.com"
       />
       <button
         className={styles.submitButton}
