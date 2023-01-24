@@ -102,7 +102,7 @@ export function ResponseBody(props: ResponseBodyProps) {
     return `${delay * i}s`
   }
 
-  const maxTextLenRef = useRef(200)
+  const maxTextLenRef = useRef(250)
   const [toggleTextLen, setToggleTextLen] = useState(false)
   const [showReadMore, setShowReadMore] = useState(false)
 
@@ -175,7 +175,7 @@ interface MessageBodyProps {
 export function MessageBody(props: MessageBodyProps) {
   const { body, url } = props
 
-  const maxTextLenRef = useRef(200)
+  const maxTextLenRef = useRef(250)
   const [toggleTextLen, setToggleTextLen] = useState(false)
   const [showReadMore, setShowReadMore] = useState(false)
 
