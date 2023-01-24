@@ -102,38 +102,68 @@ export function ResponseBody(props: ResponseBodyProps) {
     return `${delay * i}s`
   }
 
+  const maxTextLenRef = useRef(200)
+  const [toggleTextLen, setToggleTextLen] = useState(false)
+  const [showReadMore, setShowReadMore] = useState(false)
+
+  useEffect(() => {
+    if (body.length <= maxTextLenRef.current) return
+    setShowReadMore(true)
+    setToggleTextLen(true)
+    let tempBody = body.slice(0, maxTextLenRef.current)
+    while (tempBody[tempBody.length - 1] !== ' ') {
+      tempBody = tempBody.slice(0, tempBody.length - 1)
+    }
+    maxTextLenRef.current = tempBody.length - 1
+  }, [body, maxTextLenRef])
+
+  let bodyText = toggleTextLen ? body.slice(0, maxTextLenRef.current) : body
+  let message = (
+    <span className={styles.responseText}>
+      {bodyText}
+      {toggleTextLen ? '...' : ''}
+    </span>
+  )
+
   if (url.length > 0) {
-    return (
+    message = (
       <a
         target="_blank"
         className={cx(styles.responseText, {
           [styles.addUrlStyle]: url?.length > 0,
-          [styles.addAnimation]: numInitialResponses < responsesLength,
         })}
-        style={{ animationDelay: animStr(idx) }}
         href={formatURL(url)}
       >
-        {body}
-        {url?.length > 0 && (
-          <Image
-            className={styles.urlArrow}
-            src="/arrow.svg"
-            alt="arrow"
-            width={15}
-            height={15}
-          />
-        )}
+        {bodyText}
+        {toggleTextLen ? '...' : ''}
       </a>
     )
   }
   return (
     <div
-      className={cx(styles.responseText, {
-        [styles.addAnimation]: numInitialResponses < responsesLength,
-      })}
+      className={styles.responseContainer}
       style={{ animationDelay: animStr(idx) }}
     >
-      {body}
+      <span>
+        {message}
+        {showReadMore && (
+          <a
+            className={styles.readMore}
+            onClick={(): void => setToggleTextLen(!toggleTextLen)}
+          >
+            {toggleTextLen ? ' read more' : ' read less'}
+          </a>
+        )}
+      </span>
+      {url?.length > 0 && (
+        <Image
+          className={styles.urlArrow}
+          src="/arrow.svg"
+          alt="arrow"
+          width={15}
+          height={15}
+        />
+      )}
     </div>
   )
 }
@@ -162,10 +192,10 @@ export function MessageBody(props: MessageBodyProps) {
 
   let bodyText = toggleTextLen ? body.slice(0, maxTextLenRef.current) : body
   let message = (
-    <div>
+    <span>
       {bodyText}
       {toggleTextLen ? '...' : ''}
-    </div>
+    </span>
   )
   if (url?.length > 0) {
     message = (
@@ -195,7 +225,7 @@ export function MessageBody(props: MessageBodyProps) {
           className={styles.readMore}
           onClick={(): void => setToggleTextLen(!toggleTextLen)}
         >
-          {toggleTextLen ? 'read more' : 'read less'}
+          {toggleTextLen ? ' read more' : ' read less'}
         </a>
       )}
     </div>

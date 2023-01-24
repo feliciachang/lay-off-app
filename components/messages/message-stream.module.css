@@ -27,6 +27,15 @@
 }
 
 .responseText {
+    color: #D0D0D0;
+}
+
+.responseText.addUrlStyle {
+    cursor: pointer;
+    text-decoration: underline;
+} 
+
+.responseContainer {
     display: flex;
     align-items: center;
     padding-top: 5px;
@@ -35,11 +44,6 @@
     opacity: 0;
     animation: fadeIn ease 1s forwards;
 }
-
-.responseText.addUrlStyle {
-    cursor: pointer;
-    text-decoration: underline;
-} 
   
 @media only screen and (max-width: 600px) {
     .messageStream {
