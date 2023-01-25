@@ -172,6 +172,10 @@ interface MessageBodyProps {
   body: string
   url: string
 }
+
+// https://github.com/LogSnag/logsnag.js
+// import { LogSnag } from 'logsnag';
+
 export function MessageBody(props: MessageBodyProps) {
   const { body, url } = props
 
