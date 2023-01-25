@@ -4,7 +4,7 @@ export default function App() {
   return (
     <main>
       <p>
-        the latest... <a href="/emailme">QQ</a> and <a href="/qq">emails</a>
+        the latest... <a href="/qq">QQ</a> and <a href="/emailme">emails</a>
       </p>
       <Messages roomId={null} />
       <p>
