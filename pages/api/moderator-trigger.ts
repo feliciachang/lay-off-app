@@ -44,7 +44,7 @@ export default moderatorTriggerHandler
 // function that can be used in the client
 export const sendToModerator = async (props: IModeratorRequestBody) => {
   const response = await fetch(
-    `https://${process.env.VERCEL_URL}/api/moderator-trigger`,
+    `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/moderator-trigger`,
     {
       method: 'POST',
       headers: {

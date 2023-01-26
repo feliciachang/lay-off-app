@@ -97,7 +97,7 @@ const moderatorBackgroundTaskHandler = async (
 // environment variables to be present
 export default verifySignature(moderatorBackgroundTaskHandler)
 
-// disable body parsing for this rou  te
+// disable body parsing for this route
 // this is required for the verifySignature wrapper to work
 // fortunately, the wrapper will parse and forward the body to our handler
 // https://nextjs.org/docs/api-routes/api-middlewares#custom-config
