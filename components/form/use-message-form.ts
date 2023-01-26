@@ -1,41 +1,52 @@
 import { FormEvent, useState } from 'react'
 import { useMutation } from '../../convex/_generated/react'
+import { sendToModerator } from '../../pages/api/moderator-trigger'
 import { validURL } from '../../utils'
 
 interface UseMessageValues {
-    newMessageText: string;
-    setNewMessageText: (text: string) => void;
-    newMessageUrl: string;
-    setNewMessageUrl: (text: string) => void;
-    handleSendMessage: (event: FormEvent) => Promise<void>;
-    isValidUrl: boolean;
+  newMessageText: string
+  setNewMessageText: (text: string) => void
+  newMessageUrl: string
+  setNewMessageUrl: (text: string) => void
+  handleSendMessage: (event: FormEvent) => Promise<void>
+  isValidUrl: boolean
 }
 
-export default function useMessageForm(roomId: string | null): UseMessageValues {
-    const sendMessage = useMutation('sendMessage')
+export default function useMessageForm(
+  roomId: string | null
+): UseMessageValues {
+  const sendMessage = useMutation('sendMessage')
 
-    const [newMessageText, setNewMessageText] = useState('')
-    const [newMessageUrl, setNewMessageUrl] = useState('')
-    const [isValidUrl, setIsValidUrl] = useState(true)
+  const [newMessageText, setNewMessageText] = useState('')
+  const [newMessageUrl, setNewMessageUrl] = useState('')
+  const [isValidUrl, setIsValidUrl] = useState(true)
 
-    async function handleSendMessage(event: FormEvent) {
-        event.preventDefault()
-        if (newMessageUrl.length > 0 && !validURL(newMessageUrl)) {
-          setIsValidUrl(false)
-          return
-        }
-        setNewMessageText('')
-        setNewMessageUrl('')
-
-        await sendMessage(newMessageText, '', newMessageUrl, roomId)
+  async function handleSendMessage(event: FormEvent) {
+    event.preventDefault()
+    if (newMessageUrl.length > 0 && !validURL(newMessageUrl)) {
+      setIsValidUrl(false)
+      return
     }
+    setNewMessageText('')
+    setNewMessageUrl('')
 
-    return {
-        newMessageText,
-        setNewMessageText,
-        newMessageUrl,
-        setNewMessageUrl,
-        handleSendMessage,
-        isValidUrl,
-    }
+    // the persons submits the data to convex
+    const message = await sendMessage(newMessageText, '', newMessageUrl, roomId)
+
+    // the person submits the data to the moderator
+    await sendToModerator({
+      tableName: 'messages',
+      serializedId: message.id.toString(),
+      contents: newMessageText,
+    })
+  }
+
+  return {
+    newMessageText,
+    setNewMessageText,
+    newMessageUrl,
+    setNewMessageUrl,
+    handleSendMessage,
+    isValidUrl,
+  }
 }
