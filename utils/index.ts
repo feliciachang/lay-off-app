@@ -37,6 +37,7 @@ export interface IApiResponse {
 
 // function that can be used in the client
 export const sendToModerator = async (props: IModeratorRequestBody) => {
+  // take a look at pages/api/moderator-trigger.ts
   const response = await fetch(
     `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/moderator-trigger`,
     {

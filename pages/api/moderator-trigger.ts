@@ -27,6 +27,7 @@ const moderatorTriggerHandler = async (
     ipAddress: Array.isArray(ipAddress) ? ipAddress[0] : ipAddress,
   }
 
+  // take a look at pages/api/moderator-background-task.ts
   await qstash.publishJSON({
     url: `https://${process.env.VERCEL_URL}/api/moderator-background-task`,
     body: finalBody,
