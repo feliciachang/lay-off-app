@@ -4,7 +4,7 @@ import { verifySignature } from '@upstash/qstash/nextjs'
 import { LogSnag } from 'logsnag'
 
 // since this code is run server side, we need to use the non-React version of Convex
-import { ConvexHttpClient } from 'convex/dist/types/browser/browser'
+import { ConvexHttpClient } from 'convex/browser'
 import deleteRowMutation from '../../convex/deleteRow'
 import { TableNames } from '../../convex/_generated/dataModel'
 import { IApiResponse } from '../../utils'
