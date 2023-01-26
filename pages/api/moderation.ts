@@ -55,7 +55,10 @@ const apiHandler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   // otherwise, first delete from convex
   const convexClient = new ConvexHttpClient({
-    address: process.env.CONVEX_ADDRESS!,
+    address:
+      process.env.NODE_ENV === 'development'
+        ? 'http://localhost:8187'
+        : process.env.CONVEX_ADDRESS!,
   })
   await convexClient.mutation(deleteRowMutation.name)({
     tableName,
