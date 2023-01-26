@@ -68,7 +68,9 @@ const moderatorBackgroundTaskHandler = async (
     description: `Content flagged by moderator: ${contents}`,
     icon: '🙀',
     tags: {
-      ipAddress: ipAddress ?? 'unknown',
+      // note that tags must be lowercase
+      // https://docs.logsnag.com/endpoints/log/tags
+      'ip-address': ipAddress ?? 'unknown',
     },
   })
 
