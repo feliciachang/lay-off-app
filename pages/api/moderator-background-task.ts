@@ -57,18 +57,6 @@ const moderatorBackgroundTaskHandler = async (
     })
   }
 
-  // otherwise, first delete from convex
-  const convexClient = new ConvexHttpClient({
-    address:
-      process.env.NODE_ENV === 'development'
-        ? 'http://localhost:8187'
-        : process.env.CONVEX_ADDRESS!,
-  })
-  await convexClient.mutation(deleteRowMutation.name)({
-    tableName,
-    serializedId,
-  })
-
   // then report to logsnag
   const logsnag = new LogSnag({
     token: process.env.LOGSNAG_TOKEN!,
@@ -83,6 +71,22 @@ const moderatorBackgroundTaskHandler = async (
       ipAddress: ipAddress ?? 'unknown',
     },
   })
+
+  // otherwise, first delete from convex
+  try {
+    const convexClient = new ConvexHttpClient({
+      address:
+        process.env.NODE_ENV === 'development'
+          ? 'http://localhost:8187'
+          : process.env.CONVEX_ADDRESS!,
+    })
+    await convexClient.mutation(deleteRowMutation.name)({
+      tableName,
+      serializedId,
+    })
+  } catch (e) {
+    console.error('Convex failed: ', e)
+  }
 
   // return
   return res.status(200).json({
