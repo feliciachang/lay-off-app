@@ -1,7 +1,6 @@
 import { FormEvent, useState } from 'react'
 import { useMutation } from '../../convex/_generated/react'
-import { sendToModerator } from '../../pages/api/moderator-trigger'
-import { validURL } from '../../utils'
+import { sendToModerator, validURL } from '../../utils'
 
 interface UseMessageValues {
   newMessageText: string
