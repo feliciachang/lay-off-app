@@ -7,8 +7,9 @@ import { LogSnag } from 'logsnag'
 import { ConvexHttpClient } from 'convex/dist/types/browser/browser'
 import deleteRowMutation from '../../convex/deleteRow'
 import { TableNames } from '../../convex/_generated/dataModel'
+import { IApiResponse } from '../../utils'
 
-interface IRequestBody {
+export interface IModeratorRequestBody {
   tableName: TableNames
   serializedId: string
   contents: string
@@ -23,7 +24,10 @@ interface IOpenAIModerationResponse {
   }>
 }
 
-const apiHandler = async (req: NextApiRequest, res: NextApiResponse) => {
+const moderatorBackgroundTaskHandler = async (
+  req: NextApiRequest,
+  res: NextApiResponse<IApiResponse>
+) => {
   // only accept POST requests
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method not allowed', error: true })
@@ -31,7 +35,7 @@ const apiHandler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   // get the comment from request body
   const { tableName, serializedId, contents, ipAddress } =
-    req.body as IRequestBody
+    req.body as IModeratorRequestBody
 
   //  make a call to the openapi moderation api
   const openAiReponse = await fetch('https://api.openai.com/v1/moderations', {
@@ -91,7 +95,7 @@ const apiHandler = async (req: NextApiRequest, res: NextApiResponse) => {
 // the verify signature wrapper will verify the signature of the request
 // it relies on the QSTASH_CURRENT_SIGNING_KEY and QSTASH_NEXT_SIGNING_KEY
 // environment variables to be present
-export default verifySignature(apiHandler)
+export default verifySignature(moderatorBackgroundTaskHandler)
 
 // disable body parsing for this rou  te
 // this is required for the verifySignature wrapper to work
