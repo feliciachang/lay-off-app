@@ -19,6 +19,7 @@ export default function Messages(props: MessagesProps) {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors, isSubmitSuccessful },
   } = useForm()
 
@@ -47,6 +48,7 @@ export default function Messages(props: MessagesProps) {
               data.newMessageUrl,
               roomId || null
             )
+            reset()
           })}
         >
           <input

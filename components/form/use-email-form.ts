@@ -1,6 +1,5 @@
 import { FormEvent, useState } from 'react'
 import { useMutation } from '../../convex/_generated/react'
-import { validURL } from '../../utils'
 
 interface UseMessageValues {
     emailText: string;

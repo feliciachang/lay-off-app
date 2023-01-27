@@ -27,6 +27,7 @@ export default function TodaysQuickQuestion(props: TodaysQuickQuestionProps) {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors, isSubmitSuccessful },
   } = useForm()
 
@@ -69,6 +70,7 @@ export default function TodaysQuickQuestion(props: TodaysQuickQuestionProps) {
                 data.newMessageUrl,
                 roomId || null
               )
+              reset()
             })}
           >
             <input

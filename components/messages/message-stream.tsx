@@ -1,10 +1,10 @@
 import Image from 'next/image'
-import Form from '../form/form'
 import { useEffect, useState, useRef } from 'react'
-import { useQuery } from '../../convex/_generated/react'
+import { useForm } from 'react-hook-form'
+import { useQuery, useMutation } from '../../convex/_generated/react'
 import { formatURL } from '../../utils'
 import styles from './message-stream.module.css'
-import useResponseForm from '../form/use-response-form'
+import formStyles from '../form/Form.module.css'
 import cx from 'classnames'
 
 interface MessageStreamProps {
@@ -19,15 +19,14 @@ export default function MessageStream(props: MessageStreamProps) {
   const { id, body, url, addDate, creationTime } = props
 
   const responses = useQuery('listResponses', id) || []
+  const sendResponse = useMutation('sendResponse')
 
   const {
-    newResponseText,
-    setNewResponseText,
-    newResponseUrl,
-    setNewResponseUrl,
-    handleSendResponse,
-    isValidUrl,
-  } = useResponseForm(id)
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitSuccessful },
+  } = useForm()
 
   const [numInitialResponses, setNumInitialResponses] = useState(5)
 
@@ -37,14 +36,42 @@ export default function MessageStream(props: MessageStreamProps) {
       <div className={styles.messageStream}>
         <MessageBody body={body} url={url} />
         <div className={styles.rightMessage}>
-          <Form
-            handleSendMessage={handleSendResponse}
-            newResponseText={newResponseText}
-            setNewResponseText={setNewResponseText}
-            newResponseUrl={newResponseUrl}
-            setNewResponseUrl={setNewResponseUrl}
-            isValidUrl={isValidUrl}
-          />
+          <form
+            className={formStyles.messageForm}
+            onSubmit={handleSubmit(async (data) => {
+              sendResponse(id, data.newResponseText, '', data.newResponseUrl)
+              reset()
+            })}
+          >
+            <input
+              className={formStyles.formInput}
+              placeholder="join the club, add a reply"
+              {...register('newResponseText', { required: true })}
+            />
+            <input
+              className={cx(formStyles.formInput, formStyles.addMargin)}
+              placeholder="and a url, if necessary"
+              {...register('newResponseUrl', {
+                pattern: {
+                  value: new RegExp(
+                    '^(https?:\\/\\/)?' + // protocol
+                      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+                      '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+                      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+                      '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+                      '(\\#[-a-z\\d_]*)?$',
+                    'i'
+                  ),
+                  message: 'invalid url',
+                },
+              })}
+            />
+            <button className={formStyles.submitButton} type="submit">
+              <Image src="/arrow.svg" alt="arrow" width={15} height={15} />
+            </button>
+          </form>
+          {errors.newResponseText && <p>please write a message first!</p>}
+          {errors.newResponseUrl && <p>not a valid url!</p>}
           <div>
             {responses.slice(0, numInitialResponses).map((response, i) => (
               <ResponseBody
