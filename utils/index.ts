@@ -26,9 +26,3 @@ export function formatURL(url: string) {
   }
   return url
 }
-
-export interface IApiResponse {
-  message: string
-  error: boolean
-  payload?: Record<string, any>
-}
