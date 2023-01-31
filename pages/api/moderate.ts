@@ -18,16 +18,30 @@ export default moderator.onReceive({
     const { tableName, contents, serializedId, ipAddress } = payload
 
     //  make a call to the openapi moderation api
-    const openAiReponse = await fetch('https://api.openai.com/v1/moderations', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
-      },
-      body: JSON.stringify({ input: contents }),
-    })
-    const openAiData: IOpenAIModerationResponse = await openAiReponse.json()
-    const isFlagged = openAiData.results.some((r) => r.flagged)
+    let isFlagged = false
+
+    try {
+      const openAiReponse = await fetch(
+        'https://api.openai.com/v1/moderations',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+          },
+          body: JSON.stringify({ input: contents }),
+        }
+      )
+      const openAiData: IOpenAIModerationResponse = await openAiReponse.json()
+      isFlagged = openAiData.results.some((r) => r.flagged)
+    } catch (e) {
+      console.error(e)
+      return {
+        message:
+          e instanceof Error ? `OpenAI failed: ${e.message}` : 'OpenAI failed',
+        error: true,
+      }
+    }
 
     // return early if not flagged
     if (!isFlagged) {
@@ -42,17 +56,28 @@ export default moderator.onReceive({
       token: process.env.LOGSNAG_TOKEN!,
       project: 'laid-off-club',
     })
-    await logsnag.publish({
-      channel: 'moderator',
-      event: 'Content flagged by moderator',
-      description: `Content flagged by moderator: ${contents}`,
-      icon: '🙀',
-      tags: {
-        // note that tags must be lowercase
-        // https://docs.logsnag.com/endpoints/log/tags
-        'ip-address': ipAddress ?? 'unknown',
-      },
-    })
+    try {
+      await logsnag.publish({
+        channel: 'moderator',
+        event: 'Content flagged by moderator',
+        description: `Content flagged by moderator: ${contents}`,
+        icon: '🙀',
+        tags: {
+          // note that tags must be lowercase
+          // https://docs.logsnag.com/endpoints/log/tags
+          'ip-address': ipAddress ?? 'unknown',
+        },
+      })
+    } catch (e) {
+      console.error(e)
+      return {
+        message:
+          e instanceof Error
+            ? `LogSnag failed: ${e.message}`
+            : 'LogSnag failed',
+        error: true,
+      }
+    }
 
     // delete from convex
     try {
@@ -67,7 +92,12 @@ export default moderator.onReceive({
         serializedId,
       })
     } catch (e) {
-      console.error('Convex failed: ', e)
+      console.error(e)
+      return {
+        message:
+          e instanceof Error ? `Convex failed: ${e.message}` : 'Convex failed',
+        error: true,
+      }
     }
 
     return {
