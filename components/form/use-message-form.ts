@@ -1,6 +1,7 @@
 import { FormEvent, useState } from 'react'
 import { useMutation } from '../../convex/_generated/react'
-import { sendToModerator, validURL } from '../../utils'
+import { moderator } from '../../tasks/moderator'
+import { validURL } from '../../utils'
 
 interface UseMessageValues {
   newMessageText: string
@@ -33,10 +34,12 @@ export default function useMessageForm(
     const message = await sendMessage(newMessageText, '', newMessageUrl, roomId)
 
     // the person submits the data to the moderator
-    await sendToModerator({
-      tableName: 'messages',
-      serializedId: message.id.toString(),
-      contents: newMessageText,
+    await moderator.send({
+      payload: {
+        tableName: 'messages',
+        serializedId: message.id.toString(),
+        contents: newMessageText,
+      },
     })
   }
 

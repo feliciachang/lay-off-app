@@ -1,5 +1,3 @@
-import { IModeratorRequestBody } from '../pages/api/moderator-background-task'
-
 export function validURL(str: string) {
   var pattern = new RegExp(
     '^(https?:\\/\\/)?' + // protocol
@@ -33,21 +31,4 @@ export interface IApiResponse {
   message: string
   error: boolean
   payload?: Record<string, any>
-}
-
-// function that can be used in the client
-export const sendToModerator = async (props: IModeratorRequestBody) => {
-  // take a look at pages/api/moderator-trigger.ts
-  const response = await fetch(
-    `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/moderator-trigger`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(props),
-    }
-  )
-  const data: IApiResponse = await response.json()
-  return data
 }
