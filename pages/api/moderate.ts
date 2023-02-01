@@ -95,7 +95,7 @@ export default moderator.onReceive({
             ? 'http://localhost:8187'
             : process.env.CONVEX_ADDRESS!,
       })
-      await convexClient.mutation(deleteRowMutation.name)({
+      await convexClient.mutation('deleteRow')({
         tableName,
         serializedId,
       })
