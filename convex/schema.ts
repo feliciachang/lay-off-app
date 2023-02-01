@@ -25,12 +25,4 @@ export default defineSchema({
   emails: defineTable({
     email: s.string(),
   }),
-  presence: defineTable({
-    roomId: s.string(),
-    updated: s.number(),
-    data: s.object({
-      x: s.number(),
-      y: s.number(),
-    }),
-  }),
 })
