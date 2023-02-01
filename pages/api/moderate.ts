@@ -2,50 +2,47 @@ import { LogSnag } from 'logsnag'
 import { ConvexHttpClient } from 'convex/browser'
 import { moderator } from '../../tasks/moderator'
 import { encodeBase64 } from '../../utils'
-
-// OpenAI moderator reference:
-// https://platform.openai.com/docs/guides/moderation/quickstart
-interface IOpenAIModerationResponse {
-  id: string
-  model: string
-  results: Array<{
-    flagged: boolean
-  }>
-}
+import { Velocity } from 'velocity-api'
 
 export default moderator.onReceive({
   job: async (payload) => {
     const { tableName, contents, serializedId, ipAddress } = payload
 
-    if (!process.env.LOGSNAG_TOKEN || !process.env.OPENAI_API_KEY) {
+    if (!process.env.LOGSNAG_TOKEN || !process.env.PERSPECTIVE_API_KEY) {
       return {
-        message: 'Either LogSnag or OpenAI env vars not set',
+        message: 'Either LogSnag or Perspective env vars not set',
         error: true,
       }
     }
 
-    //  make a call to the openapi moderation api
     let isFlagged = false
 
+    // make a call to the perspective api
     try {
-      const openAiReponse = await fetch(
-        'https://api.openai.com/v1/moderations',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
-          },
-          body: JSON.stringify({ input: contents }),
-        }
-      )
-      const openAiData: IOpenAIModerationResponse = await openAiReponse.json()
-      isFlagged = openAiData.results.some((r) => r.flagged)
+      const perspective = new Velocity(process.env.PERSPECTIVE_API_KEY)
+      const scores = await perspective.processMessage(contents, {
+        // https://support.perspectiveapi.com/s/about-the-api-attributes-and-languages?language=en_US
+        attributes: [
+          'SPAM',
+          'SEVERE_TOXICITY',
+          'INSULT',
+          'SEXUALLY_EXPLICIT',
+          'IDENTITY_ATTACK',
+          'INFLAMMATORY',
+        ],
+        languages: ['en'],
+        doNotStore: true,
+      })
+      if (Object.values(scores).some((prob) => prob > 0.8)) {
+        isFlagged = true
+      }
     } catch (e) {
       console.error(e)
       return {
         message:
-          e instanceof Error ? `OpenAI failed: ${e.message}` : 'OpenAI failed',
+          e instanceof Error
+            ? `Perspective failed: ${e.message}`
+            : 'Perspective failed',
         error: true,
       }
     }
