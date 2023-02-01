@@ -1,19 +1,11 @@
-import GenericForm from '../components/form/generic-form'
-import useEmailForm from '../components/form/use-email-form'
+import GenericForm from '../components/emails'
 
 export default function EmailMe() {
-  const { emailText, setEmailText, successMessage, handleSendMessage } =
-    useEmailForm()
   return (
     <main>
       <p>get a real email from felicia.</p>
       <p>{`not an ugly mailchimp email (yet).`}</p>
-      <GenericForm
-        emailText={emailText}
-        setEmailText={setEmailText}
-        submitMessage={successMessage}
-        handleSubmit={handleSendMessage}
-      />
+      <GenericForm />
     </main>
   )
 }

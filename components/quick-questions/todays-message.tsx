@@ -3,7 +3,7 @@ import UserMessageStream from './slow-message-stream'
 import { useEffect } from 'react'
 import Image from 'next/image'
 import styles from './index.module.css'
-import formStyles from '../form/Form.module.css'
+import formStyles from '../emails/form.module.css'
 import { useForm } from 'react-hook-form'
 import cx from 'classnames'
 

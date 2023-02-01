@@ -1,5 +1,5 @@
 import TodaysQuickQuestion from './todays-message'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import styles from './index.module.css'
 interface QuickQuestionProps {
   roomId?: string

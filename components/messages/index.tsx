@@ -1,7 +1,7 @@
 import { useQuery, useMutation } from '../../convex/_generated/react'
 import styles from './index.module.css'
 import Image from 'next/image'
-import formStyles from '../form/Form.module.css'
+import formStyles from '../emails/form.module.css'
 import MessageStream from './message-stream'
 import { useForm } from 'react-hook-form'
 import cx from 'classnames'
@@ -80,7 +80,6 @@ export default function Messages(props: MessagesProps) {
         </form>
         {errors.newMessageText && <p>please write a message first!</p>}
         {errors.newMessageUrl && <p>not a valid url!</p>}
-        {isSubmitSuccessful && <p>ty! come again soon</p>}
       </div>
     </div>
   )

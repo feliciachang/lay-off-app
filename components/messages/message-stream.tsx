@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 import { useQuery, useMutation } from '../../convex/_generated/react'
 import { formatURL } from '../../utils'
 import styles from './message-stream.module.css'
-import formStyles from '../form/Form.module.css'
+import formStyles from '../emails/form.module.css'
 import cx from 'classnames'
 
 interface MessageStreamProps {
