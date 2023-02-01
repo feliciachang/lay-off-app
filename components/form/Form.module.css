@@ -5,6 +5,7 @@
     font-size: 16px;
     background: none;
     min-width: 250px;
+    cursor: default;
 }
 
 .submitButton {
@@ -13,6 +14,7 @@
     padding: 6px 12px 6px 12px;
     font-size: 16px;
     background-color: rgb(49, 108, 244);
+    cursor: pointer;
 }
 
 .submitButton:hover {
