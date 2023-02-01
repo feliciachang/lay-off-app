@@ -17,6 +17,13 @@ export default moderator.onReceive({
   job: async (payload) => {
     const { tableName, contents, serializedId, ipAddress } = payload
 
+    if (!process.env.LOGSNAG_TOKEN || !process.env.OPENAI_API_KEY) {
+      return {
+        message: 'Either LogSnag or OpenAI env vars not set',
+        error: true,
+      }
+    }
+
     //  make a call to the openapi moderation api
     let isFlagged = false
 
@@ -53,7 +60,7 @@ export default moderator.onReceive({
 
     // then report to logsnag
     const logsnag = new LogSnag({
-      token: process.env.LOGSNAG_TOKEN!,
+      token: process.env.LOGSNAG_TOKEN,
       project: 'laid-off-club',
     })
     try {
