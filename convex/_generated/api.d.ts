@@ -11,6 +11,7 @@
 
 import type { ApiFromModules } from "convex/api";
 import type * as createRoom from "../createRoom";
+import type * as deleteRow from "../deleteRow";
 import type * as listMessages from "../listMessages";
 import type * as listResponses from "../listResponses";
 import type * as listRoom from "../listRoom";
@@ -30,6 +31,7 @@ import type * as sendResponse from "../sendResponse";
  */
 export type API = ApiFromModules<{
   createRoom: typeof createRoom;
+  deleteRow: typeof deleteRow;
   listMessages: typeof listMessages;
   listResponses: typeof listResponses;
   listRoom: typeof listRoom;
