@@ -21,8 +21,12 @@ export function redirectURL(url: string) {
 }
 
 export function formatURL(url: string) {
-    if (url.slice(0, 8) !== 'https://') {
-      return 'https://' + url
-    }
-    return url
+  if (url.slice(0, 8) !== 'https://') {
+    return 'https://' + url
+  }
+  return url
+}
+
+export const encodeBase64 = (data: any) => {
+  return Buffer.from(data).toString('base64')
 }

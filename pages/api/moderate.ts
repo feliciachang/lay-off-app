@@ -2,6 +2,7 @@ import { LogSnag } from 'logsnag'
 import { ConvexHttpClient } from 'convex/browser'
 import deleteRowMutation from '../../convex/deleteRow'
 import { moderator } from '../../tasks/moderator'
+import { encodeBase64 } from '../../utils'
 
 // OpenAI moderator reference:
 // https://platform.openai.com/docs/guides/moderation/quickstart
@@ -67,7 +68,7 @@ export default moderator.onReceive({
       await logsnag.publish({
         channel: 'moderator',
         event: 'Content flagged by moderator',
-        description: `Content flagged by moderator: ${contents}`,
+        description: `Content flagged by moderator: ${encodeBase64(contents)}`,
         icon: '🙀',
         tags: {
           // note that tags must be lowercase
