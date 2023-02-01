@@ -2,7 +2,7 @@ import { LogSnag } from 'logsnag'
 import { ConvexHttpClient } from 'convex/browser'
 import { moderator } from '../../tasks/moderator'
 import { encodeBase64 } from '../../utils'
-import { Velocity } from 'velocity-api'
+import { Perspective } from '../../utils/perspective-api'
 
 export default moderator.onReceive({
   job: async (payload) => {
@@ -19,21 +19,9 @@ export default moderator.onReceive({
 
     // make a call to the perspective api
     try {
-      const perspective = new Velocity(process.env.PERSPECTIVE_API_KEY)
-      const scores = await perspective.processMessage(contents, {
-        // https://support.perspectiveapi.com/s/about-the-api-attributes-and-languages?language=en_US
-        attributes: [
-          'SPAM',
-          'SEVERE_TOXICITY',
-          'INSULT',
-          'SEXUALLY_EXPLICIT',
-          'IDENTITY_ATTACK',
-          'INFLAMMATORY',
-        ],
-        languages: ['en'],
-        doNotStore: true,
-      })
-      if (Object.values(scores).some((prob) => prob > 0.8)) {
+      const perspective = Perspective({})
+      const scores = await perspective.analyze(contents)
+      if (Object.values(scores).some((val) => val.summaryScore.value > 0.8)) {
         isFlagged = true
       }
     } catch (e) {

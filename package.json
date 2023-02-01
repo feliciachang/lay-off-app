@@ -18,8 +18,7 @@
     "logsnag": "^0.1.6",
     "next": "latest",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "velocity-api": "^3.0.0"
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@types/node": "^18.11.11",
