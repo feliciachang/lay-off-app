@@ -1,6 +1,5 @@
 import { LogSnag } from 'logsnag'
 import { ConvexHttpClient } from 'convex/browser'
-import deleteRowMutation from '../../convex/deleteRow'
 import { moderator } from '../../tasks/moderator'
 import { encodeBase64 } from '../../utils'
 
