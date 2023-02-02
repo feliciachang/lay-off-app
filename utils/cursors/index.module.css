@@ -1,6 +1,10 @@
+.cursorContainer {
+  position: relative;
+}
+
 .cursor {
-  /* render relative to viewport */
-  position: fixed;
+  /* render relative to cursorContainer */
+  position: absolute;
   width: 10px;
   height: 10px;
   border-radius: 1000px;

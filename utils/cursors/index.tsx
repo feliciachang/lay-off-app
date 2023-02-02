@@ -1,5 +1,6 @@
 import { ReactMutation } from 'convex/dist/types/react/react'
-import { useEffect } from 'react'
+import React, { useCallback, useEffect, useRef } from 'react'
+import { useMouse } from 'react-use'
 import { API } from '../../convex/_generated/api'
 import { useMutation, useQuery } from '../../convex/_generated/react'
 import style from './index.module.css'
@@ -13,16 +14,20 @@ import {
  * CursorRender records user's cursor clicks
  * and also renders existing cursor positions in the database
  */
-export const CursorRenderer = () => {
+export const CursorRenderer = (props: React.PropsWithChildren<{}>) => {
+  const { children } = props
   const { recordMyPosition, recordedPositions } = useCursorPositions()
 
-  const onClick = (ev: MouseEvent) => {
+  const containerRef = useRef(null)
+  const { elX, elY } = useMouse(containerRef)
+
+  const onClick = useCallback(() => {
     recordMyPosition(
-      ev.clientX,
-      ev.clientY,
+      elX,
+      elY,
       ICursorType.Happy /* cursor type doesn't do anything yet */
     )
-  }
+  }, [elX, elY])
 
   // todo: this should not be click, otherwise a new cursor will appear whenever
   // any click is done. this should happen only when click + some other
@@ -32,10 +37,11 @@ export const CursorRenderer = () => {
     return () => {
       document.removeEventListener('click', onClick)
     }
-  }, [])
+  }, [onClick])
 
   return (
-    <div>
+    <div className={style.cursorContainer} ref={containerRef}>
+      {children}
       {recordedPositions.map((p) => {
         return (
           <div
