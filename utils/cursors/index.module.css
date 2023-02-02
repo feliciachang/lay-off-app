@@ -1,0 +1,8 @@
+.cursor {
+  /* render relative to viewport */
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  border-radius: 1000px;
+  background-color: green;
+}
