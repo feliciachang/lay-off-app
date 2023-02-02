@@ -4,7 +4,7 @@ import { Analytics } from '@vercel/analytics/react'
 import { ConvexProvider, ConvexReactClient } from 'convex/react'
 import clientConfig from '../convex/_generated/clientConfig'
 import { CursorRenderer } from '../components/cursors'
-import { useFlags } from 'flags/client'
+import { useFlags } from '../flags/client'
 
 const convex = new ConvexReactClient(clientConfig)
 
