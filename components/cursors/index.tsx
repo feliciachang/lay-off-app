@@ -4,6 +4,11 @@ import { useMouse } from 'react-use'
 import { API } from '../../convex/_generated/api'
 import { useMutation, useQuery } from '../../convex/_generated/react'
 import style from './index.module.css'
+import emoji1 from './emojis/1.svg'
+import emoji2 from './emojis/2.svg'
+import emoji3 from './emojis/3.svg'
+import emoji4 from './emojis/4.svg'
+import emoji5 from './emojis/5.svg'
 import {
   convertStringToICursorType,
   ICursorPosition,
@@ -39,8 +44,16 @@ export const CursorRenderer = (props: React.PropsWithChildren<{}>) => {
     }
   }, [onClick])
 
+  const emojis = [emoji1, emoji2, emoji3, emoji4, emoji5]
+  const indexRef = useRef(Math.floor(Math.random() * 5))
+  const userEmoji = emojis[indexRef.current]
+
   return (
-    <div className={style.cursorContainer} ref={containerRef}>
+    <div
+      className={style.cursorContainer}
+      style={{ cursor: `url(${userEmoji.src}), auto` }}
+      ref={containerRef}
+    >
       {children}
       {recordedPositions.map((p) => {
         return (
@@ -50,6 +63,7 @@ export const CursorRenderer = (props: React.PropsWithChildren<{}>) => {
             style={{
               left: p.x,
               top: p.y,
+              backgroundImage: `url(${userEmoji.src})`,
             }}
           />
         )
