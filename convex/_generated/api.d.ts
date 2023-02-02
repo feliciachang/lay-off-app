@@ -11,9 +11,12 @@
 
 import type { ApiFromModules } from "convex/api";
 import type * as createRoom from "../createRoom";
+import type * as deleteRow from "../deleteRow";
+import type * as listCursorPositions from "../listCursorPositions";
 import type * as listMessages from "../listMessages";
 import type * as listResponses from "../listResponses";
 import type * as listRoom from "../listRoom";
+import type * as sendCursorPosition from "../sendCursorPosition";
 import type * as sendEmail from "../sendEmail";
 import type * as sendMessage from "../sendMessage";
 import type * as sendQuickQuestion from "../sendQuickQuestion";
@@ -30,9 +33,12 @@ import type * as sendResponse from "../sendResponse";
  */
 export type API = ApiFromModules<{
   createRoom: typeof createRoom;
+  deleteRow: typeof deleteRow;
+  listCursorPositions: typeof listCursorPositions;
   listMessages: typeof listMessages;
   listResponses: typeof listResponses;
   listRoom: typeof listRoom;
+  sendCursorPosition: typeof sendCursorPosition;
   sendEmail: typeof sendEmail;
   sendMessage: typeof sendMessage;
   sendQuickQuestion: typeof sendQuickQuestion;
