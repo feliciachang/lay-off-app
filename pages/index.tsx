@@ -3,9 +3,6 @@ import Messages from '../components/messages/index'
 export default function App() {
   return (
     <main>
-      <p>
-        the latest... <a href="/qq">QQ</a> and <a href="/emailme">emails</a>
-      </p>
       <Messages roomId={null} />
       <p>
         laid off over zoom. designed the weekend after. find felicia on{' '}
