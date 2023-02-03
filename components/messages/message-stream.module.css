@@ -63,6 +63,8 @@
     color: rgb(122, 160, 248);
     cursor: pointer;
     font-family: sans-serif;
+    position: relative;
+    z-index: 2;
 }
 
 .readMoreResponses {
@@ -71,6 +73,8 @@
     opacity: 0;
     animation: fadeIn ease 0.1s forwards;
     animation-delay: 5s;
+    position: relative;
+    z-index: 2;
 }
 
 .expand {
