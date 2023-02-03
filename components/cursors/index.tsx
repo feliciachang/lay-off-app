@@ -3,17 +3,13 @@ import React, { useCallback, useEffect, useRef } from 'react'
 import { useMouse } from 'react-use'
 import { API } from '../../convex/_generated/api'
 import { useMutation, useQuery } from '../../convex/_generated/react'
-import style from './index.module.css'
 import emoji1 from './emojis/1.svg'
 import emoji2 from './emojis/2.svg'
 import emoji3 from './emojis/3.svg'
 import emoji4 from './emojis/4.svg'
 import emoji5 from './emojis/5.svg'
-import {
-  convertStringToICursorType,
-  ICursorPosition,
-  ICursorType,
-} from './utils'
+import style from './index.module.css'
+import { cursorTypeToComponent, ICursorPosition } from './utils'
 
 /**
  * CursorRender records user's cursor clicks
@@ -26,12 +22,13 @@ export const CursorRenderer = (props: React.PropsWithChildren<{}>) => {
   const containerRef = useRef(null)
   const { elX, elY } = useMouse(containerRef)
 
+  const emojis = [emoji1, emoji2, emoji3, emoji4, emoji5]
+  const indexRef = useRef(Math.floor(Math.random() * 5))
+  const userEmoji = emojis[indexRef.current]
+  const sigh = indexRef.current + 1
+
   const onClick = useCallback(() => {
-    recordMyPosition(
-      elX,
-      elY,
-      ICursorType.Happy /* cursor type doesn't do anything yet */
-    )
+    recordMyPosition(elX, elY, sigh.toString())
   }, [elX, elY])
 
   // todo: this should not be click, otherwise a new cursor will appear whenever
@@ -43,10 +40,6 @@ export const CursorRenderer = (props: React.PropsWithChildren<{}>) => {
       document.removeEventListener('click', onClick)
     }
   }, [onClick])
-
-  const emojis = [emoji1, emoji2, emoji3, emoji4, emoji5]
-  const indexRef = useRef(Math.floor(Math.random() * 5))
-  const userEmoji = emojis[indexRef.current]
 
   return (
     <div
@@ -63,9 +56,10 @@ export const CursorRenderer = (props: React.PropsWithChildren<{}>) => {
             style={{
               left: p.x,
               top: p.y,
-              backgroundImage: `url(${userEmoji.src})`,
             }}
-          />
+          >
+            {cursorTypeToComponent(p.type)}
+          </div>
         )
       })}
     </div>
@@ -85,7 +79,7 @@ export const useCursorPositions = (): IUseCursorPositionsReturnValue => {
       id: p._id.toString(),
       x: p.x,
       y: p.y,
-      type: convertStringToICursorType(p.type),
+      type: p.type,
     })) ?? []
 
   // record myPosition

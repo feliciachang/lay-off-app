@@ -1,3 +1,5 @@
+export const CursorOne = (): JSX.Element => {
+  return (
     <svg
       width="51"
       height="20"
@@ -9,3 +11,5 @@
         fill="#3A3A3A"
       />
     </svg>
+  )
+}
