@@ -5,10 +5,9 @@
 .cursor {
   /* render relative to cursorContainer */
   position: absolute;
-  width: 10px;
-  height: 10px;
-  border-radius: 1000px;
-  background-color: green;
+  width: 100px;
+  height: 30px;
+  background-repeat: no-repeat;
 }
 
 @media only screen and (max-width: 600px) {
