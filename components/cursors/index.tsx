@@ -3,11 +3,6 @@ import React, { useCallback, useEffect, useRef } from 'react'
 import { useMouse } from 'react-use'
 import { API } from '../../convex/_generated/api'
 import { useMutation, useQuery } from '../../convex/_generated/react'
-import emoji1 from './emojis/1.svg'
-import emoji2 from './emojis/2.svg'
-import emoji3 from './emojis/3.svg'
-import emoji4 from './emojis/4.svg'
-import emoji5 from './emojis/5.svg'
 import style from './index.module.css'
 import { cursorTypeToComponent, ICursorPosition } from './utils'
 
@@ -22,7 +17,13 @@ export const CursorRenderer = (props: React.PropsWithChildren<{}>) => {
   const containerRef = useRef(null)
   const { elX, elY } = useMouse(containerRef)
 
-  const emojis = [emoji1, emoji2, emoji3, emoji4, emoji5]
+  const emojis = [
+    '/emojis/1.svg',
+    '/emojis/2.svg',
+    '/emojis/3.svg',
+    '/emojis/4.svg',
+    '/emojis/5.svg',
+  ]
   const indexRef = useRef(Math.floor(Math.random() * 5))
   const userEmoji = emojis[indexRef.current]
   const sigh = indexRef.current + 1
@@ -44,7 +45,7 @@ export const CursorRenderer = (props: React.PropsWithChildren<{}>) => {
   return (
     <div
       className={style.cursorContainer}
-      style={{ cursor: `url(${userEmoji.src}), auto` }}
+      style={{ cursor: `url(${userEmoji}), auto` }}
       ref={containerRef}
     >
       {children}
