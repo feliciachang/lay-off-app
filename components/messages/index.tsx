@@ -3,6 +3,7 @@ import styles from './index.module.css'
 import Image from 'next/image'
 import formStyles from '../emails/form.module.css'
 import MessageStream from './message-stream'
+import { moderator } from '../../tasks/moderator'
 import { useForm } from 'react-hook-form'
 import cx from 'classnames'
 
@@ -42,12 +43,20 @@ export default function Messages(props: MessagesProps) {
         <form
           className={formStyles.messageForm}
           onSubmit={handleSubmit(async (data) => {
-            await sendMessage(
+            const message = await sendMessage(
               data.newMessageText,
               '',
               data.newMessageUrl,
               roomId || null
             )
+            // the person submits the data to the moderator
+            await moderator.send({
+              payload: {
+                tableName: 'messages',
+                serializedId: message.id.toString(),
+                contents: data.newMessageText,
+              },
+            })
             reset()
           })}
         >
