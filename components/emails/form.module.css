@@ -3,8 +3,10 @@
     color: white;
     border-bottom: solid 1px rgb(206, 212, 218);
     font-size: 16px;
-    background: none;
     min-width: 250px;
+    cursor: default;
+    z-index: 2;
+    background: black !important;
 }
 
 .submitButton {
@@ -12,6 +14,8 @@
     padding: 6px 12px 6px 12px;
     font-size: 16px;
     background-color: rgb(122, 160, 248);
+    cursor: pointer;
+    z-index: 2;
 }
 
 .submitButton:hover {

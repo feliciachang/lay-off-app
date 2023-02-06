@@ -24,5 +24,12 @@ export default defineSchema({
   }),
   emails: defineTable({
     email: s.string(),
-  })
+  }),
+  cursorPositions: defineTable({
+    // coordinates
+    x: s.number(),
+    y: s.number(),
+    // what type of cursor is it
+    type: s.string(),
+  }),
 })

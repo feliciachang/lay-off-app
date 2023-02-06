@@ -10,6 +10,7 @@
     max-width: 300px;
     padding-top: 5px;
     padding-bottom: 5px;
+    z-index: 1;
 }
   
 .message.addUrlStyle {
@@ -43,6 +44,8 @@
     color: #D0D0D0;
     opacity: 0;
     animation: fadeIn ease 1s forwards;
+    position: relative;
+    z-index: 10;
 }
   
 @media only screen and (max-width: 600px) {
@@ -63,6 +66,8 @@
     color: rgb(122, 160, 248);
     cursor: pointer;
     font-family: sans-serif;
+    position: relative;
+    z-index: 2;
 }
 
 .readMoreResponses {
@@ -71,6 +76,8 @@
     opacity: 0;
     animation: fadeIn ease 0.1s forwards;
     animation-delay: 5s;
+    position: relative;
+    z-index: 2;
 }
 
 .expand {

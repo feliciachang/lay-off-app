@@ -3,9 +3,6 @@ import Messages from '../components/messages/index'
 export default function App() {
   return (
     <main>
-      <p>
-        the latest... <a href="/qq">QQ</a> and <a href="/emailme">emails</a>
-      </p>
       <Messages roomId={null} />
       <p>
         laid off over zoom. designed the weekend after. find felicia on{' '}
@@ -15,7 +12,7 @@ export default function App() {
         learn more <a href="/about">about this site</a>.
       </p>
       <p>
-        check out QQ aka <a href="/qq">quick questions</a>.
+        check out <a href="/qq">QQ</a>.
       </p>
     </main>
   )
