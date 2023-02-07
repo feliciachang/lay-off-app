@@ -1,11 +1,13 @@
 import Image from 'next/image'
-import Form from '../form/form'
+import { useForm } from 'react-hook-form'
 import { useState, FormEvent } from 'react'
 import { useQuery } from '../../convex/_generated/react'
 import styles from './slow-message-stream.module.css'
 import { useMutation } from '../../convex/_generated/react'
 import { MessageBody, ResponseBody } from '../messages/message-stream'
+import formStyles from '../emails/form.module.css'
 import { validURL } from '../../utils'
+import cx from 'classnames'
 
 interface UserMessageStreamProps {
   id: string
@@ -47,6 +49,13 @@ export default function UserMessageStream(props: UserMessageStreamProps) {
     await sendResponse(id, newResponseText, '', newResponseUrl)
   }
 
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitSuccessful },
+  } = useForm()
+
   return (
     <div className={styles.messageStreamContainer}>
       {displayAllResponses && (
@@ -58,19 +67,53 @@ export default function UserMessageStream(props: UserMessageStreamProps) {
         </div>
         <div>
           {!userHasResponded && (
-            <Form
-              handleSendMessage={handleSendResponse}
-              newResponseText={newResponseText}
-              textPlaceholder={
-                displayAllResponses
-                  ? 'join the club, add to the past'
-                  : 'join the club, add a reply'
-              }
-              setNewResponseText={setNewResponseText}
-              newResponseUrl={newResponseUrl}
-              setNewResponseUrl={setNewResponseUrl}
-              isValidUrl={isValidUrl}
-            />
+            <form
+              className={formStyles.messageForm}
+              onSubmit={handleSubmit(async (data) => {
+                if (
+                  newResponseUrl.length > 0 &&
+                  !validURL(data.newResponseUrl)
+                ) {
+                  setIsValidUrl(false)
+                  return
+                }
+                setUserHasResponded(true)
+                await sendResponse(
+                  id,
+                  data.newResponseText,
+                  '',
+                  data.newResponseUrl
+                )
+                reset()
+              })}
+            >
+              <input
+                className={formStyles.formInput}
+                placeholder="join the club, add a reply"
+                {...register('newResponseText', { required: true })}
+              />
+              <input
+                className={cx(formStyles.formInput, formStyles.addMargin)}
+                placeholder="and a url, if necessary"
+                {...register('newResponseUrl', {
+                  pattern: {
+                    value: new RegExp(
+                      '^(https?:\\/\\/)?' + // protocol
+                        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+                        '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+                        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+                        '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+                        '(\\#[-a-z\\d_]*)?$',
+                      'i'
+                    ),
+                    message: 'invalid url',
+                  },
+                })}
+              />
+              <button className={formStyles.submitButton} type="submit">
+                <Image src="/arrow.svg" alt="arrow" width={15} height={15} />
+              </button>
+            </form>
           )}
           {!displayAllResponses ? (
             <ResponseBody
