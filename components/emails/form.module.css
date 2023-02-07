@@ -10,11 +10,10 @@
 }
 
 .submitButton {
-    background: lightblue;
     color: white;
     padding: 6px 12px 6px 12px;
     font-size: 16px;
-    background-color: rgb(49, 108, 244);
+    background-color: rgb(122, 160, 248);
     cursor: pointer;
     z-index: 2;
 }

@@ -1,9 +1,12 @@
-import { useQuery } from '../../convex/_generated/react'
+import { useQuery, useMutation } from '../../convex/_generated/react'
 import UserMessageStream from './slow-message-stream'
 import { useEffect } from 'react'
+import Image from 'next/image'
 import styles from './index.module.css'
-import useQuickQuestionForm from '../form/use-quick-question-form'
-import Form from '../form/form'
+import formStyles from '../emails/form.module.css'
+import { useForm } from 'react-hook-form'
+import cx from 'classnames'
+
 interface TodaysQuickQuestionProps {
   roomId?: string
   displayAllResponses: boolean
@@ -22,15 +25,13 @@ export default function TodaysQuickQuestion(props: TodaysQuickQuestionProps) {
   } = props
 
   const {
-    newMessageText,
-    setNewMessageText,
-    newMessageUrl,
-    setNewMessageUrl,
-    handleSendMessage,
-    isValidUrl,
-    success,
-  } = useQuickQuestionForm(roomId ?? null)
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitSuccessful },
+  } = useForm()
 
+  const sendQuickQuestion = useMutation('sendQuickQuestion')
   const messages = useQuery('listMessages', roomId || null, 'desc') || []
   const visibleMessages = displayAllResponses ? messages : messages.slice(0, 1)
 
@@ -61,17 +62,47 @@ export default function TodaysQuickQuestion(props: TodaysQuickQuestionProps) {
           <div className={styles.invitationText}>
             Contribute a question for next time.
           </div>
-          <Form
-            handleSendMessage={handleSendMessage}
-            newResponseText={newMessageText}
-            setNewResponseText={setNewMessageText}
-            newResponseUrl={newMessageUrl}
-            setNewResponseUrl={setNewMessageUrl}
-            textPlaceholder="join the club, add a question"
-            isValidUrl={isValidUrl}
-            autoOpen={true}
-          />
-          {success && <p>ty! come again soon</p>}
+          <form
+            className={formStyles.messageForm}
+            onSubmit={handleSubmit(async (data) => {
+              await sendQuickQuestion(
+                data.newMessageText,
+                data.newMessageUrl,
+                roomId || null
+              )
+              reset()
+            })}
+          >
+            <input
+              className={formStyles.formInput}
+              placeholder="join the club, add a reply"
+              {...register('newMessageText', { required: true })}
+            />
+            <input
+              className={cx(formStyles.formInput, formStyles.addMargin)}
+              placeholder="and a url, if necessary"
+              {...register('newMessageUrl', {
+                pattern: {
+                  value: new RegExp(
+                    '^(https?:\\/\\/)?' + // protocol
+                      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+                      '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+                      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+                      '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+                      '(\\#[-a-z\\d_]*)?$',
+                    'i'
+                  ),
+                  message: 'invalid url',
+                },
+              })}
+            />
+            <button className={formStyles.submitButton} type="submit">
+              <Image src="/arrow.svg" alt="arrow" width={15} height={15} />
+            </button>
+          </form>
+          {errors.newMessageText && <p>please write a message first!</p>}
+          {errors.newMessageUrl && <p>not a valid url!</p>}
+          {isSubmitSuccessful && <p>ty! come again soon</p>}
         </div>
       )}
     </div>
