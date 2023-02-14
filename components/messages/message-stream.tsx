@@ -39,7 +39,12 @@ export default function MessageStream(props: MessageStreamProps) {
           <form
             className={formStyles.messageForm}
             onSubmit={handleSubmit(async (data) => {
-              sendResponse(id, data.newResponseText, '', data.newResponseUrl)
+              await sendResponse(
+                id,
+                data.newResponseText,
+                '',
+                data.newResponseUrl
+              )
               reset()
             })}
           >
