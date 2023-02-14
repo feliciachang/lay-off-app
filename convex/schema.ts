@@ -12,7 +12,6 @@ export default defineSchema({
     body: s.string(),
     url: s.string(),
     author: s.string(),
-    type: s.union(s.string(), s.null()),
   }),
   rooms: defineTable({
     name: s.string(),
