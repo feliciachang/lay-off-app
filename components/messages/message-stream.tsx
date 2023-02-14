@@ -17,7 +17,7 @@ interface MessageStreamProps {
 
 export default function MessageStream(props: MessageStreamProps) {
   const { id, body, url, addDate, creationTime } = props
-
+  console.log(id)
   const responses = useQuery('listResponses', id) || []
   const sendResponse = useMutation('sendResponse')
 
@@ -25,7 +25,7 @@ export default function MessageStream(props: MessageStreamProps) {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitSuccessful },
+    formState: { errors },
   } = useForm()
 
   const [numInitialResponses, setNumInitialResponses] = useState(5)

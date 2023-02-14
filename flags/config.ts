@@ -6,5 +6,5 @@ export type AppFlags = {
 }
 
 export const config: Configuration<AppFlags> = {
-  envKey: process.env.NEXT_PUBLIC_FLAGS_ENV_KEY!,
+  envKey: "flags_pub_development_355528490409263703",
 }
