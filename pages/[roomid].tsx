@@ -28,7 +28,7 @@ export default function Room() {
     messages = (
       <Messages
         roomId={roomId}
-        messageLabel="Add to this about page. It's a party."
+        messageLabel="Add to this page. It's a party."
       />
     )
   }
