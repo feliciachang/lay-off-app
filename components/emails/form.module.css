@@ -7,6 +7,15 @@
     cursor: default;
     z-index: 2;
     background: black !important;
+    font-family: sans-serif;
+    height: 20px;
+    overflow: hidden;
+    resize: none;
+}
+
+.formInput:focus {
+    height: 50px;
+    overflow: visible;
 }
 
 .submitButton {

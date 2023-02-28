@@ -87,12 +87,12 @@ export default function UserMessageStream(props: UserMessageStreamProps) {
                 reset()
               })}
             >
-              <input
+              <textarea
                 className={formStyles.formInput}
                 placeholder="join the club, add a reply"
                 {...register('newResponseText', { required: true })}
               />
-              <input
+              <textarea
                 className={cx(formStyles.formInput, formStyles.addMargin)}
                 placeholder="and a url, if necessary"
                 {...register('newResponseUrl', {
