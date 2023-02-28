@@ -39,8 +39,8 @@
 .responseContainer {
     display: flex;
     align-items: center;
-    padding-top: 5px;
-    padding-bottom: 5px;
+    padding-top: 7px;
+    padding-bottom: 7px;
     color: #D0D0D0;
     opacity: 0;
     animation: fadeIn ease 1s forwards;
