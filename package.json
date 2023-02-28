@@ -10,6 +10,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@clerk/nextjs": "^4.11.1",
     "@happykit/flags": "^3.0.0",
     "@upstash/qstash": "^0.3.4",
     "@vercel/analytics": "^0.1.6",
