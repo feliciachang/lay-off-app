@@ -10,7 +10,9 @@
     "start": "next start"
   },
   "dependencies": {
+    "@clerk/nextjs": "^4.11.1",
     "@happykit/flags": "^3.0.0",
+    "@radix-ui/react-dialog": "^1.0.2",
     "@upstash/qstash": "^0.3.4",
     "@vercel/analytics": "^0.1.6",
     "bunnygram": "^0.0.14",

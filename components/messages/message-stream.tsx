@@ -3,6 +3,7 @@ import { useEffect, useState, useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import { useQuery, useMutation } from '../../convex/_generated/react'
 import { formatURL } from '../../utils'
+import { useUser } from '@clerk/clerk-react'
 import styles from './message-stream.module.css'
 import formStyles from '../emails/form.module.css'
 import cx from 'classnames'
@@ -18,6 +19,8 @@ interface MessageStreamProps {
 export default function MessageStream(props: MessageStreamProps) {
   const { id, body, url, addDate, creationTime } = props
 
+  const { user } = useUser()
+
   const responses = useQuery('listResponses', id) || []
   const sendResponse = useMutation('sendResponse')
 
@@ -25,7 +28,7 @@ export default function MessageStream(props: MessageStreamProps) {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitSuccessful },
+    formState: { errors },
   } = useForm()
 
   const [numInitialResponses, setNumInitialResponses] = useState(5)
@@ -42,7 +45,7 @@ export default function MessageStream(props: MessageStreamProps) {
               await sendResponse(
                 id,
                 data.newResponseText,
-                '',
+                user?.id || '',
                 data.newResponseUrl
               )
               reset()

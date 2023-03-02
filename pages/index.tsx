@@ -1,4 +1,5 @@
 import Messages from '../components/messages/index'
+import SignUpCta from '../components/auth/sign-up-cta'
 
 export default function App() {
   return (
@@ -14,6 +15,7 @@ export default function App() {
       <p>
         check out <a href="/qq">QQ</a>.
       </p>
+      <SignUpCta />
     </main>
   )
 }
