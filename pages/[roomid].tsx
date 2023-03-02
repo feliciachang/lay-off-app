@@ -2,7 +2,7 @@ import Messages from '../components/messages/index'
 import QuickQuestion from '../components/quick-questions'
 import { useRouter } from 'next/router'
 import { useQuery } from '../convex/_generated/react'
-import { RedirectToSignUp } from '@clerk/clerk-react'
+import SignUpCta from '../components/auth/sign-up-cta'
 
 export default function Room() {
   const router = useRouter()
@@ -37,10 +37,7 @@ export default function Room() {
   return (
     <main>
       {messages}
-      <div>
-        sign up to get updates
-        <RedirectToSignUp />
-      </div>
+      <SignUpCta />
     </main>
   )
 }
