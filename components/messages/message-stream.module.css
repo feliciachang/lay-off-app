@@ -37,12 +37,13 @@
 } 
 
 .responseAndSubresponses {
-    border: 1px solid black;
-    z-index: 1;
-    padding: 15px;
+    padding: 5px;
+}
+
+.responseAndSubresponses.hasSubresponses {
     cursor: pointer;
 }
-.responseAndSubresponses:hover {
+.responseAndSubresponses.hasSubresponses:hover {
     background-color: #1F2027;
 }
 

@@ -7,7 +7,7 @@ import { useUser } from '@clerk/clerk-react'
 import styles from './message-stream.module.css'
 import formStyles from '../emails/form.module.css'
 import cx from 'classnames'
-import sendSubresponse from '../../convex/sendSubresponse'
+import { useRouter } from 'next/router'
 
 interface MessageStreamProps {
   id: string
@@ -239,9 +239,55 @@ export function ResponseBody(props: ResponseBodyProps) {
       </a>
     )
   }
+
+  const router = useRouter()
+  const { roomid } = router.query
+
+  function getPageId(roomid: string | string[] | undefined) {
+    if (typeof roomid === 'string') {
+      return roomid
+    }
+    return null
+  }
+
+  const roomInfo = useQuery('listRoom', getPageId(roomid))
+  let roomName = roomInfo?.[0]?.name
+
+  let subresponsesElement: JSX.Element | undefined
+  if (roomName === 'transitions') {
+    subresponsesElement = (
+      <div>
+        {subresponses?.map((subresponse) => {
+          return (
+            <div
+              style={{
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'clip',
+                fontSize: '18px',
+                display: 'flex',
+                color: '#D0D0D0',
+              }}
+            >
+              <Image
+                src="/dropdown-arrow.svg"
+                alt="arrow"
+                width={15}
+                height={15}
+              />
+              {subresponse.body}
+            </div>
+          )
+        })}
+        {isHovering && <SubresponseForm id={id} />}
+      </div>
+    )
+  }
   return (
     <div
-      className={styles.responseAndSubresponses}
+      className={cx(styles.responseAndSubresponses, {
+        [styles.hasSubresponses]: roomName === 'transitions',
+      })}
       onMouseOver={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
@@ -270,29 +316,7 @@ export function ResponseBody(props: ResponseBodyProps) {
           />
         )}
       </div>
-      {subresponses?.map((subresponse) => {
-        return (
-          <div
-            style={{
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-              textOverflow: 'clip',
-              fontSize: '18px',
-              display: 'flex',
-              color: '#D0D0D0',
-            }}
-          >
-            <Image
-              src="/dropdown-arrow.svg"
-              alt="arrow"
-              width={15}
-              height={15}
-            />
-            {subresponse.body}
-          </div>
-        )
-      })}
-      {isHovering && <SubresponseForm id={id} />}
+      {subresponsesElement}
     </div>
   )
 }
