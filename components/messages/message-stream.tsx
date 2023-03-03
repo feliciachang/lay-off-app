@@ -84,6 +84,7 @@ export default function MessageStream(props: MessageStreamProps) {
             {responses.slice(0, numInitialResponses).map((response, i) => (
               <ResponseBody
                 key={response._id.toString()}
+                id={response._id.toString()}
                 body={response.body}
                 url={response.url}
                 numInitialResponses={numInitialResponses}
@@ -121,10 +122,13 @@ interface ResponseBodyProps {
   numInitialResponses: number
   responsesLength: number
   idx?: number
+  id: string
 }
 
 export function ResponseBody(props: ResponseBodyProps) {
-  const { body, url, numInitialResponses, responsesLength, idx } = props
+  const { body, url, numInitialResponses, responsesLength, idx, id } = props
+
+  const subresponses = useQuery('listSubresponses', id) || []
 
   const animStr = (i: number | undefined) => {
     if (!i) {
@@ -199,6 +203,9 @@ export function ResponseBody(props: ResponseBodyProps) {
           height={15}
         />
       )}
+      {subresponses?.map((subresponse) => {
+        return <div>{subresponse.body}</div>
+      })}
     </div>
   )
 }
