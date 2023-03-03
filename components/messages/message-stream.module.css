@@ -36,6 +36,16 @@
     text-decoration: underline;
 } 
 
+.responseAndSubresponses {
+    border: 1px solid black;
+    z-index: 1;
+    padding: 15px;
+    cursor: pointer;
+}
+.responseAndSubresponses:hover {
+    background-color: #1F2027;
+}
+
 .responseContainer {
     display: flex;
     align-items: center;

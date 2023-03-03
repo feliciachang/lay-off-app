@@ -3,20 +3,14 @@
     color: white;
     border-bottom: solid 1px rgb(206, 212, 218);
     font-size: 16px;
-    min-width: 250px;
+    min-width: 260px;
     cursor: default;
     z-index: 2;
     background: black !important;
     font-family: sans-serif;
     height: 20px;
-    overflow: hidden;
-    resize: none;
 }
 
-.formInput:focus {
-    height: 50px;
-    overflow: visible;
-}
 
 .submitButton {
     color: white;
