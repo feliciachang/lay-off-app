@@ -13,6 +13,12 @@ export default defineSchema({
     url: s.string(),
     author: s.string(),
   }),
+  subresponses: defineTable({
+    responseId: s.string(),
+    body: s.string(),
+    author: s.string(),
+    url: s.string(),
+  }),
   rooms: defineTable({
     name: s.string(),
     messageIds: s.array(s.string()),

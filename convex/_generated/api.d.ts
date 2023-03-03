@@ -16,11 +16,13 @@ import type * as listCursorPositions from "../listCursorPositions";
 import type * as listMessages from "../listMessages";
 import type * as listResponses from "../listResponses";
 import type * as listRoom from "../listRoom";
+import type * as listSubresponses from "../listSubresponses";
 import type * as sendCursorPosition from "../sendCursorPosition";
 import type * as sendEmail from "../sendEmail";
 import type * as sendMessage from "../sendMessage";
 import type * as sendQuickQuestion from "../sendQuickQuestion";
 import type * as sendResponse from "../sendResponse";
+import type * as sendSubresponse from "../sendSubresponse";
 
 /**
  * A type describing your app's public Convex API.
@@ -38,9 +40,11 @@ export type API = ApiFromModules<{
   listMessages: typeof listMessages;
   listResponses: typeof listResponses;
   listRoom: typeof listRoom;
+  listSubresponses: typeof listSubresponses;
   sendCursorPosition: typeof sendCursorPosition;
   sendEmail: typeof sendEmail;
   sendMessage: typeof sendMessage;
   sendQuickQuestion: typeof sendQuickQuestion;
   sendResponse: typeof sendResponse;
+  sendSubresponse: typeof sendSubresponse;
 }>;

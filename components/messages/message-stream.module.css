@@ -36,6 +36,17 @@
     text-decoration: underline;
 } 
 
+.responseAndSubresponses {
+    padding: 5px;
+}
+
+.responseAndSubresponses.hasSubresponses {
+    cursor: pointer;
+}
+.responseAndSubresponses.hasSubresponses:hover {
+    background-color: #1F2027;
+}
+
 .responseContainer {
     display: flex;
     align-items: center;

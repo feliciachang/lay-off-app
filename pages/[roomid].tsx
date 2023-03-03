@@ -16,8 +16,8 @@ export default function Room() {
   }
 
   const roomInfo = useQuery('listRoom', getPageId(roomid))
-  let roomId = roomInfo?.[0]._id?.id.toString()
-  let roomName = roomInfo?.[0].name
+  let roomId = roomInfo?.[0]?._id?.id?.toString()
+  let roomName = roomInfo?.[0]?.name
   if (!roomId) {
     return <></>
   }
