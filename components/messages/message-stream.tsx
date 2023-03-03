@@ -123,7 +123,7 @@ interface SubreponseFormProps {
 
 export function SubresponseForm(props: SubreponseFormProps) {
   const { id } = props
-  const sendSubresponse = useMutation('sendResponse')
+  const sendSubresponse = useMutation('sendSubresponse')
 
   const { user } = useUser()
 
@@ -272,7 +272,7 @@ export function ResponseBody(props: ResponseBodyProps) {
                 width={15}
                 height={15}
               />
-              {subresponse.body}
+              <span style={{ paddingLeft: '3px' }}>{subresponse.body}</span>
             </div>
           )
         })}
