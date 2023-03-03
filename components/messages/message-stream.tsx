@@ -261,9 +261,6 @@ export function ResponseBody(props: ResponseBodyProps) {
           return (
             <div
               style={{
-                whiteSpace: 'nowrap',
-                overflow: 'hidden',
-                textOverflow: 'clip',
                 fontSize: '18px',
                 display: 'flex',
                 color: '#D0D0D0',
