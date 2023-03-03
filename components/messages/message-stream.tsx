@@ -182,7 +182,7 @@ interface ResponseBodyProps {
   numInitialResponses: number
   responsesLength: number
   idx?: number
-  id: string
+  id?: string
 }
 
 export function ResponseBody(props: ResponseBodyProps) {
@@ -279,7 +279,7 @@ export function ResponseBody(props: ResponseBodyProps) {
             </div>
           )
         })}
-        {isHovering && <SubresponseForm id={id} />}
+        {isHovering && id && <SubresponseForm id={id} />}
       </div>
     )
   }
