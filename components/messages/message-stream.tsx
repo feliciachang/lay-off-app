@@ -1,9 +1,10 @@
 import Image from 'next/image'
-import { useEffect, useState, useRef } from 'react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useQuery, useMutation } from '../../convex/_generated/react'
 import { formatURL } from '../../utils'
 import { useUser } from '@clerk/clerk-react'
+import useReadMore from './use-read-more'
 import styles from './message-stream.module.css'
 import formStyles from '../emails/form.module.css'
 import cx from 'classnames'
@@ -201,26 +202,13 @@ export function ResponseBody(props: ResponseBodyProps) {
     return `${delay * i}s`
   }
 
-  const maxTextLenRef = useRef(250)
-  const [toggleTextLen, setToggleTextLen] = useState(false)
-  const [showReadMore, setShowReadMore] = useState(false)
+  const { clippedText, showReadMore, toggleTextLen, setToggleTextLen } =
+    useReadMore(250, body)
   const [isHovering, setIsHovering] = useState(false)
 
-  useEffect(() => {
-    if (body.length <= maxTextLenRef.current) return
-    setShowReadMore(true)
-    setToggleTextLen(true)
-    let tempBody = body.slice(0, maxTextLenRef.current)
-    while (tempBody[tempBody.length - 1] !== ' ') {
-      tempBody = tempBody.slice(0, tempBody.length - 1)
-    }
-    maxTextLenRef.current = tempBody.length - 1
-  }, [body, maxTextLenRef])
-
-  let bodyText = toggleTextLen ? body.slice(0, maxTextLenRef.current) : body
   let message = (
     <span className={styles.responseText}>
-      {bodyText}
+      {clippedText}
       {toggleTextLen ? '...' : ''}
     </span>
   )
@@ -234,7 +222,7 @@ export function ResponseBody(props: ResponseBodyProps) {
         })}
         href={formatURL(url)}
       >
-        {bodyText}
+        {clippedText}
         {toggleTextLen ? '...' : ''}
       </a>
     )
@@ -329,25 +317,12 @@ interface MessageBodyProps {
 export function MessageBody(props: MessageBodyProps) {
   const { body, url } = props
 
-  const maxTextLenRef = useRef(250)
-  const [toggleTextLen, setToggleTextLen] = useState(false)
-  const [showReadMore, setShowReadMore] = useState(false)
+  const { clippedText, showReadMore, toggleTextLen, setToggleTextLen } =
+    useReadMore(250, body)
 
-  useEffect(() => {
-    if (body.length <= maxTextLenRef.current) return
-    setShowReadMore(true)
-    setToggleTextLen(true)
-    let tempBody = body.slice(0, maxTextLenRef.current)
-    while (tempBody[tempBody.length - 1] !== ' ') {
-      tempBody = tempBody.slice(0, tempBody.length - 1)
-    }
-    maxTextLenRef.current = tempBody.length - 1
-  }, [body, maxTextLenRef])
-
-  let bodyText = toggleTextLen ? body.slice(0, maxTextLenRef.current) : body
   let message = (
     <span>
-      {bodyText}
+      {clippedText}
       {toggleTextLen ? '...' : ''}
     </span>
   )
@@ -358,7 +333,7 @@ export function MessageBody(props: MessageBodyProps) {
         href={formatURL(url)}
         className={cx(styles.message, styles.addUrlStyle)}
       >
-        {bodyText}
+        {clippedText}
         {toggleTextLen ? '...' : ''}
         <Image
           className={styles.urlArrow}
