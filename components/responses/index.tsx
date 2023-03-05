@@ -2,9 +2,9 @@ import Image from 'next/image'
 import { useState } from 'react'
 import { useQuery } from '../../convex/_generated/react'
 import { formatURL } from '../../utils'
-import { SubresponseForm } from './subresponse'
+import SubresponseBody, { SubresponseForm } from './subresponse'
 import useReadMore from '../messages/use-read-more'
-import styles from './message-stream.module.css'
+import styles from './index.module.css'
 import cx from 'classnames'
 import { useRouter } from 'next/router'
 
@@ -17,7 +17,7 @@ interface ResponseBodyProps {
   id?: string
 }
 
-export function ResponseBody(props: ResponseBodyProps) {
+export default function ResponseBody(props: ResponseBodyProps) {
   const { body, url, numInitialResponses, responsesLength, idx, id } = props
 
   const subresponses = useQuery('listSubresponses', id) || []
@@ -78,21 +78,7 @@ export function ResponseBody(props: ResponseBodyProps) {
       <div>
         {subresponses?.map((subresponse) => {
           return (
-            <div
-              style={{
-                fontSize: '18px',
-                display: 'flex',
-                color: '#D0D0D0',
-              }}
-            >
-              <Image
-                src="/dropdown-arrow.svg"
-                alt="arrow"
-                width={15}
-                height={15}
-              />
-              <span style={{ paddingLeft: '3px' }}>{subresponse.body}</span>
-            </div>
+            <SubresponseBody body={subresponse.body} url={subresponse.url} />
           )
         })}
         {isHovering && id && <SubresponseForm id={id} />}
@@ -104,13 +90,11 @@ export function ResponseBody(props: ResponseBodyProps) {
       className={cx(styles.responseAndSubresponses, {
         [styles.hasSubresponses]: roomName === 'transitions',
       })}
+      style={{ animationDelay: animStr(idx) }}
       onMouseOver={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
-      <div
-        className={styles.responseContainer}
-        style={{ animationDelay: animStr(idx) }}
-      >
+      <div className={styles.responseContainer}>
         <span>
           {message}
           {showReadMore && (
