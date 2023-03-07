@@ -12,9 +12,6 @@ export default function App() {
       <p>
         learn more <a href="/about">about this site</a>.
       </p>
-      <p>
-        check out <a href="/qq">QQ</a>.
-      </p>
       <SignUpCta />
     </main>
   )
