@@ -1,4 +1,4 @@
-import { SignUpButton } from '@clerk/clerk-react'
+import { SignUpButton } from '@clerk/nextjs'
 import Image from 'next/image'
 
 export default function SignUpCta(): JSX.Element {

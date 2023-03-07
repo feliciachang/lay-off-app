@@ -8,7 +8,7 @@ import useReadMore from '../messages/use-read-more'
 import styles from './index.module.css'
 import formStyles from '../emails/form.module.css'
 import { useForm } from 'react-hook-form'
-import { useUser } from '@clerk/clerk-react'
+import { useUser } from '@clerk/nextjs'
 import cx from 'classnames'
 import { useRouter } from 'next/router'
 
