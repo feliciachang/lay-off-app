@@ -12,6 +12,10 @@ export default function App() {
       <p>
         learn more <a href="/about">about this site</a>.
       </p>
+      <p>
+        <a href="/transitions">a part two</a> after being unemployed for two
+        months.
+      </p>
       <SignUpCta />
     </main>
   )
