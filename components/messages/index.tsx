@@ -60,12 +60,12 @@ export default function Messages(props: MessagesProps) {
             reset()
           })}
         >
-          <textarea
+          <input
             className={formStyles.formInput}
             placeholder="join the club, add a reply"
             {...register('newMessageText', { required: true })}
           />
-          <textarea
+          <input
             className={cx(formStyles.formInput, formStyles.addMargin)}
             placeholder="and a url, if necessary"
             {...register('newMessageUrl', {
