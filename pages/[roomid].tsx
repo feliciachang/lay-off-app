@@ -39,9 +39,7 @@ export default function Room() {
       {messages}
       {roomName === 'transitions' && (
         <p style={{ maxWidth: '500px', marginBottom: '100px' }}>
-          {`In spite of the challenges that come with being laid off, I want to
-            acknowledge how this conversation today comes with lots of
-            privilege. I’d like to host more discussions that
+          {`I want to acknowledge how this conversation is filtered through my specific experience. I’d like to feature different experiences that
             cover the broad and diverse stories about work in this era we
             live in. If you have a story or convo you want to start, `}
           <a href="https://form.typeform.com/to/DNstydCa">
