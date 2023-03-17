@@ -26,6 +26,8 @@ export default function MessageStream(props: MessageStreamProps) {
   const responses = useQuery('listResponses', id) || []
   const sendResponse = useMutation('sendResponse')
 
+  const generateUploadUrl = useMutation('generateUploadUrl')
+
   const {
     register,
     handleSubmit,
@@ -44,11 +46,20 @@ export default function MessageStream(props: MessageStreamProps) {
           <form
             className={formStyles.messageForm}
             onSubmit={handleSubmit(async (data) => {
+              const postUrl = await generateUploadUrl()
+              const result = await fetch(postUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': data.newFile[0].type },
+                body: data.newFile[0],
+              })
+              const { storageId } = await result.json()
               await sendResponse(
                 id,
                 data.newResponseText,
                 user?.id || '',
-                data.newResponseUrl
+                data.newResponseUrl,
+                storageId || '',
+                null
               )
               reset()
             })}
@@ -76,6 +87,7 @@ export default function MessageStream(props: MessageStreamProps) {
                 },
               })}
             />
+            <input type="file" {...register('newFile')} />
             <button className={formStyles.submitButton} type="submit">
               <Image src="/arrow.svg" alt="arrow" width={15} height={15} />
             </button>
@@ -91,6 +103,7 @@ export default function MessageStream(props: MessageStreamProps) {
                 url={response.url}
                 numInitialResponses={numInitialResponses}
                 responsesLength={responses.length}
+                imageUrl={response.imageUrl ?? undefined}
                 idx={i}
               />
             ))}

@@ -19,16 +19,14 @@ interface ResponseBodyProps {
   responsesLength: number
   idx?: number
   id?: string
+  imageUrl?: string
 }
 
 export default function ResponseBody(props: ResponseBodyProps) {
-  const { body, url, numInitialResponses, responsesLength, idx, id } = props
+  const { body, url, numInitialResponses, responsesLength, idx, id, imageUrl } =
+    props
 
   const subresponses = useQuery('listSubresponses', id) || []
-  const [subresponseFormValues, setSubresponseFormValues] = useState({
-    newSubresponseText: '',
-    newSubresponseUrl: '',
-  })
 
   const animStr = (i: number | undefined) => {
     if (!i) {
@@ -175,6 +173,17 @@ export default function ResponseBody(props: ResponseBodyProps) {
           />
         )}
       </div>
+      <Image
+        style={{
+          width: '100%',
+          height: '300px',
+          objectFit: 'fill',
+        }}
+        src={imageUrl ?? '/imgtest.jpeg'}
+        alt="arrow"
+        width={45}
+        height={15}
+      />
       {subresponsesElement}
     </div>
   )
