@@ -90,7 +90,7 @@ export default function ResponseBody(props: ResponseBodyProps) {
   } = useForm()
 
   let subresponsesElement: JSX.Element | undefined
-  if (roomName === 'transitions') {
+  if (roomName === 'transitions' || roomName === 'workingonavisa') {
     subresponsesElement = (
       <div>
         {subresponses?.map((subresponse) => {
@@ -145,7 +145,8 @@ export default function ResponseBody(props: ResponseBodyProps) {
   return (
     <div
       className={cx(styles.responseAndSubresponses, {
-        [styles.hasSubresponses]: roomName === 'transitions',
+        [styles.hasSubresponses]:
+          roomName === 'transitions' || roomName === 'workingonavisa',
       })}
       style={{ animationDelay: animStr(idx) }}
       onMouseOver={() => setIsHovering(true)}
