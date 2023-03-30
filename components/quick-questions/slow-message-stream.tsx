@@ -8,6 +8,7 @@ import { MessageBody } from '../messages/message-stream'
 import ResponseBody from '../responses'
 import formStyles from '../emails/form.module.css'
 import { validURL } from '../../utils'
+import { useRouter } from 'next/router'
 import cx from 'classnames'
 
 interface UserMessageStreamProps {
@@ -31,7 +32,19 @@ export default function UserMessageStream(props: UserMessageStreamProps) {
     creationTime,
   } = props
 
-  const responses = useQuery('listResponses', id) || []
+  const router = useRouter()
+  const { roomid } = router.query
+  function getPageId(roomid: string | string[] | undefined) {
+    if (typeof roomid === 'string') {
+      return roomid
+    }
+    return null
+  }
+  const roomInfo = useQuery('listRoom', getPageId(roomid))
+  let roomName = roomInfo?.[0]?.name
+  let order = roomName === 'workingonavisa' ? 'asc' : 'desc'
+
+  const responses = useQuery('listResponses', id, order) || []
 
   const [numInitialResponses, setNumInitialResponses] = useState(20)
 

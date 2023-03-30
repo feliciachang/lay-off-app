@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form'
 import { useQuery, useMutation } from '../../convex/_generated/react'
 import { formatURL } from '../../utils'
 import { useUser } from '@clerk/clerk-react'
+import { useRouter } from 'next/router'
 import ResponseBody from '../responses'
 import useReadMore from './use-read-more'
 import styles from './message-stream.module.css'
@@ -23,7 +24,19 @@ export default function MessageStream(props: MessageStreamProps) {
 
   const { user } = useUser()
 
-  const responses = useQuery('listResponses', id) || []
+  const router = useRouter()
+  const { roomid } = router.query
+  function getPageId(roomid: string | string[] | undefined) {
+    if (typeof roomid === 'string') {
+      return roomid
+    }
+    return null
+  }
+  const roomInfo = useQuery('listRoom', getPageId(roomid))
+  let roomName = roomInfo?.[0]?.name
+  let order = roomName === 'workingonavisa' ? 'asc' : 'desc'
+
+  const responses = useQuery('listResponses', id, order) || []
   const sendResponse = useMutation('sendResponse')
 
   const {
