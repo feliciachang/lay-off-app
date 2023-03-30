@@ -1,6 +1,6 @@
 import { mutation } from './_generated/server'
 
-export default mutation(async ({ db }, email: string) => {
+export default mutation(async (mutationCtx: any, email: string) => {
   const response = { email }
-  await db.insert('emails', response)
+  await mutationCtx.db.insert('emails', response)
 })

@@ -1,8 +1,8 @@
 import { query } from './_generated/server'
-import { Document } from './_generated/dataModel'
+import { Doc } from './_generated/dataModel'
 
 export default query(
-  async ({ db }, messageId): Promise<Document<'responses'>[]> => {
+  async ({ db }, messageId): Promise<Doc<'responses'>[]> => {
     return await db
       .query('responses')
       .order('desc')
