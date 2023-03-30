@@ -12,6 +12,8 @@ export default defineSchema({
     body: s.string(),
     url: s.string(),
     author: s.string(),
+    imageId: s.union(s.string(), s.null()),
+    imageUrl: s.union(s.string(), s.null())
   }),
   subresponses: defineTable({
     responseId: s.string(),

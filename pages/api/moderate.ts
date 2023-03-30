@@ -73,12 +73,11 @@ export default moderator.onReceive({
 
     // delete from convex
     try {
-      const convexClient = new ConvexHttpClient({
-        address:
+      const convexClient = new ConvexHttpClient(
           process.env.NODE_ENV === 'development'
             ? 'http://localhost:8187'
             : process.env.CONVEX_ADDRESS!,
-      })
+      )
       await convexClient.mutation('deleteRow')({
         tableName,
         serializedId,

@@ -1,4 +1,4 @@
-import { ReactMutation } from 'convex/dist/types/react/react'
+import { ReactMutation } from 'convex/react'
 import React, { useCallback, useEffect, useRef } from 'react'
 import { useMouse } from 'react-use'
 import { API } from '../../convex/_generated/api'

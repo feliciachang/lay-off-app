@@ -47,7 +47,7 @@ export default function UserMessageStream(props: UserMessageStreamProps) {
       return
     }
     setUserHasResponded(true)
-    await sendResponse(id, newResponseText, '', newResponseUrl)
+    await sendResponse(id, newResponseText, '', newResponseUrl, '', '')
   }
 
   const {
@@ -83,7 +83,9 @@ export default function UserMessageStream(props: UserMessageStreamProps) {
                   id,
                   data.newResponseText,
                   '',
-                  data.newResponseUrl
+                  data.newResponseUrl,
+                  '',
+                  ''
                 )
                 reset()
               })}
