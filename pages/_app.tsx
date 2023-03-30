@@ -3,11 +3,10 @@ import type { AppProps } from 'next/app'
 import { Analytics } from '@vercel/analytics/react'
 import { ConvexProvider, ConvexReactClient } from 'convex/react'
 import { ClerkProvider } from '@clerk/nextjs'
-import clientConfig from '../convex/_generated/clientConfig'
 import { CursorRenderer } from '../components/cursors'
 import { useFlags } from '../flags/client'
 
-const convex = new ConvexReactClient(clientConfig)
+const convex = new ConvexReactClient(process.env.NEXT_PUBLIC_CONVEX_URL ?? '')
 
 function MyApp({ Component, pageProps }: AppProps) {
   const flags = useFlags()
