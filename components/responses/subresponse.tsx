@@ -18,7 +18,7 @@ export default function SubresponseBody(
     useReadMore(250, body)
 
   let message = (
-    <span className={styles.responseText}>
+    <span className={styles.subresponseText}>
       {clippedText}
       {toggleTextLen ? '...' : ''}
     </span>
@@ -28,7 +28,7 @@ export default function SubresponseBody(
     message = (
       <a
         target="_blank"
-        className={cx(styles.responseText, {
+        className={cx(styles.subresponseText, {
           [styles.addUrlStyle]: url?.length > 0,
         })}
         href={formatURL(url)}
