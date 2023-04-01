@@ -1,0 +1,63 @@
+.text {
+    font-family: serif;
+    color: white;
+
+    animation: fadeInAnimation ease 9s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}
+
+.text.message {
+    font-size: 30px;
+}
+
+.text.response {
+    color: #D0D0D0;
+    font-size: 24px;
+}
+
+.text.subresponse {
+    color: #D0D0D0;
+    font-size: 18px;
+}
+
+.url {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.url.white {
+    color: white;
+}
+
+.url.grayed {
+    color: #D0D0D0 !important;
+}
+
+.readMore {
+    padding-top: 10px;
+    color: rgb(122, 160, 248);
+    cursor: pointer;
+    font-family: sans-serif;
+    position: relative;
+}
+.readMore.message {
+    font-size: 24px;
+}
+
+.readMore.response {
+    font-size: 18px;
+}
+
+.readMore.subresponse {
+    font-size: 12px;
+}
+
+@keyframes fadeInAnimation {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+     }
+  }

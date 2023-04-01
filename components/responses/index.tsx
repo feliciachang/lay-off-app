@@ -2,11 +2,10 @@ import Image from 'next/image'
 import { useState } from 'react'
 import { useQuery } from '../../convex/_generated/react'
 import { useMutation } from '../../convex/_generated/react'
-import { formatURL } from '../../utils'
 import SubresponseBody from './subresponse'
-import useReadMore from '../messages/use-read-more'
 import styles from './index.module.css'
 import formStyles from '../emails/form.module.css'
+import Text from '../../design-system/text/text'
 import { useForm } from 'react-hook-form'
 import { useUser } from '@clerk/nextjs'
 import cx from 'classnames'
@@ -25,10 +24,6 @@ export default function ResponseBody(props: ResponseBodyProps) {
   const { body, url, numInitialResponses, responsesLength, idx, id } = props
 
   const subresponses = useQuery('listSubresponses', id) || []
-  const [subresponseFormValues, setSubresponseFormValues] = useState({
-    newSubresponseText: '',
-    newSubresponseUrl: '',
-  })
 
   const animStr = (i: number | undefined) => {
     if (!i) {
@@ -41,31 +36,7 @@ export default function ResponseBody(props: ResponseBodyProps) {
     return `${delay * i}s`
   }
 
-  const { clippedText, showReadMore, toggleTextLen, setToggleTextLen } =
-    useReadMore(250, body)
   const [isHovering, setIsHovering] = useState(false)
-
-  let message = (
-    <span className={styles.responseText}>
-      {clippedText}
-      {toggleTextLen ? '...' : ''}
-    </span>
-  )
-
-  if (url.length > 0) {
-    message = (
-      <a
-        target="_blank"
-        className={cx(styles.responseText, {
-          [styles.addUrlStyle]: url?.length > 0,
-        })}
-        href={formatURL(url)}
-      >
-        {clippedText}
-        {toggleTextLen ? '...' : ''}
-      </a>
-    )
-  }
 
   const router = useRouter()
   const { roomid } = router.query
@@ -84,12 +55,7 @@ export default function ResponseBody(props: ResponseBodyProps) {
 
   const { user } = useUser()
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm()
+  const { register, handleSubmit, reset } = useForm()
 
   let subresponsesElement: JSX.Element | undefined
   if (roomName === 'transitions' || roomName === 'workingonavisa') {
@@ -155,17 +121,7 @@ export default function ResponseBody(props: ResponseBodyProps) {
       onMouseLeave={() => setIsHovering(false)}
     >
       <div className={styles.responseContainer}>
-        <span>
-          {message}
-          {showReadMore && (
-            <a
-              className={styles.readMore}
-              onClick={(): void => setToggleTextLen(!toggleTextLen)}
-            >
-              {toggleTextLen ? ' read more' : ' read less'}
-            </a>
-          )}
-        </span>
+        <Text type="response" text={body} maxChar={250} url={url} />
         {url?.length > 0 && (
           <Image
             className={styles.urlArrow}

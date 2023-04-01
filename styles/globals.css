@@ -99,10 +99,10 @@ p {
   font-size: 18px;
 }
 
-a {
+/* a {
   text-decoration: none;
   color: rgb(122, 160, 248);
-}
+} */
 
 @media only screen and (max-width: 600px) {
   form {

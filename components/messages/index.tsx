@@ -21,7 +21,7 @@ export default function Messages(props: MessagesProps) {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitSuccessful },
+    formState: { errors },
   } = useForm()
 
   return (

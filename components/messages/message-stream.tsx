@@ -2,11 +2,10 @@ import Image from 'next/image'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useQuery, useMutation } from '../../convex/_generated/react'
-import { formatURL } from '../../utils'
 import { useUser } from '@clerk/clerk-react'
 import { useRouter } from 'next/router'
 import ResponseBody from '../responses'
-import useReadMore from './use-read-more'
+import Text from '../../design-system/text/text'
 import styles from './message-stream.module.css'
 import formStyles from '../emails/form.module.css'
 import cx from 'classnames'
@@ -52,7 +51,9 @@ export default function MessageStream(props: MessageStreamProps) {
     <div className={styles.messageStreamContainer}>
       {addDate && <p>{creationTime}</p>}
       <div className={styles.messageStream}>
-        <MessageBody body={body} url={url} />
+        <div className={styles.message}>
+          <Text type="message" text={body} maxChar={250} url={url} />
+        </div>
         <div className={styles.rightMessage}>
           <form
             className={formStyles.messageForm}
@@ -127,61 +128,6 @@ export default function MessageStream(props: MessageStreamProps) {
           </div>
         </div>
       </div>
-    </div>
-  )
-}
-
-interface MessageBodyProps {
-  body: string
-  url: string
-}
-
-// https://github.com/LogSnag/logsnag.js
-// import { LogSnag } from 'logsnag';
-
-export function MessageBody(props: MessageBodyProps) {
-  const { body, url } = props
-
-  const { clippedText, showReadMore, toggleTextLen, setToggleTextLen } =
-    useReadMore(250, body)
-
-  let message = (
-    <span>
-      {clippedText}
-      {toggleTextLen ? '...' : ''}
-    </span>
-  )
-  if (url?.length > 0) {
-    message = (
-      <a
-        target="_blank"
-        href={formatURL(url)}
-        className={cx(styles.message, styles.addUrlStyle)}
-      >
-        {clippedText}
-        {toggleTextLen ? '...' : ''}
-        <Image
-          className={styles.urlArrow}
-          src="/arrow.svg"
-          alt="arrow"
-          width={15}
-          height={15}
-        />
-      </a>
-    )
-  }
-
-  return (
-    <div className={styles.message}>
-      {message}
-      {showReadMore && (
-        <a
-          className={styles.readMore}
-          onClick={(): void => setToggleTextLen(!toggleTextLen)}
-        >
-          {toggleTextLen ? ' read more' : ' read less'}
-        </a>
-      )}
     </div>
   )
 }
