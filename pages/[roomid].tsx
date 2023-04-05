@@ -1,5 +1,4 @@
 import Messages from '../components/messages/index'
-import QuickQuestion from '../components/quick-questions'
 import { useRouter } from 'next/router'
 import { useQuery } from '../convex/_generated/react'
 import SignUpCta from '../components/auth/sign-up-cta'
@@ -22,21 +21,12 @@ export default function Room() {
     return <></>
   }
 
-  let messages: JSX.Element
-  if (roomName === 'qq') {
-    messages = <QuickQuestion roomId={roomId} />
-  } else {
-    messages = (
+  return (
+    <main>
       <Messages
         roomId={roomId}
         messageLabel="Add to this page. It's a party."
       />
-    )
-  }
-
-  return (
-    <main>
-      {messages}
       {roomName === 'transitions' && (
         <p style={{ maxWidth: '500px', marginBottom: '100px' }}>
           {`I want to acknowledge how this conversation is filtered through my specific experience. I’d like to feature different experiences that
