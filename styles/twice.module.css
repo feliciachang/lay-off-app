@@ -1,0 +1,5 @@
+.text:hover {
+    background-color: blue;
+    border: solid 10px rgba(blue, .2);
+    cursor: pointer;
+}

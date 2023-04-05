@@ -4,6 +4,8 @@ export default defineSchema({
   messages: defineTable({
     author: s.string(),
     body: s.string(),
+    details: s.union(s.string(), s.null()),
+    time: s.union(s.string(), s.null()),
     url: s.string(),
     roomId: s.union(s.string(), s.null()),
   }),
@@ -22,6 +24,7 @@ export default defineSchema({
   rooms: defineTable({
     name: s.string(),
     messageIds: s.array(s.string()),
+    userId: s.union(s.string(), s.null()),
   }),
   quickQuestions: defineTable({
     body: s.string(),
