@@ -1,14 +1,25 @@
 import { mutation } from './_generated/server'
 
+// messages: defineTable({
+//   author: s.string(),
+//   body: s.string(),
+//   details: s.union(s.string(), s.null()),
+//   time: s.union(s.string(), s.null()),
+//   url: s.string(),
+//   roomId: s.union(s.string(), s.null()),
+// }),
+
 export default mutation(
   async (
     mutationCtx: any,
     body: string,
     author: string,
     url: string,
-    roomId: string | null
+    roomId: string | null,
+    details: string | null,
+    time: string | null,
   ) => {
-    const message = { body, author, url, roomId }
+    const message = { body, author, url, roomId, details, time }
     const ret = await mutationCtx.db.insert('messages', message)
     return ret
   }

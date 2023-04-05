@@ -2,6 +2,7 @@ import Messages from '../components/messages/index'
 import { useRouter } from 'next/router'
 import { useQuery } from '../convex/_generated/react'
 import SignUpCta from '../components/auth/sign-up-cta'
+import Twice from '../components/messages-v2/twice'
 
 export default function Room() {
   const router = useRouter()
@@ -19,6 +20,14 @@ export default function Room() {
   let roomName = roomInfo?.[0]?.name
   if (!roomId) {
     return <></>
+  }
+
+  if (roomName === 'twice') {
+    return (
+      <main>
+        <Twice roomId={roomId} />
+      </main>
+    )
   }
 
   return (

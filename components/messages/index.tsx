@@ -47,7 +47,9 @@ export default function Messages(props: MessagesProps) {
               data.newMessageText,
               '',
               data.newMessageUrl,
-              roomId || null
+              roomId || null,
+              null,
+              null
             )
             // the person submits the data to the moderator
             await moderator.send({

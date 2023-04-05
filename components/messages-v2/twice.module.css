@@ -1,0 +1,65 @@
+.text:hover {
+    background-color: blue;
+    border: solid 10px rgba(blue, .2);
+    cursor: pointer;
+}
+
+
+.formInput {
+    padding: 12px 0;
+    color: white;
+    border-bottom: solid 1px rgb(206, 212, 218);
+    font-size: 16px;
+    min-width: 260px;
+    cursor: default;
+    z-index: 2;
+    background: black !important;
+    font-family: sans-serif;
+    height: 20px;
+}
+
+
+.submitButton {
+    color: white;
+    padding: 6px 12px 6px 12px;
+    font-size: 16px;
+    background-color: rgb(122, 160, 248);
+    cursor: pointer;
+    z-index: 2;
+}
+
+.submitButton:hover {
+    background-color: rgb(41, 93, 207);
+}
+
+.submitButton:disabled {
+    background-color: rgb(122, 160, 248);
+}
+
+.messageForm {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+.messageForm.emailForm {
+    padding-top: 20px;
+}
+
+.addMargin {
+    margin-left: 15px;
+}
+
+@media only screen and (max-width: 600px) {
+    .messageForm {
+        flex-direction: column;
+    }
+    .addMargin {
+        margin-left: 0;
+    }
+}
+
+.formNotice {
+    color: rgb(122, 160, 248);
+    cursor: pointer;
+}
+

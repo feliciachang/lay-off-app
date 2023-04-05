@@ -18,6 +18,13 @@ interface MessageStreamProps {
   addDate?: boolean
 }
 
+export function getPageId(roomid: string | string[] | undefined) {
+  if (typeof roomid === 'string') {
+    return roomid
+  }
+  return null
+}
+
 export default function MessageStream(props: MessageStreamProps) {
   const { id, body, url, addDate, creationTime } = props
 
@@ -25,12 +32,7 @@ export default function MessageStream(props: MessageStreamProps) {
 
   const router = useRouter()
   const { roomid } = router.query
-  function getPageId(roomid: string | string[] | undefined) {
-    if (typeof roomid === 'string') {
-      return roomid
-    }
-    return null
-  }
+
   const roomInfo = useQuery('listRoom', getPageId(roomid))
   let roomName = roomInfo?.[0]?.name
   let order = roomName === 'workingonavisa' ? 'asc' : 'desc'
