@@ -4,13 +4,11 @@ import SignInCta from '../components/auth/sign-in-cta'
 import { useMutation } from '../convex/_generated/react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
-// import { useState } from 'react'
 
 export default function Create() {
   const { isSignedIn, user } = useUser()
   const createRoom = useMutation('createRoom')
   const { push } = useRouter()
-  //   const [success, setSuccess] = useState(false)
 
   const { register, handleSubmit } = useForm()
 
@@ -18,18 +16,10 @@ export default function Create() {
     return <SignInCta />
   }
 
-  //   if (success) {
-  //     return (
-  //       <div>
-  //         your room has been created!
-  //         <button onClick={() => push()}>start writing</button>
-  //       </div>
-  //     )
-  //   }
-
   return (
     <form
       onSubmit={handleSubmit(async (data) => {
+        //TODO: make sure name is unique
         await createRoom(data.newRoomName, [], user.id)
         push(data.newRoomName)
       })}
