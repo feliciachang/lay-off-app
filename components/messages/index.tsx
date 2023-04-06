@@ -5,6 +5,7 @@ import formStyles from '../emails/form.module.css'
 import MessageStream from './message-stream'
 import { moderator } from '../../tasks/moderator'
 import { useForm } from 'react-hook-form'
+import { useUser } from '@clerk/nextjs'
 import cx from 'classnames'
 
 interface MessagesProps {
@@ -23,6 +24,8 @@ export default function Messages(props: MessagesProps) {
     reset,
     formState: { errors },
   } = useForm()
+
+  const { user } = useUser()
 
   return (
     <div>
@@ -49,7 +52,8 @@ export default function Messages(props: MessagesProps) {
               data.newMessageUrl,
               roomId || null,
               null,
-              null
+              null,
+              user?.id ?? null
             )
             // the person submits the data to the moderator
             await moderator.send({

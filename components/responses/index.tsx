@@ -73,8 +73,9 @@ export default function ResponseBody(props: ResponseBodyProps) {
               await sendSubresponse(
                 id,
                 data.newSubresponseText,
-                user?.id || '',
-                data.newSubresponseUrl
+                '',
+                data.newSubresponseUrl,
+                user?.id ?? null
               )
               reset()
             })}
