@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import { useQuery } from '../convex/_generated/react'
 import SignUpCta from '../components/auth/sign-up-cta'
 import Twice from '../components/messages-v2/twice'
+import { useEffect } from 'react'
 
 export default function Room() {
   const router = useRouter()

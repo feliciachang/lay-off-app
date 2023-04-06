@@ -137,8 +137,9 @@ export function ResponseForm(props: ResponseFormProps): JSX.Element {
         await sendResponse(
           messageId,
           data.newResponseText,
-          user?.id || '',
-          data.newResponseUrl
+          '',
+          data.newResponseUrl,
+          user?.id || null
         )
         reset()
       })}
@@ -217,11 +218,12 @@ export function DetailedMessageForm(
       onSubmit={handleSubmit(async (data) => {
         await sendMessage(
           data.newMessageText,
-          user?.id ?? '',
+          '',
           data.newMessageUrl,
           roomId ?? null,
           data.newMessageDetails ?? null,
-          data.newMessageDate ?? null
+          data.newMessageDate ?? null,
+          user?.id ?? null
         )
         reset()
       })}

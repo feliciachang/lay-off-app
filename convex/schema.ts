@@ -8,18 +8,21 @@ export default defineSchema({
     time: s.union(s.string(), s.null()),
     url: s.string(),
     roomId: s.union(s.string(), s.null()),
+    userId: s.union(s.string(), s.null()),
   }),
   responses: defineTable({
     messageId: s.string(),
     body: s.string(),
     url: s.string(),
     author: s.string(),
+    userId: s.union(s.string(), s.null()),
   }),
   subresponses: defineTable({
     responseId: s.string(),
     body: s.string(),
     author: s.string(),
     url: s.string(),
+    userId: s.union(s.string(), s.null()),
   }),
   rooms: defineTable({
     name: s.string(),

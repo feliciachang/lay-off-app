@@ -18,8 +18,9 @@ export default mutation(
     roomId: string | null,
     details: string | null,
     time: string | null,
+    userId: string | null,
   ) => {
-    const message = { body, author, url, roomId, details, time }
+    const message = { body, author, url, roomId, details, time, userId }
     const ret = await mutationCtx.db.insert('messages', message)
     return ret
   }

@@ -63,8 +63,9 @@ export default function MessageStream(props: MessageStreamProps) {
               await sendResponse(
                 id,
                 data.newResponseText,
-                user?.id || '',
-                data.newResponseUrl
+                '',
+                data.newResponseUrl,
+                user?.id ?? null
               )
               reset()
             })}
