@@ -5,47 +5,34 @@ import { useQuery, useMutation } from '../../convex/_generated/react'
 import ResponseBody from '../responses'
 import styles from './twice.module.css'
 import Image from 'next/image'
+import cx from 'classnames'
 
 interface TwiceProps {
   roomId: string
 }
 export default function Twice(props: TwiceProps): JSX.Element {
   const { roomId } = props
-  const [activeMessageId, setActiveMessageId] = useState('')
-  const [showResponses, setShowResponses] = useState(false)
 
   const messages = useQuery('listMessages', roomId ?? null, 'asc') || []
 
   return (
-    <div style={{ margin: '10px 100px' }}>
+    <div>
       <div style={{ display: 'flex', alignItems: 'flex-start' }}>
-        <div
-          style={{
-            height: '100%',
-            overflowY: 'scroll',
-            display: 'flex',
-            flexDirection: 'column',
-          }}
-        >
-          {messages.map((message) => (
-            <Messages
-              body={message.body}
-              time={message.time}
-              messageId={message._id.toString()}
-              details={message.details}
-              url={message.url}
-              setActiveMessageId={setActiveMessageId}
-              setShowResponses={setShowResponses}
-              showResponse={showResponses}
-            />
-          ))}
-        </div>
-        {showResponses && (
-          <div style={{ height: '100%', overflowY: 'scroll' }}>
+        {messages.map((message) => (
+          <Messages
+            body={message.body}
+            time={message.time}
+            messageId={message._id.toString()}
+            details={message.details}
+            url={message.url}
+          />
+        ))}
+        {/* {showResponses && (
+          <div>
             <ResponseForm messageId={activeMessageId} />
             <Responses messageId={activeMessageId} />
           </div>
-        )}
+        )} */}
       </div>
       <DetailedMessageForm roomId={roomId} />
     </div>
@@ -58,48 +45,38 @@ interface MessagesProps {
   time: string | null
   url: string
   messageId: string
-  setActiveMessageId: (messageId: string) => void
-  setShowResponses: (showResponse: boolean) => void
-  showResponse: boolean
 }
 
 export function Messages(props: MessagesProps): JSX.Element {
-  const {
-    body,
-    details,
-    time,
-    url,
-    messageId,
-    setActiveMessageId,
-    showResponse,
-    setShowResponses,
-  } = props
+  const { body, details, time, url, messageId } = props
   const [showAnd, setShowAnd] = useState(false)
+
+  const emojis = [
+    '/emojis/1.svg',
+    '/emojis/5.svg',
+    '/emojis/2.svg',
+    '/emojis/3.svg',
+  ]
 
   return (
     <div
       style={{
-        display: 'flex',
-        alignItems: `${showAnd ? 'center' : 'flex-start'}`,
+        padding: '10px',
+        minHeight: '100vh',
+        minWidth: '70vw',
+        maxWidth: '700px',
+      }}
+      className={styles.text}
+      onMouseEnter={() => {
+        setShowAnd(true)
+      }}
+      onMouseLeave={() => {
+        setShowAnd(false)
       }}
     >
       <div
-        className={styles.text}
         style={{
-          width: '500px',
-          padding: '10px',
           marginBottom: '30px',
-        }}
-        onClick={() => {
-          setShowAnd(false)
-          setShowResponses(!showResponse)
-          setActiveMessageId(messageId)
-        }}
-        onMouseEnter={() => {
-          if (!showResponse) setShowAnd(true)
-        }}
-        onMouseLeave={() => {
-          if (!showResponse) setShowAnd(false)
         }}
       >
         <div
@@ -114,14 +91,28 @@ export function Messages(props: MessagesProps): JSX.Element {
         <div style={{ fontSize: '18px' }}>{details}</div>
       </div>
       {showAnd && (
-        <div
-          style={{
-            fontSize: '100px',
-            color: 'blue',
-            paddingLeft: '5px',
-          }}
-        >
-          &
+        <div>
+          <ResponseForm messageId={messageId} />
+
+          <div
+            style={{
+              fontSize: '100px',
+              color: 'blue',
+              paddingLeft: '30px',
+              display: 'flex',
+            }}
+          >
+            {emojis.map((emoji) => (
+              <Image
+                style={{ marginRight: '10px', fill: 'blue' }}
+                src={emoji}
+                alt="emoji"
+                width={100}
+                height={70}
+              />
+            ))}
+          </div>
+          <Responses messageId={messageId} />
         </div>
       )}
     </div>

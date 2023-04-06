@@ -1,19 +1,31 @@
 .text:hover {
     background-color: blue;
-    border: solid 10px rgba(blue, .2);
     cursor: pointer;
 }
 
+.column {
+    height: 100vh;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+}
+.column::-webkit-scrollbar {
+    display: none;
+}
+
+.column.addMargin {
+    margin-left: 20px;
+}
 
 .formInput {
     padding: 12px 0;
-    color: white;
+    color: white !important;
     border-bottom: solid 1px rgb(206, 212, 218);
     font-size: 16px;
     min-width: 260px;
     cursor: default;
     z-index: 2;
-    background: black !important;
+    background: blue !important;
     font-family: sans-serif;
     height: 20px;
 }
