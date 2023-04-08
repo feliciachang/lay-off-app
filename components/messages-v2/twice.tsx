@@ -18,13 +18,14 @@ export default function Twice(props: TwiceProps): JSX.Element {
   return (
     <div>
       <div style={{ display: 'flex', alignItems: 'flex-start' }}>
-        {messages.map((message) => (
+        {messages.map((message, i) => (
           <Messages
             body={message.body}
             time={message.time}
             messageId={message._id.toString()}
             details={message.details}
             url={message.url}
+            idx={i}
           />
         ))}
         {/* {showResponses && (
@@ -45,10 +46,11 @@ interface MessagesProps {
   time: string | null
   url: string
   messageId: string
+  idx: number
 }
 
 export function Messages(props: MessagesProps): JSX.Element {
-  const { body, details, time, url, messageId } = props
+  const { body, details, time, url, messageId, idx } = props
   const [showAnd, setShowAnd] = useState(false)
 
   const emojis = [
@@ -63,8 +65,7 @@ export function Messages(props: MessagesProps): JSX.Element {
       style={{
         padding: '10px',
         minHeight: '100vh',
-        minWidth: '70vw',
-        maxWidth: '700px',
+        maxWidth: '80vw',
       }}
       className={styles.text}
       onMouseEnter={() => {
@@ -87,18 +88,37 @@ export function Messages(props: MessagesProps): JSX.Element {
         >
           {time}
         </div>
-        <div style={{ marginBottom: '10px' }}>{body}</div>
-        <div style={{ fontSize: '18px' }}>{details}</div>
+        <div
+          style={{
+            fontSize: '100px',
+            color: 'blue',
+            display: 'flex',
+          }}
+        >
+          <Image
+            style={{ marginRight: '10px', fill: 'blue' }}
+            src={emojis[idx % 4]}
+            alt="emoji"
+            width={70}
+            height={50}
+          />
+        </div>
       </div>
       {showAnd && (
-        <div>
-          <ResponseForm messageId={messageId} />
-
+        <>
           <div
+            style={{
+              marginBottom: '30px',
+            }}
+          >
+            <div style={{ marginBottom: '10px' }}>{body}</div>
+            <div style={{ fontSize: '18px' }}>{details}</div>
+          </div>
+          <div>
+            {/* <div
             style={{
               fontSize: '100px',
               color: 'blue',
-              paddingLeft: '30px',
               display: 'flex',
             }}
           >
@@ -107,13 +127,15 @@ export function Messages(props: MessagesProps): JSX.Element {
                 style={{ marginRight: '10px', fill: 'blue' }}
                 src={emoji}
                 alt="emoji"
-                width={100}
-                height={70}
+                width={70}
+                height={50}
               />
             ))}
+          </div> */}
+            <ResponseForm messageId={messageId} />
+            <Responses messageId={messageId} />
           </div>
-          <Responses messageId={messageId} />
-        </div>
+        </>
       )}
     </div>
   )
