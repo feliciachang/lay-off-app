@@ -7,7 +7,7 @@ import { useRouter } from 'next/router'
 import ResponseBody from '../responses'
 import Text from '../../design-system/text/text'
 import styles from './message-stream.module.css'
-import formStyles from '../emails/form.module.css'
+import textAreaStyles from '../emails/textarea.module.css'
 import cx from 'classnames'
 
 interface MessageStreamProps {
@@ -28,8 +28,6 @@ export function getPageId(roomid: string | string[] | undefined) {
 export default function MessageStream(props: MessageStreamProps) {
   const { id, body, url, addDate, creationTime } = props
 
-  const { user } = useUser()
-
   const router = useRouter()
   const { roomid } = router.query
 
@@ -38,14 +36,6 @@ export default function MessageStream(props: MessageStreamProps) {
   let order = roomName === 'workingonavisa' ? 'asc' : 'desc'
 
   const responses = useQuery('listResponses', id, order) || []
-  const sendResponse = useMutation('sendResponse')
-
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm()
 
   const [numInitialResponses, setNumInitialResponses] = useState(5)
 
@@ -57,48 +47,7 @@ export default function MessageStream(props: MessageStreamProps) {
           <Text type="message" text={body} maxChar={250} url={url} />
         </div>
         <div className={styles.rightMessage}>
-          <form
-            className={formStyles.messageForm}
-            onSubmit={handleSubmit(async (data) => {
-              await sendResponse(
-                id,
-                data.newResponseText,
-                '',
-                data.newResponseUrl,
-                user?.id ?? null
-              )
-              reset()
-            })}
-          >
-            <input
-              className={formStyles.formInput}
-              placeholder="join the club, add a reply"
-              {...register('newResponseText', { required: true })}
-            />
-            <input
-              className={cx(formStyles.formInput, formStyles.addMargin)}
-              placeholder="and a url, if necessary"
-              {...register('newResponseUrl', {
-                pattern: {
-                  value: new RegExp(
-                    '^(https?:\\/\\/)?' + // protocol
-                      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
-                      '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
-                      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
-                      '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
-                      '(\\#[-a-z\\d_]*)?$',
-                    'i'
-                  ),
-                  message: 'invalid url',
-                },
-              })}
-            />
-            <button className={formStyles.submitButton} type="submit">
-              <Image src="/arrow.svg" alt="arrow" width={15} height={15} />
-            </button>
-          </form>
-          {errors.newResponseText && <p>please write a message first!</p>}
-          {errors.newResponseUrl && <p>not a valid url!</p>}
+          <ResponseForm id={id} />
           <div>
             {responses.slice(0, numInitialResponses).map((response, i) => (
               <ResponseBody
@@ -131,6 +80,79 @@ export default function MessageStream(props: MessageStreamProps) {
           </div>
         </div>
       </div>
+    </div>
+  )
+}
+
+interface ResponseFormProps {
+  id: string
+}
+
+function ResponseForm(props: ResponseFormProps): JSX.Element {
+  const [showUrlForm, setShowUrlForm] = useState(false)
+  const { id } = props
+  const { user } = useUser()
+
+  const sendResponse = useMutation('sendResponse')
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm()
+
+  return (
+    <div>
+      <form
+        className={textAreaStyles.form}
+        onSubmit={handleSubmit(async (data) => {
+          await sendResponse(
+            id,
+            data.newResponseText,
+            '',
+            data.newResponseUrl,
+            user?.id ?? null
+          )
+          reset()
+        })}
+      >
+        <textarea
+          onClick={() => setShowUrlForm(true)}
+          className={cx(textAreaStyles.textarea, {
+            [textAreaStyles.taller]: showUrlForm,
+          })}
+          placeholder="join the club, add a reply"
+          {...register('newResponseText', { required: true })}
+        />
+        {showUrlForm && (
+          <div style={{ display: 'flex' }}>
+            <input
+              className={textAreaStyles.inputt}
+              placeholder="and a url, if necessary"
+              {...register('newResponseUrl', {
+                pattern: {
+                  value: new RegExp(
+                    '^(https?:\\/\\/)?' + // protocol
+                      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+                      '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+                      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+                      '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+                      '(\\#[-a-z\\d_]*)?$',
+                    'i'
+                  ),
+                  message: 'invalid url',
+                },
+              })}
+            />
+            <button className={textAreaStyles.button} type="submit">
+              <Image src="/arrow.svg" alt="arrow" width={15} height={15} />
+            </button>
+          </div>
+        )}
+      </form>
+      {errors.newResponseText && <p>please write a message first!</p>}
+      {errors.newResponseUrl && <p>not a valid url!</p>}
     </div>
   )
 }
