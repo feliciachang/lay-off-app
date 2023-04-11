@@ -48,7 +48,37 @@ export default function Messages(props: MessagesProps) {
           <MessageForm id={roomId} shouldScrollToBottom={true} />
         </div>
       )}
-      {messages.slice(3).map((message) => (
+      {messages.slice(3, 20).map((message) => (
+        <MessageStream
+          id={message._id.toString()}
+          url={message.url}
+          body={message.body}
+          creationTime={new Date(message._creationTime).toLocaleTimeString()}
+        />
+      ))}
+      {messages.length > 20 && (
+        <div
+          className={cx(styles.notif, {
+            [styles.buttonVersion]: !roomId,
+          })}
+          onClick={() => {
+            if (!roomId) {
+              window.scrollTo(0, document.body.scrollHeight)
+            }
+          }}
+        >
+          <span
+            className={cx(styles.label, {
+              [styles.addPadding]: roomId,
+            })}
+          >
+            ask a new question, tell a story or just your feelings, it's a
+            party.
+          </span>
+          <MessageForm id={roomId} shouldScrollToBottom={true} />
+        </div>
+      )}
+      {messages.slice(20).map((message) => (
         <MessageStream
           id={message._id.toString()}
           url={message.url}
