@@ -17,21 +17,26 @@ export default function Create() {
   }
 
   return (
-    <form
-      onSubmit={handleSubmit(async (data) => {
-        //TODO: make sure name is unique
-        await createRoom(data.newRoomName, [], user.id)
-        push(data.newRoomName)
-      })}
-    >
-      <input
-        placeholder="give your page a name"
-        required
-        {...register('newRoomName', { required: true })}
-      />
-      <button type="submit">
-        <Image src="/arrow.svg" alt="arrow" width={15} height={15} />
-      </button>
-    </form>
+    <main>
+      <span style={{ marginBottom: '20px' }}>
+        lets start with a name, a title, a feeling:
+      </span>
+      <form
+        onSubmit={handleSubmit(async (data) => {
+          //TODO: make sure name is unique
+          await createRoom(data.newRoomName, [], user.id)
+          push(data.newRoomName)
+        })}
+      >
+        <input
+          placeholder="give your page a name"
+          required
+          {...register('newRoomName', { required: true })}
+        />
+        <button type="submit">
+          <Image src="/arrow.svg" alt="arrow" width={15} height={15} />
+        </button>
+      </form>
+    </main>
   )
 }

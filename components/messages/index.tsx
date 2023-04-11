@@ -6,6 +6,7 @@ import MessageStream from './message-stream'
 import { useForm } from 'react-hook-form'
 import { useUser } from '@clerk/nextjs'
 import { useState } from 'react'
+import { useRouter } from 'next/router'
 import cx from 'classnames'
 
 interface MessagesProps {
@@ -15,6 +16,7 @@ interface MessagesProps {
 export default function Messages(props: MessagesProps) {
   const { roomId, messageLabel } = props
   const messages = useQuery('listMessages', roomId ?? null, 'asc') || []
+  const { push } = useRouter()
 
   return (
     <div>
@@ -48,7 +50,7 @@ export default function Messages(props: MessagesProps) {
           <MessageForm id={roomId} shouldScrollToBottom={true} />
         </div>
       )}
-      {messages.slice(3, 20).map((message) => (
+      {messages.slice(3, 10).map((message) => (
         <MessageStream
           id={message._id.toString()}
           url={message.url}
@@ -56,15 +58,13 @@ export default function Messages(props: MessagesProps) {
           creationTime={new Date(message._creationTime).toLocaleTimeString()}
         />
       ))}
-      {messages.length > 20 && (
+      {messages.length > 10 && (
         <div
           className={cx(styles.notif, {
             [styles.buttonVersion]: !roomId,
           })}
           onClick={() => {
-            if (!roomId) {
-              window.scrollTo(0, document.body.scrollHeight)
-            }
+            push('create')
           }}
         >
           <span
@@ -72,13 +72,11 @@ export default function Messages(props: MessagesProps) {
               [styles.addPadding]: roomId,
             })}
           >
-            ask a new question, tell a story or just your feelings, it's a
-            party.
+            or want to make your own page?
           </span>
-          <MessageForm id={roomId} shouldScrollToBottom={true} />
         </div>
       )}
-      {messages.slice(20).map((message) => (
+      {messages.slice(10).map((message) => (
         <MessageStream
           id={message._id.toString()}
           url={message.url}
