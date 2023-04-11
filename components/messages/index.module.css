@@ -31,5 +31,9 @@
 }
 
 .label {
+    margin-bottom: 0;
+}
+
+.label.addPadding {
     margin-bottom: 20px;
 }

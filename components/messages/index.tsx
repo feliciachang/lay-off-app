@@ -37,7 +37,11 @@ export default function Messages(props: MessagesProps) {
             }
           }}
         >
-          <span className={styles.label}>
+          <span
+            className={cx(styles.label, {
+              [styles.addPadding]: roomId,
+            })}
+          >
             ask a new question, tell a story or just your feelings, it's a
             party.
           </span>
