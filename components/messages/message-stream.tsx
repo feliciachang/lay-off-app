@@ -34,7 +34,7 @@ export default function MessageStream(props: MessageStreamProps) {
   const roomInfo = useQuery('listRoom', getPageId(roomid))
   let roomName = roomInfo?.[0]?.name
   console.log(roomName)
-  let order = roomName === 'workingonavisa' ? 'asc' : 'desc'
+  let order = roomName === 'laidoffonavisa' ? 'asc' : 'desc'
 
   const responses = useQuery('listResponses', id, order) || []
 
