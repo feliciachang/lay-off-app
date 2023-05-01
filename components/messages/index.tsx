@@ -72,11 +72,11 @@ export default function Messages(props: MessagesProps) {
               [styles.addPadding]: roomId,
             })}
           >
-            or want to make your own page?
+            want to make your own page?
           </span>
         </div>
       )}
-      {messages.slice(10).map((message) => (
+      {messages.slice(7).map((message) => (
         <MessageStream
           id={message._id.toString()}
           url={message.url}
