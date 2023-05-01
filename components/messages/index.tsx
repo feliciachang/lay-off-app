@@ -50,7 +50,7 @@ export default function Messages(props: MessagesProps) {
           <MessageForm id={roomId} shouldScrollToBottom={true} />
         </div>
       )}
-      {messages.slice(3, 10).map((message) => (
+      {messages.slice(3, 7).map((message) => (
         <MessageStream
           id={message._id.toString()}
           url={message.url}
@@ -58,7 +58,7 @@ export default function Messages(props: MessagesProps) {
           creationTime={new Date(message._creationTime).toLocaleTimeString()}
         />
       ))}
-      {messages.length > 10 && (
+      {messages.length > 7 && (
         <div
           className={cx(styles.notif, {
             [styles.buttonVersion]: !roomId,

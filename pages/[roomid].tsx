@@ -35,7 +35,8 @@ export default function Room() {
     <main>
       <Messages
         roomId={roomId}
-        messageLabel="Add to this page. It's a party."
+        messageLabel="ask a new question, tell a story or just your feelings, it's a
+        party."
       />
       {roomName === 'transitions' && (
         <p style={{ maxWidth: '500px', marginBottom: '100px' }}>
