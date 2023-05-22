@@ -35,32 +35,43 @@ export default function Twice(props: TwiceProps): JSX.Element {
             onClick={() => setActiveIdx(i)}
           >
             <div className={styles.timelineTime}>{message.time}</div>
-            <Image
+            {/* <Image
               style={{ marginRight: '10px', fill: 'blue' }}
               src={emojis[i % 4]}
               alt="emoji"
               width={70}
               height={50}
-            />
+            /> */}
           </div>
         ))}
-        <button>+ write your own story</button>
+        <button className={styles.write}>+ write your own story</button>
       </div>
-      {messages[activeIdx] && (
-        <div className={styles.activeStory}>
-          <div>
-            <div className={styles.mainText}>{messages[activeIdx]?.body}</div>
-            <div style={{ fontSize: '20px', paddingBottom: '30px' }}>
-              {messages[activeIdx]?.details}
+      <div style={{ display: 'flex' }}>
+        {messages[activeIdx] && (
+          <div className={styles.activeStory}>
+            <div>
+              <div className={styles.mainText}>{messages[activeIdx]?.body}</div>
+              <div style={{ fontSize: '20px', paddingBottom: '30px' }}>
+                {messages[activeIdx]?.details}
+              </div>
+              <ResponseForm yellow id={messages[activeIdx]?._id?.toString()} />
+              <Responses messageId={messages[activeIdx]?._id?.toString()} />
             </div>
-            <ResponseForm yellow id={messages[activeIdx]?._id?.toString()} />
-            <Responses messageId={messages[activeIdx]?._id?.toString()} />
           </div>
-          <button onClick={() => setActiveIdx(activeIdx + 1)}>
+        )}
+        {messages[activeIdx] && (
+          <button
+            className={styles.nextArrow}
+            onClick={() => setActiveIdx(activeIdx + 1)}
+          >
+            <Image src="/arrow.svg" alt="arrow" width={15} height={15} />
+            <Image src="/arrow.svg" alt="arrow" width={15} height={15} />
+            <Image src="/arrow.svg" alt="arrow" width={15} height={15} />
+            <Image src="/arrow.svg" alt="arrow" width={15} height={15} />
             <Image src="/arrow.svg" alt="arrow" width={15} height={15} />
           </button>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   )
 }
