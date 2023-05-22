@@ -11,6 +11,10 @@
     height: 20px;
 }
 
+.textarea.yellow {
+    background: yellow !important;
+}
+
 .textarea.taller {
     min-height: 40px;
 }
@@ -26,6 +30,10 @@
     background: black !important;
     font-family: sans-serif;
     height: 20px;
+}
+
+.inputt.yellow {
+    background: yellow !important;
 }
 
 .form {
