@@ -5,6 +5,7 @@ import { ConvexProvider, ConvexReactClient } from 'convex/react'
 import { ClerkProvider } from '@clerk/nextjs'
 import { CursorRenderer } from '../components/cursors'
 import { useFlags } from '../flags/client'
+import Navbar from '../components/navbar'
 
 const convex = new ConvexReactClient(process.env.NEXT_PUBLIC_CONVEX_URL ?? '')
 
@@ -20,7 +21,10 @@ function MyApp({ Component, pageProps }: AppProps) {
             <Component {...pageProps} />
           </CursorRenderer>
         ) : (
-          <Component {...pageProps} />
+          <div>
+            <Navbar />
+            <Component {...pageProps} />
+          </div>
         )}
         <Analytics />
       </ConvexProvider>
