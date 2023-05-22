@@ -1,3 +1,48 @@
+.timeline {
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+    overflow: scroll;
+}
+
+.timelineTab {
+    margin-bottom: 10px;
+    padding-right: 30px;
+    padding-left: 10px;
+    padding-top: 10px;
+    border-radius: 10px;
+    min-width: 100px;
+    cursor: pointer;
+}
+
+.timelineTab.active {
+    background-color: yellow;
+}
+
+.timelineTime {
+    font-size: 12px;
+    margin-bottom: 10px;
+}
+
+.activeStory {
+    margin-bottom: 30px;
+    padding: 20px;
+    border-radius: 0 10px 10px 10px;
+    display: flex;
+    background-color: yellow;
+}
+
+.mainText {
+    margin-bottom: 20px; 
+    font-size: 40px;
+}
+
+@media only screen and (max-width: 600px) {
+    .mainText {
+        font-size: 30px;
+    }
+  }
+
 .text:hover {
     background-color: blue;
     cursor: pointer;
@@ -75,3 +120,24 @@
     cursor: pointer;
 }
 
+.background {
+    position: relative;
+    background-color: yellow;
+    /* background: rgba(255, 255, 255, 0.1); */
+    backdrop-filter: blur(10px);
+    padding: 15px;
+    border-radius: 10px;
+    color: black;
+}
+
+.background::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(82, 81, 81, 0.1);
+    backdrop-filter: blur(5px);
+    z-index: -1;
+  }

@@ -33,7 +33,7 @@ export default function MessageStream(props: MessageStreamProps) {
 
   const roomInfo = useQuery('listRoom', getPageId(roomid))
   let roomName = roomInfo?.[0]?.name
-  console.log(roomName)
+
   let order = roomName === 'laidoffonavisa' ? 'asc' : 'desc'
 
   const responses = useQuery('listResponses', id, order) || []
@@ -87,11 +87,12 @@ export default function MessageStream(props: MessageStreamProps) {
 
 interface ResponseFormProps {
   id: string
+  yellow?: boolean
 }
 
-function ResponseForm(props: ResponseFormProps): JSX.Element {
+export function ResponseForm(props: ResponseFormProps): JSX.Element {
   const [showUrlForm, setShowUrlForm] = useState(false)
-  const { id } = props
+  const { id, yellow } = props
   const { user } = useUser()
 
   const sendResponse = useMutation('sendResponse')
@@ -122,6 +123,7 @@ function ResponseForm(props: ResponseFormProps): JSX.Element {
           onClick={() => setShowUrlForm(true)}
           className={cx(textAreaStyles.textarea, {
             [textAreaStyles.taller]: showUrlForm,
+            [textAreaStyles.yellow]: yellow,
           })}
           placeholder="join the club, add a reply"
           {...register('newResponseText', { required: true })}
@@ -129,7 +131,9 @@ function ResponseForm(props: ResponseFormProps): JSX.Element {
         {showUrlForm && (
           <div style={{ display: 'flex' }}>
             <input
-              className={textAreaStyles.inputt}
+              className={cx(textAreaStyles.inputt, {
+                [textAreaStyles.yellow]: yellow,
+              })}
               placeholder="and a url, if necessary"
               {...register('newResponseUrl', {
                 pattern: {
