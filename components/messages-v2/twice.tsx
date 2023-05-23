@@ -109,6 +109,7 @@ export default function Twice(props: TwiceProps): JSX.Element {
           </button>
         )}
       </div>
+      <DetailedMessageForm roomId={roomId} />
     </div>
   )
 }
