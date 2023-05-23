@@ -7,6 +7,11 @@
     animation-fill-mode: forwards;
 }
 
+.text.darkMode {
+    color: black;
+    font-size: 20px;
+}
+
 .text.message {
     font-size: 30px;
 }

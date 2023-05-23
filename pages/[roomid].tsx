@@ -24,11 +24,7 @@ export default function Room() {
   }
 
   if (roomName === 'twice') {
-    return (
-      <main>
-        <Twice roomId={roomId} />
-      </main>
-    )
+    return <Twice roomId={roomId} />
   }
 
   return (

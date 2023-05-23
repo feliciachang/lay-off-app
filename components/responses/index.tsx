@@ -18,10 +18,19 @@ interface ResponseBodyProps {
   responsesLength: number
   idx?: number
   id?: string
+  allowSubresponses?: boolean
 }
 
 export default function ResponseBody(props: ResponseBodyProps) {
-  const { body, url, numInitialResponses, responsesLength, idx, id } = props
+  const {
+    body,
+    url,
+    numInitialResponses,
+    responsesLength,
+    idx,
+    id,
+    allowSubresponses,
+  } = props
 
   const subresponses = useQuery('listSubresponses', id) || []
 
@@ -57,6 +66,27 @@ export default function ResponseBody(props: ResponseBodyProps) {
 
   const { register, handleSubmit, reset } = useForm()
 
+  if (!allowSubresponses) {
+    return (
+      <div
+        className={styles.responseAndSubresponses}
+        style={{ animationDelay: animStr(idx) }}
+      >
+        <div className={styles.responseContainer}>
+          <Text type="darkMode" text={body} maxChar={250} url={url} />
+          {url?.length > 0 && (
+            <Image
+              className={styles.urlArrow}
+              src="/arrow.svg"
+              alt="arrow"
+              width={15}
+              height={15}
+            />
+          )}
+        </div>
+      </div>
+    )
+  }
   const subresponsesElement = (
     <div>
       {subresponses?.map((subresponse) => {

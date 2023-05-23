@@ -16,6 +16,7 @@ import type * as listCursorPositions from "../listCursorPositions";
 import type * as listMessages from "../listMessages";
 import type * as listResponses from "../listResponses";
 import type * as listRoom from "../listRoom";
+import type * as listRooms from "../listRooms";
 import type * as listSubresponses from "../listSubresponses";
 import type * as sendCursorPosition from "../sendCursorPosition";
 import type * as sendEmail from "../sendEmail";
@@ -39,6 +40,7 @@ export type API = ApiFromModules<{
   listMessages: typeof listMessages;
   listResponses: typeof listResponses;
   listRoom: typeof listRoom;
+  listRooms: typeof listRooms;
   listSubresponses: typeof listSubresponses;
   sendCursorPosition: typeof sendCursorPosition;
   sendEmail: typeof sendEmail;

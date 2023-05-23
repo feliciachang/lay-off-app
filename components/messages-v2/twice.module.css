@@ -6,12 +6,11 @@
 }
 
 .timelineTab {
-    margin-bottom: 10px;
     padding-right: 30px;
     padding-left: 10px;
     padding-top: 10px;
     border-radius: 10px;
-    min-width: 100px;
+    min-width: 140px;
     cursor: pointer;
 }
 
@@ -27,7 +26,9 @@
     font-size: 12px;
     margin-bottom: 10px;
     text-transform: uppercase;
-    color: black
+    color: black;
+    margin-left: 10px;
+    height: 86px;
 }
 
 .timelineTab.active {
@@ -36,12 +37,11 @@
 
 .timelineTime {
     font-size: 12px;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     text-transform: uppercase;
 }
 
 .activeStory {
-    margin-bottom: 30px;
     padding: 20px;
     border-radius: 10px;
     display: flex;
@@ -145,6 +145,16 @@
     padding: 15px;
     border-radius: 10px;
     color: black;
+    margin-left: 40px;
+    margin-right: 40px;
+}
+
+
+@media only screen and (max-width: 600px) {
+    .background {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
 }
 
 .background::before {
@@ -157,6 +167,7 @@
     background-color: rgba(82, 81, 81, 0.1);
     backdrop-filter: blur(5px);
     z-index: -1;
+    border-radius: 10px;
   }
 
   .nextArrow {

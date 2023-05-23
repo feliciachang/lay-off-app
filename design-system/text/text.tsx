@@ -4,7 +4,7 @@ import styles from './text.module.css'
 import cx from 'classnames'
 
 interface TextProps {
-  type: 'message' | 'response' | 'subresponse'
+  type: 'message' | 'response' | 'subresponse' | 'darkMode'
   url?: string
   maxChar?: number
   text: string
@@ -35,6 +35,7 @@ export default function Text(props: TextProps): JSX.Element {
         [styles.message]: type === 'message',
         [styles.response]: type === 'response',
         [styles.subresponse]: type === 'subresponse',
+        [styles.darkMode]: type === 'darkMode',
       })}
     >
       {url ? (

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useUser } from '@clerk/nextjs'
 import { useForm } from 'react-hook-form'
 import { useQuery, useMutation } from '../../convex/_generated/react'
@@ -7,13 +7,32 @@ import styles from './twice.module.css'
 import Image from 'next/image'
 import { ResponseForm } from '../messages/message-stream'
 import cx from 'classnames'
+import { F } from '@happykit/flags/dist/types-8f3bbdea'
 
+interface FormattedLabelProps {
+  text?: string
+}
+function FormattedLabel(props: FormattedLabelProps): JSX.Element {
+  const { text } = props
+  if (!text) return <></>
+  let splitText = text.split(' ')
+  return (
+    <div className={styles.timelineTime}>
+      {text}
+      {/* <div>{splitText[0]}</div>
+      <div>
+        {splitText[1]} {splitText[2]}
+      </div> */}
+    </div>
+  )
+}
 interface TwiceProps {
   roomId: string
 }
 export default function Twice(props: TwiceProps): JSX.Element {
   const { roomId } = props
   const [activeIdx, setActiveIdx] = useState(0)
+  const sectionRefs = useRef<Array<HTMLDivElement>>([])
 
   const messages = useQuery('listMessages', roomId ?? null, 'asc') || []
 
@@ -32,21 +51,25 @@ export default function Twice(props: TwiceProps): JSX.Element {
             className={cx(styles.timelineTab, {
               [styles.active]: activeIdx === i,
             })}
-            onClick={() => setActiveIdx(i)}
+            onClick={() => {
+              setActiveIdx(i)
+            }}
+            ref={(ref) => (sectionRefs.current[i] = ref as HTMLDivElement)}
           >
-            <div className={styles.timelineTime}>{message.time}</div>
-            {/* <Image
+            {/* <div className={styles.timelineTime}>{message.time}</div> */}
+            <FormattedLabel text={message.time ?? undefined} />
+            <Image
               style={{ marginRight: '10px', fill: 'blue' }}
               src={emojis[i % 4]}
               alt="emoji"
               width={70}
               height={50}
-            /> */}
+            />
           </div>
         ))}
-        <button className={styles.write}>+ write your own story</button>
+        <button className={styles.write}>write</button>
       </div>
-      <div style={{ display: 'flex' }}>
+      <div style={{ display: 'flex', alignItems: 'stretch' }}>
         {messages[activeIdx] && (
           <div className={styles.activeStory}>
             <div>
@@ -62,92 +85,27 @@ export default function Twice(props: TwiceProps): JSX.Element {
         {messages[activeIdx] && (
           <button
             className={styles.nextArrow}
-            onClick={() => setActiveIdx(activeIdx + 1)}
+            onClick={() => {
+              if (activeIdx + 1 > messages.length) {
+                setActiveIdx(0)
+              } else {
+                setActiveIdx(activeIdx + 1)
+              }
+              sectionRefs.current[activeIdx].scrollIntoView({
+                behavior: 'smooth',
+                inline: 'start',
+                block: 'start',
+              })
+            }}
           >
-            <Image src="/arrow.svg" alt="arrow" width={15} height={15} />
-            <Image src="/arrow.svg" alt="arrow" width={15} height={15} />
-            <Image src="/arrow.svg" alt="arrow" width={15} height={15} />
-            <Image src="/arrow.svg" alt="arrow" width={15} height={15} />
-            <Image src="/arrow.svg" alt="arrow" width={15} height={15} />
+            <Image src="/arrow-dark.svg" alt="arrow" width={15} height={15} />
+            <Image src="/arrow-dark.svg" alt="arrow" width={15} height={15} />
+            <Image src="/arrow-dark.svg" alt="arrow" width={15} height={15} />
+            <Image src="/arrow-dark.svg" alt="arrow" width={15} height={15} />
+            <Image src="/arrow-dark.svg" alt="arrow" width={15} height={15} />
           </button>
         )}
       </div>
-    </div>
-  )
-}
-
-interface MessagesProps {
-  body: string
-  details: string | null
-  time: string | null
-  url: string
-  messageId: string
-  idx: number
-  activeIdx: number
-  setActiveIdx: (idx: number) => void
-}
-
-export function Messages(props: MessagesProps): JSX.Element {
-  const { body, details, time, url, messageId, idx, activeIdx, setActiveIdx } =
-    props
-
-  const emojis = [
-    '/emojis/1.svg',
-    '/emojis/5.svg',
-    '/emojis/2.svg',
-    '/emojis/3.svg',
-  ]
-
-  return (
-    <div
-      style={{
-        padding: '10px',
-        minHeight: '100vh',
-        maxWidth: '80vw',
-      }}
-      className={styles.text}
-      onClick={() => setActiveIdx(idx)}
-      // onMouseEnter={() => {
-      //   setShowAnd(true)
-      // }}
-      // onMouseLeave={() => {
-      //   setShowAnd(false)
-      // }}
-    >
-      {/* {idx === activeIdx && (
-        <> */}
-      <div
-        style={{
-          marginBottom: '30px',
-          minWidth: '500px',
-        }}
-      >
-        <div style={{ marginBottom: '10px' }}>{body}</div>
-        <div style={{ fontSize: '18px' }}>{details}</div>
-      </div>
-      <div>
-        {/* <div
-            style={{
-              fontSize: '100px',
-              color: 'blue',
-              display: 'flex',
-            }}
-          >
-            {emojis.map((emoji) => (
-              <Image
-                style={{ marginRight: '10px', fill: 'blue' }}
-                src={emoji}
-                alt="emoji"
-                width={70}
-                height={50}
-              />
-            ))}
-          </div> */}
-        <ResponseForm id={messageId} />
-        <Responses messageId={messageId} />
-      </div>
-      {/* </>
-      )} */}
     </div>
   )
 }
