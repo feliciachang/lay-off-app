@@ -47,6 +47,7 @@
     display: flex;
     background-color: yellow;
     color: black !important;
+    width: 100%;
 }
 
 .mainText {

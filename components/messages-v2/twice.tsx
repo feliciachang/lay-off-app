@@ -7,6 +7,7 @@ import styles from './twice.module.css'
 import Image from 'next/image'
 import { ResponseForm } from '../messages/message-stream'
 import cx from 'classnames'
+import { useRouter } from 'next/router'
 import { F } from '@happykit/flags/dist/types-8f3bbdea'
 
 interface FormattedLabelProps {
@@ -33,7 +34,7 @@ export default function Twice(props: TwiceProps): JSX.Element {
   const { roomId } = props
   const [activeIdx, setActiveIdx] = useState(0)
   const sectionRefs = useRef<Array<HTMLDivElement>>([])
-
+  const { push } = useRouter()
   const messages = useQuery('listMessages', roomId ?? null, 'asc') || []
 
   const emojis = [
@@ -67,7 +68,9 @@ export default function Twice(props: TwiceProps): JSX.Element {
             />
           </div>
         ))}
-        <button className={styles.write}>write</button>
+        <button className={styles.write} onClick={() => push('/create')}>
+          write
+        </button>
       </div>
       <div style={{ display: 'flex', alignItems: 'stretch' }}>
         {messages[activeIdx] && (
